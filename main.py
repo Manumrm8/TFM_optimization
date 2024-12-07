@@ -34,6 +34,7 @@ m = 50
 
 df_proveer = df_sitios_a_proveer.sample(n=n, random_state=42)
 df_suministro = df_sitios_de_suministro.sample(n=m, random_state=42)
+df_distances = pd.read_csv("data/distances/A3_7500_150_15.csv", index_col=0)
 
 len(df_proveer)
 
@@ -44,6 +45,7 @@ mutation_rate = 0.1  # Tasa de mutación
 best_solution, best_fitness = genetic_algorithm(
     df_suministro,
     df_proveer,
+    df_distances,
     k,
     num_generations,
     population_size,

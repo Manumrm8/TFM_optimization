@@ -6,27 +6,22 @@ import matplotlib.pyplot as plt
 from tqdm import tqdm
 
 
-def fitness(individual, df_proveer, df_suministro):
-    max_dist = 0
-    for _, sitio in df_proveer.iterrows():
-        min_dist = float("inf")
-        for idx in individual:
-            punto = df_suministro.iloc[idx]
-            dist = distance.euclidean(sitio, punto)
-            min_dist = min(min_dist, dist)
-        if max(max_dist, min_dist) == min_dist:
-            max_dist = min_dist
-    return max_dist
+def fitness(individual, df_proveer, df_distances):
+    dist = []
+    for sitio in df_proveer.index:
+        distancia = df_distances.iloc[sitio, individual].min()
+        dist.append(distancia)
+    return max(dist)
 
 
 def create_population(df_suministro, population_size, k):
     return [random.sample(range(len(df_suministro)), k) for _ in range(population_size)]
 
 
-def selection(population, df_proveer, df_suministro):
+def selection(population, df_proveer, df_distances):
     # Usamos tqdm para mostrar el progreso al calcular la fitness
     fitness_values = [
-        (fitness(individuo, df_proveer, df_suministro), individuo)
+        (fitness(individuo, df_proveer, df_distances), individuo)
         for individuo in tqdm(
             population, desc="Calculando fitness de la población", leave=False
         )
@@ -60,6 +55,7 @@ def mutate(individual, mutation_rate, df_suministro, k):
 def genetic_algorithm(
     df_suministro,
     df_proveer,
+    df_distances,
     k,
     num_generations,
     population_size,
@@ -71,14 +67,13 @@ def genetic_algorithm(
 
     for _ in tqdm(range(num_generations), desc="Generaciones"):
         # Evaluación y selección
-        population = selection(population, df_proveer, df_suministro)
+        population = selection(population, df_proveer, df_distances)
 
         # Guardar el mejor individuo
         current_best = population[0]
-        current_fitness = fitness(current_best, df_proveer, df_suministro)
+        current_fitness = fitness(current_best, df_proveer, df_distances)
         if current_fitness < best_fitness:
             best_fitness = current_fitness
-            print(best_fitness)
             best_solution = current_best
 
         # Crear nueva generación
