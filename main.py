@@ -1,9 +1,5 @@
-import random
 import numpy as np
-from scipy.spatial import distance
 import pandas as pd
-import matplotlib.pyplot as plt
-from tqdm import tqdm
 
 from tools.utils import genetic_algorithm, plot_results
 
@@ -36,11 +32,10 @@ df_proveer = df_sitios_a_proveer.sample(n=n, random_state=42)
 df_suministro = df_sitios_de_suministro.sample(n=m, random_state=42)
 df_distances = pd.read_csv("data/distances/A3_7500_150_15.csv", index_col=0)
 
-len(df_proveer)
 
-num_generations = 5  # Número de generaciones
+num_generations = 10  # Número de generaciones
 population_size = 50  # Tamaño de la población
-mutation_rate = 0.1  # Tasa de mutación
+mutation_rate = 0.3  # Tasa de mutación
 
 best_solution, best_fitness = genetic_algorithm(
     df_suministro,

@@ -1,12 +1,10 @@
 import random
-import numpy as np
-from scipy.spatial import distance
-import pandas as pd
 import matplotlib.pyplot as plt
 from tqdm import tqdm
 
 
 def fitness(individual, df_proveer, df_distances):
+    """Calcula la distancia del elemento más lejano a los puntos de suministro."""
     dist = []
     for sitio in df_proveer.index:
         distancia = df_distances.iloc[sitio, individual].min()
@@ -15,10 +13,12 @@ def fitness(individual, df_proveer, df_distances):
 
 
 def create_population(df_suministro, population_size, k):
+    """Crea una población inicial de individuos aleatorios."""
     return [random.sample(range(len(df_suministro)), k) for _ in range(population_size)]
 
 
 def selection(population, df_proveer, df_distances):
+    """Selecciona los mejores individuos de la población."""
     # Usamos tqdm para mostrar el progreso al calcular la fitness
     fitness_values = [
         (fitness(individuo, df_proveer, df_distances), individuo)
@@ -30,18 +30,28 @@ def selection(population, df_proveer, df_distances):
     # Ordenar por fitness
     population_sorted = sorted(fitness_values, key=lambda x: x[1])
 
-    # Devolvemos los mejores individuos
-    return [individuo for _, individuo in population_sorted[: len(population) // 2]]
+    selected_population = [
+        individuo for _, individuo in population_sorted[: len(population) // 2]
+    ]
+
+    # Obtener el mejor individuo y su valor de fitness
+    best_fitness, best_individual = population_sorted[0]
+
+    # Devolver la población seleccionada y el mejor individuo con su fitness
+    return selected_population, (best_fitness, best_individual)
 
 
 def crossover(parent1, parent2, k):
+    """Cruza dos individuos para crear dos nuevos individuos."""
     split = random.randint(1, k - 1)
     child1 = parent1[:split] + [gene for gene in parent2 if gene not in parent1[:split]]
     child2 = parent2[:split] + [gene for gene in parent1 if gene not in parent2[:split]]
     return child1[:k], child2[:k]
 
 
+# Mutación
 def mutate(individual, mutation_rate, df_suministro, k):
+    """Realiza una mutación en un individuo."""
     if random.random() < mutation_rate:
         idx_to_mutate = random.randint(0, k - 1)
         possible_genes = [i for i in range(len(df_suministro)) if i not in individual]
@@ -61,17 +71,40 @@ def genetic_algorithm(
     population_size,
     mutation_rate,
 ):
+    """
+    Implementación de un algoritmo genético para resolver el problema de ubicación de k centros
+    balanceados.
+
+    Parámetros:
+    df_suministro (pd.DataFrame): DataFrame con los datos de los puntos de suministro.
+    df_proveer (pd.DataFrame): DataFrame con los datos de los puntos a proveer.
+    df_distances (pd.DataFrame): DataFrame con la matriz de distancias entre los puntos de suministro
+    y los puntos a proveer.
+    k (int): Número de centros a ubicar.
+    num_generations (int): Número de generaciones del algoritmo.
+    population_size (int): Tamaño de la población.
+    mutation_rate (float): Tasa de mutación.
+
+    Devuelve:
+    tuple: Mejor individuo y su fitness.
+    """
+
     population = create_population(df_suministro, population_size, k)
     best_solution = None
     best_fitness = float("inf")
 
     for _ in tqdm(range(num_generations), desc="Generaciones"):
         # Evaluación y selección
-        population = selection(population, df_proveer, df_distances)
+        selected_population, best = selection(population, df_proveer, df_distances)
 
-        # Guardar el mejor individuo
-        current_best = population[0]
-        current_fitness = fitness(current_best, df_proveer, df_distances)
+        # Actualizar la población con los seleccionados
+        population = selected_population
+
+        # Guardar el mejor individuo y su fitness
+        current_best = best[1]  # El mejor individuo
+        current_fitness = best[0]
+
+        print(f"actualmente, la mejor solucion es: {current_fitness}")
         if current_fitness < best_fitness:
             best_fitness = current_fitness
             best_solution = current_best
