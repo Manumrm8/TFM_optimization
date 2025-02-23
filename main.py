@@ -3,7 +3,7 @@ import pandas as pd
 
 from tools.utils import genetic_algorithm, plot_results
 
-ruta_archivo = "data/kbcl_instances/two_of/A3_7500_150_15.txt"
+ruta_archivo = "data/positions/p0_1000_50_5.txt"
 
 # Paso 1: Leer la primera línea para obtener n, m, k
 with open(ruta_archivo, "r") as archivo:
@@ -15,27 +15,20 @@ seed = 42  # Puedes cambiar esta semilla por cualquier número que elijas
 np.random.seed(seed)  # Establece la semilla para la aleatoriedad reproducible
 
 # Leer el archivo completo
-df_sitios_a_proveer = pd.read_csv(
-    ruta_archivo, skiprows=1, nrows=n, header=None, sep="\\s+"
-)
-df_sitios_a_proveer.columns = ["x", "y"]
+df_proveer = pd.read_csv(ruta_archivo, skiprows=1, nrows=n, header=None, sep="\\s+")
+df_proveer.columns = ["x", "y"]
 
-df_sitios_de_suministro = pd.read_csv(
+df_suministro = pd.read_csv(
     ruta_archivo, skiprows=1 + n, nrows=m, header=None, sep="\\s+"
 )
-df_sitios_de_suministro.columns = ["x", "y"]
+df_suministro.columns = ["x", "y"]
 
-n = 1000
-m = 50
-
-df_proveer = df_sitios_a_proveer.sample(n=n, random_state=42)
-df_suministro = df_sitios_de_suministro.sample(n=m, random_state=42)
-df_distances = pd.read_csv("data/distances/A3_7500_150_15.csv", index_col=0)
+df_distances = pd.read_csv("data/distances/demand/p0_1000_50_5.csv", index_col=0)
 
 
 num_generations = 10  # Número de generaciones
-population_size = 50  # Tamaño de la población
-mutation_rate = 0.3  # Tasa de mutación
+population_size = 100  # Tamaño de la población
+mutation_rate = 0.5  # Tasa de mutación
 
 best_solution, best_fitness = genetic_algorithm(
     df_suministro,
@@ -50,7 +43,7 @@ best_solution, best_fitness = genetic_algorithm(
 print("Mejor conjunto de puntos de suministro:", best_solution)
 print("Mejor distancia máxima:", best_fitness)
 
-filename = "resultados/soluciones_1.txt"
+filename = "resultados/soluciones_p0_1000_50_5.txt"
 with open(filename, "a") as file:
     # Añadir una nueva línea con la mejor solución y su fitness
     file.write(f"{best_solution}; {best_fitness}\n")

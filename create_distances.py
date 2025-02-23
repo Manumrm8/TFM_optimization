@@ -2,11 +2,12 @@ import numpy as np
 import pandas as pd
 
 ## Personalización ##
-nombre_archivo = "A3_7500_150_15"
-carpeta_archivo = "data/kbcl_instances/two_of/"
+nombre_archivo = "p0_1000_50_5"
+carpeta_archivo = "data/positions/"
 ruta_archivo = carpeta_archivo + nombre_archivo + ".txt"
 
-ruta_guardado = "./data/distances/" + nombre_archivo + ".csv"
+ruta_guardado_demand = "./data/distances/demand/" + nombre_archivo + ".csv"
+ruta_guardado_supply = "./data/distances/supply/" + nombre_archivo + ".csv"
 
 #####################
 
@@ -31,15 +32,28 @@ df_sitios_de_suministro.columns = ["x", "y"]
 proveer_coords = df_sitios_a_proveer[["x", "y"]].to_numpy()
 suministro_coords = df_sitios_de_suministro[["x", "y"]].to_numpy()
 
-# Calcular la distancia euclidiana entre cada par de puntos
-dist_matrix = np.sqrt(
+# Calcular la distancia euclidiana entre cada par de puntos (suministro y demanda)
+dist_matrix_demand = np.sqrt(
     ((proveer_coords[:, None, :] - suministro_coords[None, :, :]) ** 2).sum(axis=2)
 )
 
-# Crear un DataFrame con la matriz de distancias
-dist_df = pd.DataFrame(
-    dist_matrix, index=df_sitios_a_proveer.index, columns=df_sitios_de_suministro.index
+dist_df_demand = pd.DataFrame(
+    dist_matrix_demand,
+    index=df_sitios_a_proveer.index,
+    columns=df_sitios_de_suministro.index,
 )
 
-# Guardar el dataframe
-dist_df.to_csv(ruta_guardado, index=True, header=True)
+dist_df_demand.to_csv(ruta_guardado_demand, index=True, header=True)
+
+# Calcular la distancia euclidiana entre cada par de fábricas
+dist_matrix_supply = np.sqrt(
+    ((suministro_coords[:, None, :] - suministro_coords[None, :, :]) ** 2).sum(axis=2)
+)
+
+dist_df_supply = pd.DataFrame(
+    dist_matrix_supply,
+    index=df_sitios_de_suministro.index,
+    columns=df_sitios_de_suministro.index,
+)
+
+dist_df_supply.to_csv(ruta_guardado_supply, index=True, header=True)
