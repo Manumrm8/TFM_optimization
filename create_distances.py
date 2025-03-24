@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 
 ## Personalización ##
-nombre_archivo = "p0_1000_50_5"
+nombre_archivo = "WorkSpace 1000_50_5"
 carpeta_archivo = "data/positions/"
 ruta_archivo = carpeta_archivo + nombre_archivo + ".txt"
 
