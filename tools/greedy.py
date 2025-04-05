@@ -50,7 +50,6 @@ class Greedy:
 
             if best_candidate is not None:
                 supply_selected.add(best_candidate)
-                supply_list.append(best_candidate)  # Mantener la lista sincronizada
-                print(f"Mejor candidato: {best_candidate} con fitness {best}")
+                supply_list.append(best_candidate)
 
-        return list(supply_selected)
+        return list(supply_selected), best
