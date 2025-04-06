@@ -5,12 +5,12 @@ import os
 
 class Grasp:
     def __init__(self, archive, k, m):
-        folder_distances = "data/distances/demand/"
-        route_distances = folder_distances + archive
+        folder_distances = "./data/distances/demand/"
+        route_distances = folder_distances + archive + ".csv"
         self.df_distances_demand = pd.read_csv(route_distances)
 
         folder_solutions = "Solutions/"
-        self.route_solutions = folder_solutions + archive
+        self.route_solutions = folder_solutions + archive + ".csv"
         if os.path.exists(self.route_solutions):
             self.df_solutions = pd.read_csv(self.route_solutions)
             print(self.df_solutions)
