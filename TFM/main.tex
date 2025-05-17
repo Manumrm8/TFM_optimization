@@ -1,9 +1,9 @@
 \documentclass[12pt,a4paper]{book}
 
 % Formato del documento
-\usepackage[papersize={210mm,297mm},inner=3.5cm,outer=2cm,top=2.5cm,bottom=2.5cm]{geometry}
-\renewcommand{\baselinestretch}{1}
-\setlength{\parskip}{8pt}
+%\usepackage[papersize={210mm,297mm},inner=3.5cm,outer=2cm,top=2.5cm,bottom=2.5cm]{geometry}
+%\renewcommand{\baselinestretch}{1}
+%\setlength{\parskip}{8pt}
 
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb}
@@ -42,13 +42,15 @@
 
 \urlstyle{same}
 
-% Cabecera
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhf{}
-\renewcommand{\chaptermark}[1]{\markboth{\textbf{Cap\'itulo \thechapter}}{}} 
-\fancyhead[LO]{Cap\'itulo \thechapter \quad P\'agina \thepage}
-\fancyhead[RO,LE]{\textbf{\thepage}}
+%%%%%%%ALTERNATIVA 2%%%%%%%%%%%%
+\textheight=21cm
+\textwidth=17cm
+%\topmargin=-1cm
+\oddsidemargin=0cm
+\evensidemargin=0cm
+\parindent=0mm
+\pagestyle{plain}
+%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%  Comando Portada  %%%%%%%%%%%
 \newcommand{\nuevaportada}[6]{
@@ -84,26 +86,12 @@
 
 \begin{document}
 
-\frontmatter
-\pagenumbering{gobble}
 \nuevaportada{Ciencia de Datos}{Problema de Localización de Centros k-Balanceado Multiobjetivo}{Manuel Rubio Martínez}{Anna Martínez Gavara}{Abril, 2025}
 
 \clearpage
-\thispagestyle{empty} \mbox{} \clearpage
 
 \newpage
 \tableofcontents
-
-\chapter{Introducción}
-
-\section{Antecedentes}
-
-\section{Problema de localización}
-
-\section{Motivación}
-
-\section{Aplicaciones}
-
 
 \chapter{Preliminares}
 \section{Conceptos básicos de la teoría de grafos}
@@ -118,12 +106,47 @@ de $V$ se les llama \textbf{vértices} o \textbf{nodos} y a los elementos de $E$
 Si una arista está compuesta por 2 elementos iguales, se dice que es un \textbf{lazo}.
 
 \end{defi}
+
 \bigskip
+
+\chapter{Introducción}
+
+\section{Antecedentes}
+\subsection{Optimización Combinatoria}
+\subsection{Metaheurísticas en Optimización}
+\subsection{GRASP (Greedy Randomized Adaptive Search Procedure)}
+
+\section{Problemas de localización}
+Aquí es clave. Describe los problemas típicos de localización:
+
+Los problemas de localización buscan determinar la mejor ubicación para instalar facilidades (almacenes, centros de distribución, hospitales, etc.) para optimizar criterios como distancia a los clientes, coste total o cobertura. Ejemplos clásicos incluyen:
+
+Problema del p-mediana: minimizar la distancia total entre clientes y facilidades.
+
+Problema del p-center: minimizar la máxima distancia entre un cliente y su centro asignado.
+
+Problema de localización de instalaciones no capacitado (Uncapacitated Facility Location Problem, UFLP): elegir qué facilidades abrir y a qué clientes servir, minimizando costes de apertura y asignación.
+
+Aquí puedes incluir una breve justificación de por qué estos problemas son relevantes en la práctica (logística, salud, servicios públicos…).
+
+\subsection{Estado del arte}
+
+Menciona estudios previos donde se ha aplicado GRASP a problemas de localización:
+
+Numerosos trabajos han demostrado la eficacia de GRASP en problemas de localización. 
+Por ejemplo, Feo y Resende (1995) aplicaron GRASP al problema del p-median con resultados competitivos. 
+Desde entonces, se han desarrollado numerosas variantes híbridas que combinan GRASP con técnicas como Path Relinking o aprendizaje automático para mejorar su rendimiento.
+
+
+\section{Motivación y caso práctico}
+
+\section{Otras aplicaciones}
+
 
 \chapter{Modelo Matemático}
 
 \section{Definición}
-%Funciones objetivo, restricciones, etc
+Funciones objetivo, restricciones, etc
 
 \chapter{Grasp}
 
@@ -132,7 +155,7 @@ Si una arista está compuesta por 2 elementos iguales, se dice que es un \textbf
 
 \chapter{Experimentación y Resultados}
 
-% Instancias, comparativa, CASO DE ESTUDIO
+Instancias, comparativa, CASO DE ESTUDIO
 
 \chapter{Conclusiones}
 
