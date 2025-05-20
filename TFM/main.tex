@@ -97,29 +97,43 @@
 \section{primera parte}
 
 \begin{defi}
-Definición de algo
+Un algoritmo \textbf{"greedy"} (codicioso) es un método construcción de soluciones para un problema de optimización,
+de manera que en cada paso se escoge la mejor posible, aunque esto no lleve finalmente a un óptimo global.
 \end{defi}
 
 \bigskip
+
+\begin{defi}
+Un algoritmo \textbf{"greedy randomizado"} se basa en el "greedy", pero en cada paso se elige de forma aleatoria entre un conjunto de mejores opciones.
+Si el conjunto de opciones es el total, el algoritmo es "random".
+\end{defi}
 
 \chapter{Introducción}
 
 \section{Antecedentes}
 \subsection{Optimización Combinatoria}
 
-Explica qué es la optimización combinatoria y su importancia en problemas reales:
+Es la rama de la optimización enfocada en encontrar óptimos en conjuntos de soluciones finitos.
+Esto no significa que el problema sea fácil, al contrario, por lo general es un problema NP-complejo. \\
+Que sea NP-complejo implica que conforme el número de soluciones aumenta, la complejidad computacional lo hace, a su vez, exponencialmente. \\
+Un ejemplo de ello es el problema sobre el que trata este TFM, 
+tratar de que encontrar, en un conjunto de $n$ elementos, un subconjunto $k$ de ellos tal que  minimice varias funciones objetivo.
+\\ \\
+Es rápido calcular las combinaciones posibles (siempre suponiendo $k \leq  n$) son:
 
-La optimización combinatoria es una rama de la investigación operativa que se enfoca en encontrar una solución óptima dentro de un conjunto finito, pero típicamente muy grande, de posibles soluciones. Muchos problemas relevantes en logística, telecomunicaciones o diseño de redes pueden modelarse como problemas combinatorios.
+$$
+    \binom{n}{k} = \frac{n!}{(n-k)!k!}
+$$
 
-Puedes mencionar:
+Por ejemplo, si $n=50$ y $k=5$, entonces
+$$
+    \frac{50!}{(50-5)!5!}=2118760
+$$
+para un problema bastante sencillo. Para casos reales, podríamos tener n=5000 y k=50, la cantidad de posibles solucones sería del orden de $2.28  e^{120}$. Contabilizando el coste de 
+evaluación de cada solución, no es viable encontrar el óptimo de forma exacta. Incluso utilizando los ordenadores más potentes, estaríamos hablando de tiempos astronómicos.
 
-Problemas NP-hard
+\subsection{Metaheurísticos}
 
-Dificultad de obtener soluciones óptimas en tiempos razonables
-\subsection{Metaheurísticas en Optimización}
-Introduce el papel de las metaheurísticas como solución práctica:
-
-Debido a la complejidad computacional de muchos problemas de optimización combinatoria, las metaheurísticas se han consolidado como una herramienta eficaz para encontrar soluciones cercanas al óptimo en tiempos razonables. Ejemplos incluyen algoritmos como GRASP, Simulated Annealing, Tabu Search, y Algoritmos Genéticos.
 
 \subsection{GRASP (Greedy Randomized Adaptive Search Procedure)}
 
@@ -147,9 +161,65 @@ Desde entonces, se han desarrollado numerosas variantes híbridas que combinan G
 
 \section{Motivación y caso práctico}
 
+\subsection{Motivación}
+
+En el contexto actual de distribución y venta minorista, las empresas que comercializan productos a través de comercios asociados se enfrentan a un problema logístico y estratégico cada vez más complejo: decidir en qué comercios ubicar la oferta de un determinado producto, de manera que se garantice una alta disponibilidad para los clientes, una repartición equitativa de la carga de trabajo entre los establecimientos, y se eviten situaciones de saturación de la demanda en puntos concretos.
+
+La resolución de este problema implica equilibrar múltiples objetivos que pueden entrar en conflicto. Por ejemplo, concentrar las ventas en los comercios más céntricos puede facilitar el acceso para más clientes, pero puede llevar a la sobrecarga de dichos comercios. Por otro lado, una asignación equitativa del volumen de ventas podría perjudicar la proximidad al cliente final.
+
+Este tipo de problemas, típicos en entornos logísticos y de gestión de redes comerciales, son ideales para abordar desde una perspectiva de optimización multiobjetivo. En particular, el uso de metaheurísticas como GRASP (Greedy Randomized Adaptive Search Procedure) permite generar soluciones de alta calidad en espacios de búsqueda complejos, combinando eficiencia, aleatoriedad y adaptabilidad. Esto resulta especialmente valioso en problemas reales donde las soluciones exactas no son computacionalmente viables.
+
+\subsection{Caso práctico}
+
+Se propone aplicar GRASP para resolver el siguiente problema práctico:
+
+Una empresa desea lanzar un nuevo producto en una red de comercios asociados distribuidos geográficamente en una ciudad o región. La empresa no puede colocar el producto en todos los comercios, por lo que debe seleccionar un subconjunto óptimo de ellos. Esta selección debe cumplir los siguientes criterios:
+
+Cobertura geográfica: Los comercios seleccionados deben estar lo más cerca posible de toda la población de clientes potenciales, minimizando la distancia media de los clientes al comercio más cercano.
+
+Limitación del punto más cargado: Se desea minimizar la carga del comercio más exigido, es decir, evitar que uno solo concentre una proporción demasiado alta de las ventas.
+
+Equidad en la carga de trabajo: Se busca que todos los comercios seleccionados reciban un volumen similar de clientes o ventas, para evitar que algunos estén infrautilizados mientras otros estén sobrecargados.
+
+Este problema se formula como una optimización multiobjetivo discreta y se aborda mediante una implementación de GRASP adaptada a la estructura del problema. La solución final debería ofrecer al decisor un conjunto de configuraciones de comercios que representen distintos compromisos entre los objetivos, permitiendo una elección informada.
+
+Este TFM contribuye tanto al avance práctico en la toma de decisiones comerciales como al desarrollo académico en el campo de la optimización heurística multiobjetivo.
+
+
 \section{Otras aplicaciones}
 
+1. Selección de ubicaciones para puntos de recogida de pedidos (e-commerce o logística inversa)
+Objetivos:
 
+Minimizar la distancia media desde los clientes.
+
+Equilibrar el volumen de recogidas entre los puntos.
+
+Minimizar la sobrecarga del punto con más actividad.
+
+Uso de GRASP: Selección iterativa y adaptativa de ubicaciones con evaluaciones parciales del coste total.
+
+2. Selección de ubicaciones para oficinas o delegaciones de una empresa
+Objetivos:
+
+Cubrir bien la demanda regional de servicios.
+
+Minimizar costes de operación.
+
+Repartir equitativamente la carga de trabajo regional.
+
+3. Ubicación de estaciones de carga para vehículos eléctricos
+Objetivos:
+
+Maximizar cobertura geográfica.
+
+Minimizar costes de instalación.
+
+Equilibrar la demanda esperada entre estaciones.
+
+Uso de GRASP: Selección iterativa de ubicaciones, con evaluación de cobertura y demanda prevista.
+
+Uso de GRASP: Evaluación de diferentes combinaciones de oficinas candidatas y asignación óptima de áreas de influencia.
 \chapter{Modelo Matemático}
 
 \section{Definición}
