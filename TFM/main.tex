@@ -134,6 +134,32 @@ evaluación de cada solución, no es viable encontrar el óptimo de forma exacta
 
 \subsection{Metaheurísticos}
 
+Las metaheurísticas aparecen con el desarrollo de las ciencias de la computación, como principal solución a estos problemas. Donde los métodos exactos no serían capaces de encontrar el óptimo,
+los Metaheurísticos buscan soluciones `buenas` en tiempos de ejecución razonables, sacrificando la garantía que proporcionan los métodos exactos de obtener un óptimo global.
+
+Generalmente combinan heurísticas para obtener soluciones buenas, con aleatoriedad, para conseguir una exploración
+más ámplia del conjunto de soluciones posibles, buscando un balance entre exploración y explotación del entorno de soluciones.\\
+Exploración ya que no se quedan bloqueados en regiones aisladas, intentando buscar óptimos locales, sino que recorren el resto del espacio buscando nuevas soluciones.\\
+Explotación porque cuando entran en una región, profundizan en ella buscando los mejores óptimos locales.
+
+Son algoritmos muy generales, fáciles de implementar y adaptables a casi 
+cualquier problema de optimización.
+
+Los principales metaheurísticas son:
+\begin{itemize}
+    \item Algoritmos Genéticos (GA - Genetic Algorithms)\\
+    Inspirados en la selección natural y el funcionamiento de la genética, se basan en la generación aleatoria de soluciones, y el cruce de las más prometedoras entre sí, 
+    añadiendo mutaciones. El cruce de las más prometedoras crea soluciones buenas, mientras las mutaciones aumentan la diversidad.
+    \item Recocido Simulado (SA - Simulated Annealing)\\
+    Basada en la física, se basa en el proceso de recocer metales (calentarlos y enfriarlos para alterar su estructura). Explora soluciones aceptando movimientos de mejora, pero también que puedan empeorar, 
+    en función de una probabilidad dependiente de la "temperatura", que decrece con el paso de las iteraciones. Al principio, una temperatura alta favorece la exploración, y al final una baja favorece la explotación.
+    \item Búsqueda Tabú (TS - Tabu Search)
+    Genera una lista `Tabú` que actúa como memoria del algoritmo, incluyendo los movimientos recientes con el objetivo de no repetir soluciones recientes, sino explorar nuevas, aunque estas no sean las mejores posibles. Esto favorece la exploración.
+    \item Optimización por Colonia de Hormigas (ACO - Ant Colony Optimization)
+    Diseñado para problemas de rutas, construyendo soluciones iterativamente a través de un grafo, cuyas aristas  se van pesando a medida que generan soluciones buenas.
+    %\item Optimización por Enjambre de Partículas (PSO - Particle Swarm Optimization)
+\end{itemize}
+
 
 \subsection{GRASP (Greedy Randomized Adaptive Search Procedure)}
 
