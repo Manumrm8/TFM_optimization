@@ -53,35 +53,39 @@
 %%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%  Comando Portada  %%%%%%%%%%%
+% Ajustes de geometría si la portada sigue sin caber
+% \geometry{a4paper, top=1cm, bottom=1cm, left=1cm, right=1cm} 
+
 \newcommand{\nuevaportada}[6]{
     \thispagestyle{empty}
     \begin{center}
         \includegraphics[width=0.5\textwidth]{images/logo.png}
         
-        \vspace{0.5cm}
+        \vspace{0.3cm} % Espacio reducido
         {\Large\bfseries\textsc{M\'aster Universitario en #1}\par}
         
-        \vspace{0.5cm}
+        \vspace{0.3cm} % Espacio reducido
         \includegraphics[width=0.4\textwidth]{images/uv.png}
         
-        \vspace{0.5cm}
+        \vspace{0.3cm} % Espacio reducido
         {\Large\bfseries\textsc{Trabajo de Fin de M\'aster}\par}
         
-        \vspace{0.5cm}
+        \vspace{0.5cm} % Mantener este espacio un poco más grande para el título
         {\Large\bfseries #2\par}
         
-        \vspace{2cm}
+        \vspace{1.5cm} % Reducido a 1.5cm desde 2cm
         \begin{flushright}
             \begin{tabular}{l} 
                 {\large\bfseries\textsc{Autor:}} \\
-                {\large\textsc{#3}} \\ [0.5cm] 
+                {\large\textsc{#3}} \\ [0.3cm] % Espacio reducido
                 {\large\bfseries\textsc{Tutora:}} \\ 
-                {\large\textsc{#4}} \\ [0.5cm]
+                {\large\textsc{#4}} \\ [0.3cm] % Espacio reducido
                 {\large\bfseries #5} 
             \end{tabular}
         \end{flushright}
     \end{center}
-    \clearpage
+    % Eliminamos \clearpage de aquí, ya que la portada debe ser una sola página
+    % Si necesitas un salto de página después de la portada, lo añades en el documento principal.
 }
 
 \begin{document}
@@ -157,32 +161,59 @@ Los principales metaheurísticas son:
     Genera una lista `Tabú` que actúa como memoria del algoritmo, incluyendo los movimientos recientes con el objetivo de no repetir soluciones recientes, sino explorar nuevas, aunque estas no sean las mejores posibles. Esto favorece la exploración.
     \item Optimización por Colonia de Hormigas (ACO - Ant Colony Optimization)
     Diseñado para problemas de rutas, construyendo soluciones iterativamente a través de un grafo, cuyas aristas  se van pesando a medida que generan soluciones buenas.
-    %\item Optimización por Enjambre de Partículas (PSO - Particle Swarm Optimization)
+    %\item Optimización por Enjambre de Partículas (PSO - Particle Swarm Optimization) noo se si incluirlo
 \end{itemize}
 
 
 \subsection{GRASP (Greedy Randomized Adaptive Search Procedure)}
+% No se si indicar, en todos los casos, que es para problemas de combinatoria
 
-\section{Problemas de localización}
-Aquí es clave. Describe los problemas típicos de localización:
+Desarrollado a finales de los años 80, se crea específicamente para resolver problemas complejos de optimización combinatoria.
 
-Los problemas de localización buscan determinar la mejor ubicación para instalar facilidades (almacenes, centros de distribución, hospitales, etc.) para optimizar criterios como distancia a los clientes, coste total o cobertura. Ejemplos clásicos incluyen:
+El algoritmo se fundamenta en dos partes, una primera en la que se genera una solución aleatorizada, y una segunda en la que se realiza una búsqueda local.
+Estos dos pasos se ejecutan múltiples veces, y la mejor solución encontrada es la que se devuelve como resultado final.
 
-Problema del p-mediana: minimizar la distancia total entre clientes y facilidades.
+\begin{itemize}
+    \item Fase de Construcción (Greedy Randomizada):
+    Para problemas de combinatoria, empieza incorporando un elemento de manera aleatoria a la solución. Desppués, se crea una LRC (Lista Restringida de Candidatos) con los `mejores candidatos`. Después,
+de esta lista se selecciona uno de manera aleatoria, y se añade a la solución. Se repite hasta que la solución contiene la cantidad necesaria de elementos para ser válida.
+    \item Búsqueda Local:
+    Se toma la solución generada en la fase de construcción, y se intenta mejorar. Se coge cada elemento de la solución, y se prueba a cambiar por alguno de los elementos aún no seleccionados para la misma. Si con alguno la solución mejora, se intercambia.
+    Se sigue con el proceso hasta que no se puede mejorar más. Entonces se guarda la solución, y se vuelve a reejecutar el algoritmo completo.
+\end{itemize}
 
-Problema del p-center: minimizar la máxima distancia entre un cliente y su centro asignado.
+Como la búsqueda local se puede hacer a partir, incluso, de otros algoritmos, al final el GRASP
+es muy generalizable. También se han creado muchas otras versiones, como añadir mutaciones (como en el algoritmo genético) para, después de realizar
+una búsqueda local, poder seguir.
 
-Problema de localización de instalaciones no capacitado (Uncapacitated Facility Location Problem, UFLP): elegir qué facilidades abrir y a qué clientes servir, minimizando costes de apertura y asignación.
+La versión del artículo en el que me baso para comparar los resultados del GRASP que voy a diseñar utiliza \textbf{path-relinking}, que explicaré en la parte de estado del arte.
 
-Aquí puedes incluir una breve justificación de por qué estos problemas son relevantes en la práctica (logística, salud, servicios públicos…).
+
+
+
+\section{Problemas de Localización}
+
+Los \textbf{problemas de localización} son uno de los tipos principales de optimización combinatoria, que buscan determinar la ubicación óptima para construir instalaciones, como almacenes, centros de distribución, hospitales, escuelas o estaciones de bomberos. 
+
+Algunos de los objetivos a optimizar pueden incluir la minimización de la distancia total o máxima a los clientes, la reducción del coste operacional, la maximización de la cobertura de la demanda, la mejora del tiempo de respuesta, el balance de uso entre las instalaciones etc.
+
+Estos problemas son de vital importancia en la práctica en múltiples sectores. En la \textbf{logística} y la gestión de la cadena de suministro, la correcta ubicación de almacenes y centros de distribución puede reducir drásticamente los costes de transporte y mejorar la eficiencia de la entrega. En el ámbito de la \textbf{salud}, la localización de hospitales y clínicas asegura un acceso equitativo a la atención médica y tiempos de respuesta rápidos en caso de emergencia. Asimismo, en la planificación de \textbf{servicios públicos}, como la ubicación de escuelas o parques de bomberos, se busca garantizar la accesibilidad cobertura del total o la mayoría de la población.
+
+Entre los ejemplos clásicos y más estudiados de problemas de localización se encuentran:
+
+\begin{itemize}
+    \item \textbf{Problema del $p$-mediana}: Busca minimizar la distancia total (o el coste total de transporte) entre los clientes y las $p$ facilidades seleccionadas para ser abiertas. Es crucial para situaciones donde la proximidad media es un factor determinante, como la localización de almacenes para reducir los kilómetros recorridos.
+
+    \item \textbf{Problema del $p$-center}: A diferencia del $p$-mediana, el objetivo del problema del $p$-center es minimizar la máxima distancia (o el tiempo de respuesta más largo) entre cualquier cliente y su instalación asignada. Esto lo hace especialmente relevante para servicios de emergencia, donde el tiempo de respuesta en el peor de los casos debe ser minimizado, como la ubicación de ambulancias o estaciones de policía.
+
+    \item \textbf{Problema de Localización de Instalaciones no Capacitado (Uncapacitated Facility Location Problem, UFLP)}: El UFLP implica decidir qué facilidades abrir de un conjunto de ubicaciones candidatas y a qué clientes servir desde cada una de ellas. El objetivo es minimizar la suma de los costes fijos de apertura de las facilidades y los costes de asignación de clientes a dichas facilidades, sin restricciones en la capacidad de las instalaciones abiertas. Este problema es fundamental para decisiones estratégicas a largo plazo sobre la infraestructura de una empresa.
+\end{itemize}
 
 \subsection{Estado del arte}
 
-Menciona estudios previos donde se ha aplicado GRASP a problemas de localización:
+Artículo 1 de uso de Grasp para problemas le localización de facilidades
 
-Numerosos trabajos han demostrado la eficacia de GRASP en problemas de localización. 
-Por ejemplo, Feo y Resende (1995) aplicaron GRASP al problema del p-median con resultados competitivos. 
-Desde entonces, se han desarrollado numerosas variantes híbridas que combinan GRASP con técnicas como Path Relinking o aprendizaje automático para mejorar su rendimiento.
+Artículo 2 (el que uso de referencia)
 
 
 \section{Motivación y caso práctico}
@@ -211,49 +242,23 @@ Este problema se formula como una optimización multiobjetivo discreta y se abor
 
 Este TFM contribuye tanto al avance práctico en la toma de decisiones comerciales como al desarrollo académico en el campo de la optimización heurística multiobjetivo.
 
+\chapter{Aprendizaje Reforzado}
 
-\section{Otras aplicaciones}
-
-1. Selección de ubicaciones para puntos de recogida de pedidos (e-commerce o logística inversa)
-Objetivos:
-
-Minimizar la distancia media desde los clientes.
-
-Equilibrar el volumen de recogidas entre los puntos.
-
-Minimizar la sobrecarga del punto con más actividad.
-
-Uso de GRASP: Selección iterativa y adaptativa de ubicaciones con evaluaciones parciales del coste total.
-
-2. Selección de ubicaciones para oficinas o delegaciones de una empresa
-Objetivos:
-
-Cubrir bien la demanda regional de servicios.
-
-Minimizar costes de operación.
-
-Repartir equitativamente la carga de trabajo regional.
-
-3. Ubicación de estaciones de carga para vehículos eléctricos
-Objetivos:
-
-Maximizar cobertura geográfica.
-
-Minimizar costes de instalación.
-
-Equilibrar la demanda esperada entre estaciones.
-
-Uso de GRASP: Selección iterativa de ubicaciones, con evaluación de cobertura y demanda prevista.
-
-Uso de GRASP: Evaluación de diferentes combinaciones de oficinas candidatas y asignación óptima de áreas de influencia.
 \chapter{Modelo Matemático}
 
+
 \section{Definición}
-Funciones objetivo, restricciones, etc
+3 variables a minimizar
+restricciones
+método exacto? (no viable)
 
-\chapter{Grasp}
+\chapter{Implementación del Grasp}
 
+Primera versión, grasp simple con inicialización aleatoria y búsqueda local en una de las 3 variables
 
+Segunda versión, grasp con inicialización greedy randomizada (con alpha fijo) y 2 búsquedas locales en serie
+
+Tercera y última versión, grasp con inicialización greedy randomizada (con alpha ranodom), búsquedas locales escogidas por aprendizaje reforzado.
 
 
 \chapter{Experimentación y Resultados}
