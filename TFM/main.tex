@@ -14,7 +14,6 @@
 \usepackage{hyperref}
 \usepackage[parfill]{parskip}
 \usepackage{float}
-
 \renewcommand{\chaptername}{Capítulo}
 \renewcommand{\contentsname}{Índice}
 \renewcommand{\bibname}{Bibliografía}
@@ -202,29 +201,24 @@ Estos problemas son de vital importancia en la práctica en múltiples sectores.
 Entre los ejemplos clásicos y más estudiados de problemas de localización se encuentran:
 
 \begin{itemize}
-    \item \textbf{Problema del $p$-mediana}: Busca minimizar la distancia total (o el coste total de transporte) entre los clientes y las $p$ facilidades seleccionadas para ser abiertas. Es crucial para situaciones donde la proximidad media es un factor determinante, como la localización de almacenes para reducir los kilómetros recorridos.
+    \item \textbf{Problema del Viajante (TSP - Traveling Salesman Problem)}: Es el clásico problema de buscar la ruta más corta que permita recorrer un conjunto de lugares exactamente una vez, y luego regresar al punto de origen. Dependiendo del contexto, la función objetivo puede ser minimizar la distancia total del viaje, el tiempo invertido, o una combinación de ambas.\\
+Existen variantes donde se ha de seleccionar subconjunto de lugares, considerando, además de los factores distancia y tiempo, un peso o valor añadido dependiendo de la selección hecha.\\
+Algunos de los ejemplos más tipicos de este problema es la planificación de rutas de reparto, ruta más eficiente para la recolección de residuos de una ciudad, la planificación de un viaje por por las principales atracciones turísticas de un pais etc.
 
-    \item \textbf{Problema del $p$-center}: A diferencia del $p$-mediana, el objetivo del problema del $p$-center es minimizar la máxima distancia (o el tiempo de respuesta más largo) entre cualquier cliente y su instalación asignada. Esto lo hace especialmente relevante para servicios de emergencia, donde el tiempo de respuesta en el peor de los casos debe ser minimizado, como la ubicación de ambulancias o estaciones de policía.
-
-    \item \textbf{Problema de Localización de Instalaciones no Capacitado (Uncapacitated Facility Location Problem, UFLP)}: El UFLP implica decidir qué facilidades abrir de un conjunto de ubicaciones candidatas y a qué clientes servir desde cada una de ellas. El objetivo es minimizar la suma de los costes fijos de apertura de las facilidades y los costes de asignación de clientes a dichas facilidades, sin restricciones en la capacidad de las instalaciones abiertas. Este problema es fundamental para decisiones estratégicas a largo plazo sobre la infraestructura de una empresa.
+    \item \textbf{Problema de Ruteo de Vehículos (VRP - Vehicle Routing Problem)}: Se trata de encontrar la mejor manera de diseñar y organizar las rutas que deberán recorrer uno o varios vehículos para realizar entregas para un conjunto de ubicaciones. Se suele buscar minimizar los tiempos de entrega, la distancia recorrida, el coste operativo, y también suelen tener restricciones 
+en la capacidad de los vehículos, tiempos u horarios de entrega, tiempo máximo de la ruta etc.\\
+Los ejemplos más comunes son la coordinación de camiones de reparto de pedidos, organización del transporte público con buses urbanos, también para la recolección de residuos etc.
+    \item \textbf{Problemas de Localización (Facility Location Problems)}: Se busca intentar determinar cuáles son los mejores lugares para instalar varias infraestructuras (almacenes, puntos de distribución, hospitales). El objetivo, si el problema trata únicamente de construir la infraestructura, es minimizar costes/maximizar beneficios, pero generalmente existe también un grupo de clientes o usuarios a los que hay que atender desde los puntos de distribución Con esto el objetivo puede ser reducir la distancia total para suministrar, equilibrar
+el uso de las infraestructuras, y también tener restricciones de demanda, de cobertura, etc.\\
+Hay ejemplos como elegir dónde ubicar almacenes, ubicar estaciones de ambulancias, colocar torres te telefonía o decidir dónde abrir nuevos comercios de una cadena de supermercados.
 \end{itemize}
-
-\subsection{Estado del arte}
-
-Artículo 1 de uso de Grasp para problemas le localización de facilidades
-
-Artículo 2 (el que uso de referencia)
 
 
 \section{Motivación y caso práctico}
 
 \subsection{Motivación}
 
-En el contexto actual de distribución y venta minorista, las empresas que comercializan productos a través de comercios asociados se enfrentan a un problema logístico y estratégico cada vez más complejo: decidir en qué comercios ubicar la oferta de un determinado producto, de manera que se garantice una alta disponibilidad para los clientes, una repartición equitativa de la carga de trabajo entre los establecimientos, y se eviten situaciones de saturación de la demanda en puntos concretos.
 
-La resolución de este problema implica equilibrar múltiples objetivos que pueden entrar en conflicto. Por ejemplo, concentrar las ventas en los comercios más céntricos puede facilitar el acceso para más clientes, pero puede llevar a la sobrecarga de dichos comercios. Por otro lado, una asignación equitativa del volumen de ventas podría perjudicar la proximidad al cliente final.
-
-Este tipo de problemas, típicos en entornos logísticos y de gestión de redes comerciales, son ideales para abordar desde una perspectiva de optimización multiobjetivo. En particular, el uso de metaheurísticas como GRASP (Greedy Randomized Adaptive Search Procedure) permite generar soluciones de alta calidad en espacios de búsqueda complejos, combinando eficiencia, aleatoriedad y adaptabilidad. Esto resulta especialmente valioso en problemas reales donde las soluciones exactas no son computacionalmente viables.
 
 \subsection{Caso práctico}
 
@@ -241,6 +235,12 @@ Equidad en la carga de trabajo: Se busca que todos los comercios seleccionados r
 Este problema se formula como una optimización multiobjetivo discreta y se aborda mediante una implementación de GRASP adaptada a la estructura del problema. La solución final debería ofrecer al decisor un conjunto de configuraciones de comercios que representen distintos compromisos entre los objetivos, permitiendo una elección informada.
 
 Este TFM contribuye tanto al avance práctico en la toma de decisiones comerciales como al desarrollo académico en el campo de la optimización heurística multiobjetivo.
+
+\section{Estado del arte}
+
+Voy a basarme en el artículo \cite{k-Balanced}
+
+
 
 \chapter{Aprendizaje Reforzado}
 
@@ -272,23 +272,7 @@ Instancias, comparativa, CASO DE ESTUDIO
 
 
 \begin{thebibliography}{X}
-    \bibitem{Juegos} \textsc{Martín Novo, Eduardo; Méndez Alonso, Alfredo}.
-    \textit{Aplicaciones de la teoría de grafos a algunos juegos de estrategia.}
-    \url{https://redined.educacion.gob.es/xmlui/handle/11162/13874}
-
-    \bibitem{Caníbales} Caníbales y misioneros: \url{https://culturacientifica.com/2016/05/04/problema-los-tres-caballeros-los-tres-criados/}
-
-    \bibitem{Laberintos} Laberintos: \url{https://www.cantab.net/users/michael.behrend/repubs/maze_maths/pages/tarry_lab_en.html}
-    
-    \bibitem{Ajedrez} Sobre ajedrez: \url{https://chess24.com/es/informate/noticias/como-piensan-y-operan-los-modulos-de-analisis}
-
-    \bibitem{Mantel} Teorema de Mantel: \url{https://lidicky.name/oldteaching/20.569X/l13%20-%20Mantel.pdf}
-
-    \bibitem{Turan} Vascimini, Vincent. (2017). Extremal Graph Theory: Turán’s Theorem. 
-    In BSU Honors Program Theses and Projects. Item 234. Available at: \url{https://vc.bridgew.edu/honors_proj/234}
-
-    \bibitem{otros_teoremas} \textsc{Widdershoven, Cas.} \textit{Extremal graphs and the Erd{\H{o}}s-Stone-Simonovits theorems.}
-    \url{https://studenttheses.uu.nl/handle/20.500.12932/23972}
+    \bibitem{k-Balanced} \textsc{Sánchez-Oro, Jesús; López-Sánchez, Ana D.; Martínez-Gavara, Anna; Hernández-Díaz, Alfredo G.; Duarte, Abraham}. \textit{A Hybrid Strategic Oscillation with Path Relinking Algorithm for the Multiobjective k-Balanced Center Location Problem.} Mathematics, Vol. 9, No. 8, 2021, Artículo 853. \url{https://www.mdpi.com/2227-7390/9/8/853}
 
 \end{thebibliography}
 
