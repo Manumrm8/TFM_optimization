@@ -217,32 +217,91 @@ Hay ejemplos como elegir dónde ubicar almacenes, ubicar estaciones de ambulanci
 \section{Motivación y caso práctico}
 
 \subsection{Motivación}
+En un entorno cada vez más competitivo y cambiante, la localización estratégica de infraestructuras no solo debe considerar criterios tradicionales como la distancia o el coste, sino también otros factores clave como la cobertura del mercado, la accesibilidad y el equilibrio en la distribución de la demanda.
 
+Actualmente, uno de los principales retos es maximizar el alcance de ciertos productos o servicios, garantizando que lleguen al mayor número posible de personas. Al mismo tiempo, es necesario evitar la concentración excesiva de demanda en unos pocos puntos, lo que puede provocar saturación, pérdida de calidad del servicio o ineficiencias operativas, mientras existen centros que, por tener una localización más aislada, prácticamente no reciben demanda.
 
+Este equilibrio entre amplitud de cobertura y uso equilibrado de los recursos disponibles es especialmente importante en contextos donde hay un reducido número de emplazamientos posibles, y donde cada selección de localización afecta tanto a la eficiencia del sistema como a la experiencia del usuario o cliente final.
+
+Al abordar el problema es importante considerar que la distancia total o el tiempo medio de viaje no es el factor más crítico. Por ejemplo, si construyes un hospital en una ciudad, el objetivo no es que la población viva lo más cerca posible, sino que se
+los residentes se encuentren a una distancia razonable. 
+
+Considera estos dos escenarios para una ciudad:
+\begin{itemize}
+    \item Escenario 1: El tiempo medio de viaje a un hospital es de 15 minutos, y el tiempo máximo de viaje para cualquier individuo es de 30 minutos.
+    \item Escenario 2: El tiempo medio de viaje a un hospital es de 13 minutos, pero el tiempo máximo de viaje para cualquier individuo es de 1 hora
+\end{itemize} 
+En tiempo global, podríamos decir que el segundo sistema implementado es más eficiente, pero se dejan de lado los valores extremos extremos. Una parte significativa de la población podría tener grandes dificultades para acceder a servicios esenciales. Por el contrario, aunque el primer caso tenga un tiempo medio mayor, mejora considerablemente la accesibilidad. Esto subraya que mejorar la media no necesariamente mejora el servicio.
 
 \subsection{Caso práctico}
+Una red hospitalaria está planificando la ubicación de 5 centros médicos dentro de una región con una población de $400$ personas. Debido a limitaciones presupuestarias, de personal e infraestructura, se restringe su construcción a un número $20$ de posibles emplazamientos. El objetivo será encontrar qué $5$ centros, de ese total de $50$ posibles, habrá que construir,teniendo en cuénta los siguientes criterios:
 
-Se propone aplicar GRASP para resolver el siguiente problema práctico:
+\begin{itemize}
+    \item Cobertura Poblacional: Los centros seleccionados deben intentar minimizar la máxima distancia o tiempo de viaje entre el conjunto de la población y los centros médicos.
+    \item Capacidad: Hay que intentar que los centros médicos no queden sobresaturados. Construir un único centro médico en una zona con mucha población puede generar una buena cobertura y tiempos de viaje cortos, pero quedar saturado y generar problemas de tiempo de atención y espera.
+    \item Equilibrio: No queremos tampoco que haya centros médicos con poco uso, intentando que la diferencia entre los más usados y los menos sea la menor posible, con lo que el uso quede bien repartido.
+\end{itemize}
+Caso de ejemplo ficticio utilizando la zona de Valencia:
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[c]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{images/ejemplo_centros_medicos.png}
+        \label{fig:poblacion_centros_medicos}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[c]{0.45\textwidth}
 
-Una empresa desea lanzar un nuevo producto en una red de comercios asociados distribuidos geográficamente en una ciudad o región. La empresa no puede colocar el producto en todos los comercios, por lo que debe seleccionar un subconjunto óptimo de ellos. Esta selección debe cumplir los siguientes criterios:
+        Se representa con 400 puntos azules a la población de la ciudad y alrededores de Valencia. También con 20 puntos verdes las posibles localizaciones de los centros médicos.
+    \end{minipage}
+    \caption{Población y centros médicos}
+\end{figure}
 
-Cobertura geográfica: Los comercios seleccionados deben estar lo más cerca posible de toda la población de clientes potenciales, minimizando la distancia media de los clientes al comercio más cercano.
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[c]{0.45\textwidth}
+        Ejemplo de solución aleatoria, escogiendo únicamente 5 centros médicos. Podemos ver que al escogerse por el sur y oeste, queda gran parte de valencia con una importante dificultad de acceso a los mismos.
+    \end{minipage}
+    \hfill
+    \begin{minipage}[c]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{images/solucion_ejemplo_1.png}
+        \label{fig:ejemplo_1}
+    \end{minipage}
+    \caption{Primer ejemplo de solución}
+\end{figure}
 
-Limitación del punto más cargado: Se desea minimizar la carga del comercio más exigido, es decir, evitar que uno solo concentre una proporción demasiado alta de las ventas.
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[c]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{images/solucion_ejemplo_2.png}
+        \label{fig:ejemplo_2}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[c]{0.45\textwidth}
+        Aquí ya se pueden ver mejoras, pero sigue sin ser una buena solución. Por el sur y el norte tienen aún bastante lejos los centros médicos, y hay alguno como el de la izquierda del todo, por Valencia Sud, que se utilizará relativamente poco al ir la población a los otros 2 más centricos (estos a su vez quedarán sobre saturados).
+    \end{minipage}
+    \caption{Segundo ejemplo de solución}
+\end{figure}
 
-Equidad en la carga de trabajo: Se busca que todos los comercios seleccionados reciban un volumen similar de clientes o ventas, para evitar que algunos estén infrautilizados mientras otros estén sobrecargados.
+\begin{figure}[htbp]
+    \centering
+    \begin{minipage}[c]{0.45\textwidth}
+        Esta solución sería, de las 3, la que mejor apariencia tiene, con una dispersión de los centros médicos mejor, y solo dejando más apartada la zona sur del puerto.
+    \end{minipage}
+    \hfill
+    \begin{minipage}[c]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{images/solucion_ejemplo_3.png}
+        \label{fig:ejemplo_3}
+    \end{minipage}
+    \caption{Tercer ejemplo de solución}
+\end{figure}
 
-Este problema se formula como una optimización multiobjetivo discreta y se aborda mediante una implementación de GRASP adaptada a la estructura del problema. La solución final debería ofrecer al decisor un conjunto de configuraciones de comercios que representen distintos compromisos entre los objetivos, permitiendo una elección informada.
-
-Este TFM contribuye tanto al avance práctico en la toma de decisiones comerciales como al desarrollo académico en el campo de la optimización heurística multiobjetivo.
+\newpage
 
 \section{Estado del arte}
 
 Voy a basarme en el artículo \cite{k-Balanced}
 
 
-
-\chapter{Aprendizaje Reforzado}
 
 \chapter{Modelo Matemático}
 
@@ -260,6 +319,7 @@ Segunda versión, grasp con inicialización greedy randomizada (con alpha fijo) 
 
 Tercera y última versión, grasp con inicialización greedy randomizada (con alpha ranodom), búsquedas locales escogidas por aprendizaje reforzado.
 
+\chapter{Aprendizaje Reforzado}
 
 \chapter{Experimentación y Resultados}
 
