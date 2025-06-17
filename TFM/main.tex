@@ -242,7 +242,7 @@ Una red hospitalaria está planificando la ubicación de 5 centros médicos dent
     \item Equilibrio: No queremos tampoco que haya centros médicos con poco uso, intentando que la diferencia entre los más usados y los menos sea la menor posible, con lo que el uso quede bien repartido.
 \end{itemize}
 Caso de ejemplo ficticio utilizando la zona de Valencia:
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minipage}[c]{0.45\textwidth}
         \includegraphics[width=\textwidth]{images/ejemplo_centros_medicos.png}
@@ -256,7 +256,7 @@ Caso de ejemplo ficticio utilizando la zona de Valencia:
     \caption{Población y centros médicos}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minipage}[c]{0.45\textwidth}
         Ejemplo de solución aleatoria, escogiendo únicamente 5 centros médicos. Podemos ver que al escogerse por el sur y oeste, queda gran parte de valencia con una importante dificultad de acceso a los mismos.
@@ -269,7 +269,7 @@ Caso de ejemplo ficticio utilizando la zona de Valencia:
     \caption{Primer ejemplo de solución}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minipage}[c]{0.45\textwidth}
         \includegraphics[width=\textwidth]{images/solucion_ejemplo_2.png}
@@ -282,7 +282,7 @@ Caso de ejemplo ficticio utilizando la zona de Valencia:
     \caption{Segundo ejemplo de solución}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
     \centering
     \begin{minipage}[c]{0.45\textwidth}
         Esta solución sería, de las 3, la que mejor apariencia tiene, con una dispersión de los centros médicos mejor, y solo dejando más apartada la zona sur del puerto.
@@ -295,21 +295,21 @@ Caso de ejemplo ficticio utilizando la zona de Valencia:
     \caption{Tercer ejemplo de solución}
 \end{figure}
 
-\newpage
-
-\section{Estado del arte}
-
-Voy a basarme en el artículo \cite{k-Balanced}
-
-
+ Al final, con este ejemplo de juguete (su población es de casi un millón de habitantes), y una cantidad mayor de posibles emplazamientos, no sería factible buscar la mejor solución probando
+ o con un algoritmo exacto. Por eso, voy a modelizar el problema matemáticamente y, con un GRASP, intentar sacar las mejores soluciones posibles, para datos generados aleatoriamente, y comprobar, 
+ con resultados de un artículo previo, la viabilidad del modelo.
 
 \chapter{Modelo Matemático}
-
 
 \section{Definición}
 3 variables a minimizar
 restricciones
 método exacto? (no viable)
+
+\chapter{Estado del arte}
+
+Voy a basarme en el artículo \cite{k-Balanced}
+
 
 \chapter{Implementación del Grasp}
 
