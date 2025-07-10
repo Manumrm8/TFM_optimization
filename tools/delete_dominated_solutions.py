@@ -3,7 +3,9 @@ import pandas as pd
 
 def delete_dominated_solutions(archive):
 
-    df_solutions = pd.read_csv("./Solutions/" + archive + ".csv")
+    ruta = f"Solutions/Multiprocessing/{archive}/{archive}.csv"
+
+    df_solutions = pd.read_csv(ruta)
     df_solutions = df_solutions.reset_index(
         drop=True
     )  # Por si acaso, para mantener los índices ordenados
@@ -36,6 +38,6 @@ def delete_dominated_solutions(archive):
     print("Soluciones no dominadas:")
     print(df_solutions)
 
-    df_solutions.to_csv("./Solutions/" + archive + ".csv", index=False)
+    df_solutions.to_csv(ruta, index=False)
     print("Soluciones guardadas en el archivo original.")
     return

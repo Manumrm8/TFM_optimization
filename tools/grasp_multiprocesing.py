@@ -171,14 +171,18 @@ def add_solutions(solution, f1, f2, f3, route_solutions, df_solutions):
     return
 
 
-def multi_GRASP(archive, k, m, alpha=1.0):
+def multi_GRASP(archive, k, m, alpha=1.0, i=0):
 
     folder_distances = "./data/distances/demand/"
     route_distances = folder_distances + archive + ".csv"
     df_distances_demand = pd.read_csv(route_distances)
 
-    folder_solutions = "Solutions/"
-    route_solutions = folder_solutions + archive + ".csv"
+    folder_solutions = f"Solutions/Multiprocessing/{archive}/"
+    # Crea la carpeta si no existe
+    os.makedirs(folder_solutions, exist_ok=True)
+
+    route_solutions = folder_solutions + archive + f"_#{i}" + ".csv"
+
     if os.path.exists(route_solutions):
         df_solutions = pd.read_csv(route_solutions)
         print(df_solutions)
