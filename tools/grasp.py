@@ -1,5 +1,5 @@
 import pandas as pd
-from tools.greedy_opt import Greedy
+from tools.greedy import Greedy
 import os
 import random
 

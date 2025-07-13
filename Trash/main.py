@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from tools.utils import genetic_algorithm, plot_results
+from Trash.Gen_Algorithm import genetic_algorithm, plot_results
 
 ruta_archivo = "data/positions/p0_1000_50_5.txt"
 

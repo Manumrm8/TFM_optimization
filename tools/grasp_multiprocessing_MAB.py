@@ -2,6 +2,7 @@ import pandas as pd
 from tools.greedy import Greedy
 import os
 import random
+import numpy as np
 
 
 ####
@@ -169,6 +170,65 @@ def add_solutions(solution, f1, f2, f3, route_solutions, df_solutions):
         )
         df_solutions.to_csv(route_solutions, index=False)
     return
+
+
+####
+# Multi Armed Bandit#------------------------------------------------------------------------------------------
+####
+
+
+def select_arm(context, alpha, n_arms, weights):
+    if np.random.rand() < alpha:  # Exploración: acción aleatoria
+        return np.random.randint(0, n_arms)
+    else:  # Explotación: mejor acción según el modelo
+        # Asegurarse de que el contexto sea un array numpy y tenga la forma correcta
+        context_np = np.array(context).reshape(1, -1)  # Convertir a fila vector
+
+        # Calcular la recompensa esperada para cada brazo
+        # La recompensa esperada para cada brazo es el producto punto de su vector de pesos y el contexto.
+        expected_rewards = np.dot(weights, context_np.T).flatten()
+
+        print(f"Recompensas esperadas para cada brazo: {expected_rewards}")
+
+        exp_rewards = np.exp(expected_rewards - np.max(expected_rewards))
+        probabilities = exp_rewards / np.sum(exp_rewards)
+
+        print(f"Probabilidad de coger cada brazo: {probabilities}")
+
+        # Seleccionar un brazo aleatoriamente basado en estas probabilidades
+        # np.random.choice permite elegir un elemento de una lista
+        # con probabilidades especificadas.
+        return np.random.choice(n_arms, p=probabilities)
+
+
+def decode_action(chosen_arm, parameters=["f1", "f2", "f3"], k_values=[1, 2, 3, 4, 5]):
+    param_idx = chosen_arm // len(k_values)
+    k_idx = chosen_arm % len(k_values)
+    return parameters[param_idx], k_values[k_idx]
+
+
+def update(chosen_arm, context, reward, weights, learning_rate):
+    # Asegurarse de que el contexto sea un array numpy
+    context_np = np.array(context)
+
+    print(f"Pesos antes: {weights[chosen_arm]}")
+
+    # Actualizar los pesos del brazo elegido.
+    # Multiplicamos la recompensa directamente por el contexto y la tasa de aprendizaje.
+    # Una recompensa positiva y un contexto dado harán que los pesos se ajusten
+    # para favorecer ese brazo en contextos similares.
+    # Una recompensa negativa (o baja) hará que los pesos se ajusten en la dirección opuesta,
+    # desfavoreciendo ese brazo en contextos similares.
+    weights[chosen_arm] += learning_rate * reward * context_np
+
+    print(f"Pesos después: {weights[chosen_arm]}")
+
+    return weights
+
+
+####
+# GRASP#------------------------------------------------------------------------------------------
+####
 
 
 def multi_GRASP(archive, k, m, alpha=1.0, i=0):
