@@ -10,6 +10,11 @@ import numpy as np
 ####
 
 
+####
+# F1#------------------------------------------------------------------------------------------
+####
+
+
 def f1(supply_selected, df_distances_demand):
     """
     - df_distances_demand: DataFrame con las distancias entre los puntos de suministro y los puntos de demanda.
@@ -27,25 +32,39 @@ def max_min_dist(supply_selected, df_distances_demand):
     return df_distances_demand.iloc[:, supply_selected].min(axis=1).max()
 
 
-def local_search_f1(solution, value, m, df_distances_demand):
+def local_search_f1(solution, value, m, df_distances_demand, n_veces):
     """
     Realiza una búsqueda local para mejorar la solución utilizando el enfoque optimizado de max_min_dist.
     """
+    count = 0
+    count_until_improve = 0
+
     best_solution = solution[:]
     best_objective = value
+    len_solution = len(solution)
 
-    for i in range(len(solution)):
-        for j in range(m):
-            if j not in solution:
-                temp_solution = solution[:]
-                temp_solution[i] = j
-                temp_objective = max_min_dist(temp_solution, df_distances_demand)
+    while True:
+        for i in range(len_solution):
+            improved = False
+            for j in range(m):
+                if j not in solution:
+                    temp_solution = solution[:]
+                    temp_solution[i] = j
+                    temp_objective = max_min_dist(temp_solution, df_distances_demand)
 
-                if temp_objective < best_objective:
-                    best_objective = temp_objective
-                    best_solution = temp_solution[:]
-
-    return best_solution, best_objective
+                    if temp_objective < best_objective:
+                        best_objective = temp_objective
+                        best_solution = temp_solution[:]
+                        improved = True
+                        count += 1
+                        if count == n_veces:
+                            return best_solution, best_objective
+            if improved:
+                count_until_improve = 0
+            else:
+                count_until_improve += 1
+                if count_until_improve == len_solution:
+                    return best_solution, best_objective
 
 
 ####
@@ -71,28 +90,43 @@ def max_demand_per_supply(supply_selected, df_distances_demand):
     return asignacion.value_counts().max()
 
 
-def local_search_f2(solution, value, m, df_distances_demand):
+def local_search_f2(solution, value, m, df_distances_demand, n_veces):
     """
     Realiza una búsqueda local para mejorar la solución minimizando el máximo número de demandas
     asignadas a un único punto de suministro.
     """
+    count = 0
+    count_until_improve = 0
+
     best_solution = solution[:]
     best_objective = value
 
-    for i in range(len(solution)):
-        for j in range(m):
-            if j not in solution:
-                temp_solution = solution[:]
-                temp_solution[i] = j
-                temp_objective = max_demand_per_supply(
-                    temp_solution, df_distances_demand
-                )
+    len_solution = len(solution)
 
-                if temp_objective < best_objective:
-                    best_objective = temp_objective
-                    best_solution = temp_solution[:]
+    while True:
+        for i in range(len_solution):
+            improved = False
+            for j in range(m):
+                if j not in solution:
+                    temp_solution = solution[:]
+                    temp_solution[i] = j
+                    temp_objective = max_demand_per_supply(
+                        temp_solution, df_distances_demand
+                    )
 
-    return best_solution, best_objective
+                    if temp_objective < best_objective:
+                        best_objective = temp_objective
+                        best_solution = temp_solution[:]
+                        improved = True
+                        count += 1
+                        if count == n_veces:
+                            return best_solution, best_objective
+            if improved:
+                count_until_improve = 0
+            else:
+                count_until_improve += 1
+                if count_until_improve == len_solution:
+                    return best_solution, best_objective
 
 
 ####
@@ -110,30 +144,45 @@ def f3(supply_selected, df_distances_demand):
     return counts.max() - counts.min()
 
 
-def local_search_f3(solution, value, m, df_distances_demand):
+def local_search_f3(solution, value, m, df_distances_demand, n_veces):
     """
     Realiza una búsqueda local para mejorar la solución minimizando la diferencia entre el número
     máximo y mínimo de demandas asignadas a un punto de suministro.
     """
+    count = 0
+    count_until_improve = 0
+
     best_solution = solution[:]
     best_objective = value
+    len_solution = len(solution)
+    while True:
+        for i in range(len_solution):
+            improved = False
+            for j in range(m):
+                if j not in solution:
+                    temp_solution = solution[:]
+                    temp_solution[i] = j
+                    temp_objective = f3(temp_solution, df_distances_demand)
 
-    for i in range(len(solution)):
-        for j in range(m):
-            if j not in solution:
-                temp_solution = solution[:]
-                temp_solution[i] = j
-                temp_objective = f3(temp_solution, df_distances_demand)
+                    if temp_objective < best_objective:
+                        best_objective = temp_objective
+                        best_solution = temp_solution[:]
+                        improved = True
+                        count += 1
+                        if count == n_veces:
+                            return best_solution, best_objective
 
-                if temp_objective < best_objective:
-                    best_objective = temp_objective
-                    best_solution = temp_solution[:]
-
-    return best_solution, best_objective
+            if improved:
+                count_until_improve = 0
+            else:
+                count_until_improve += 1
+                if count_until_improve == len_solution:
+                    return best_solution, best_objective
 
 
 def add_solutions(solution, f1, f2, f3, route_solutions, df_solutions):
     solution = str(sorted(solution))
+    solucion_encontrada = False
 
     if not df_solutions.empty:
         if solution in df_solutions["solution"].values:
@@ -161,15 +210,15 @@ def add_solutions(solution, f1, f2, f3, route_solutions, df_solutions):
             new_solution = pd.DataFrame(
                 [{"solution": solution, "f1": f1, "f2": f2, "f3": f3}]
             )
-            print(new_solution)
             df_solutions = pd.concat([df_solutions, new_solution], ignore_index=True)
             df_solutions.to_csv(route_solutions, index=False)
+            solucion_encontrada = True
     else:
         df_solutions = pd.DataFrame(
             [{"solution": solution, "f1": f1, "f2": f2, "f3": f3}]
         )
         df_solutions.to_csv(route_solutions, index=False)
-    return
+    return solucion_encontrada
 
 
 ####
@@ -177,28 +226,36 @@ def add_solutions(solution, f1, f2, f3, route_solutions, df_solutions):
 ####
 
 
-def select_arm(context, alpha, n_arms, weights):
-    if np.random.rand() < alpha:  # Exploración: acción aleatoria
+def select_arm(context, betha, n_arms, weights, temperature=1.0):
+    if np.random.rand() < betha:  # Exploración: acción aleatoria
         return np.random.randint(0, n_arms)
-    else:  # Explotación: mejor acción según el modelo
-        # Asegurarse de que el contexto sea un array numpy y tenga la forma correcta
+    else:  # Explotación: probabilidad de realizar la acción según el modelo
         context_np = np.array(context).reshape(1, -1)  # Convertir a fila vector
 
-        # Calcular la recompensa esperada para cada brazo
-        # La recompensa esperada para cada brazo es el producto punto de su vector de pesos y el contexto.
+        context_np = context_np / np.sum(context_np)  # Normalización del contexto
+
         expected_rewards = np.dot(weights, context_np.T).flatten()
 
-        print(f"Recompensas esperadas para cada brazo: {expected_rewards}")
+        # Aplicar softmax
+        exp_rewards = np.exp(
+            (expected_rewards - np.max(expected_rewards)) / temperature
+        )  # Ajustar temperatura para mejorar exploración o explotación
 
-        exp_rewards = np.exp(expected_rewards - np.max(expected_rewards))
-        probabilities = exp_rewards / np.sum(exp_rewards)
+        sum_exp_rewards = np.sum(exp_rewards)
+        if sum_exp_rewards == 0:
+            choice = np.random.choice(n_arms)
+        else:
+            try:
+                probabilities = exp_rewards / np.sum(exp_rewards)
+                choice = np.random.choice(n_arms, p=probabilities)
+            except Exception as e:
+                print(e)
+                print(weights)
+                print(probabilities)
+                choice = np.random.choice(n_arms)
 
-        print(f"Probabilidad de coger cada brazo: {probabilities}")
-
-        # Seleccionar un brazo aleatoriamente basado en estas probabilidades
-        # np.random.choice permite elegir un elemento de una lista
-        # con probabilidades especificadas.
-        return np.random.choice(n_arms, p=probabilities)
+            # Seleccionar un brazo aleatoriamente basado en estas probabilidades
+            return choice
 
 
 def decode_action(chosen_arm, parameters=["f1", "f2", "f3"], k_values=[1, 2, 3, 4, 5]):
@@ -207,23 +264,73 @@ def decode_action(chosen_arm, parameters=["f1", "f2", "f3"], k_values=[1, 2, 3, 
     return parameters[param_idx], k_values[k_idx]
 
 
-def update(chosen_arm, context, reward, weights, learning_rate):
+def contexto_and_evaluate(f1, f2, f3, df_solutions):
+    """
+    Calcula la mínima reducción necesaria en f1, f2 o f3 para que la
+    combinación no sea dominada por ninguna solución existente en df_solutions.
+
+    Args:
+        f1 (float): Valor del primer objetivo.
+        f2 (float): Valor del segundo objetivo.
+        f3 (float): Valor del tercer objetivo.
+        df_solutions (pd.DataFrame): DataFrame con las soluciones existentes.
+
+    Returns:
+        tuple: Una tupla (d1, d2, d3) con la reducción  necesaria en cada dimensión.
+    """
+    # 1. Identificar las soluciones que dominan la combinación actual.
+    # Una solución 's' domina a la actual 'c' si s_f1 <= c_f1, s_f2 <= c_f2, Y s_f3 <= c_f3.
+    dominating_solutions = df_solutions[
+        (df_solutions["f1"] <= f1)
+        & (df_solutions["f2"] <= f2)
+        & (df_solutions["f3"] <= f3)
+    ]
+
+    # Aquí entra cuando es una solución existente
+    if dominating_solutions.empty:
+        return (0, 0, 0), 1
+
+    # 3. Si hay soluciones dominantes, calcular las diferencias.
+    # Estas son las "distancias" que necesitamos superar en cada dimensión.
+    delta_f1 = f1 - dominating_solutions["f1"]
+    delta_f2 = f2 - dominating_solutions["f2"]
+    delta_f3 = f3 - dominating_solutions["f3"]
+
+    # 4. Encontrar la mínima diferencia GLOBAL.
+    # Esto representa la reducción más "barata" que podemos hacer para
+    # que nuestra combinación deje de ser dominada por al menos una de las soluciones.
+    min_delta_f1 = delta_f1.min()
+    min_delta_f2 = delta_f2.min()
+    min_delta_f3 = delta_f3.min()
+
+    v1 = f1 / (f1 + min_delta_f1)
+    v2 = f2 / (f2 + min_delta_f2)
+    v3 = f3 / (f3 + min_delta_f3)
+    value = (v1 + v2 + v3) / 3
+
+    return (min_delta_f1, min_delta_f2, min_delta_f3), value
+
+
+def update(chosen_arm, context, reward, weights, route_weights, learning_rate):
     # Asegurarse de que el contexto sea un array numpy
     context_np = np.array(context)
 
-    print(f"Pesos antes: {weights[chosen_arm]}")
-
-    # Actualizar los pesos del brazo elegido.
-    # Multiplicamos la recompensa directamente por el contexto y la tasa de aprendizaje.
-    # Una recompensa positiva y un contexto dado harán que los pesos se ajusten
-    # para favorecer ese brazo en contextos similares.
-    # Una recompensa negativa (o baja) hará que los pesos se ajusten en la dirección opuesta,
-    # desfavoreciendo ese brazo en contextos similares.
     weights[chosen_arm] += learning_rate * reward * context_np
 
-    print(f"Pesos después: {weights[chosen_arm]}")
+    min_val = np.min(weights)
+    max_val = np.max(weights)
 
-    return weights
+    # 2. Manejar el caso donde todos los valores son idénticos para evitar división por cero
+    if max_val == min_val:
+        return np.full(weights.shape, 0)
+
+    # 3. Aplicar la fórmula de normalización Min-Max
+    reescaled_weights = (weights - min_val) / (max_val - min_val)
+    reescaled_weights = np.round(reescaled_weights, 2)
+
+    np.save(route_weights, reescaled_weights)
+
+    return reescaled_weights
 
 
 ####
@@ -231,7 +338,19 @@ def update(chosen_arm, context, reward, weights, learning_rate):
 ####
 
 
-def multi_GRASP(archive, k, m, alpha=1.0, i=0):
+def multi_GRASP_Bandit(
+    archive,
+    k,
+    m,
+    context_size,
+    max_iterations=5,
+    alpha=1.0,
+    betha=0.2,
+    learning_rate=1,
+    i=0,
+):
+
+    n_arms = context_size * max_iterations
 
     folder_distances = "./data/distances/demand/"
     route_distances = folder_distances + archive + ".csv"
@@ -243,16 +362,22 @@ def multi_GRASP(archive, k, m, alpha=1.0, i=0):
 
     route_solutions = folder_solutions + archive + f"_#{i}" + ".csv"
 
+    w_dir = f"Weights/{archive}/"
+    os.makedirs(w_dir, exist_ok=True)
+    route_weights = w_dir + archive + f"_#{i}" + ".npy"
+
     if os.path.exists(route_solutions):
         df_solutions = pd.read_csv(route_solutions)
-        print(df_solutions)
     else:
         columnas = ["solution", "f1", "f2", "f3"]
         df_solutions = pd.DataFrame(columns=columnas)
-        print(df_solutions)
 
-    k = k
-    m = m
+    if os.path.exists(route_weights):
+        weights = np.load(route_weights)
+    else:
+        weights = np.zeros((n_arms, context_size))
+        print(f"No había pesos")
+
     greedy_algorithm = Greedy(df_distances_demand, k, m, alpha)
     """
     Algoritmo GRASP con dos búsquedas locales elegidas aleatoriamente (sin repetición).
@@ -260,52 +385,85 @@ def multi_GRASP(archive, k, m, alpha=1.0, i=0):
     """
     # Etapa Greedy inicial
     solution, f1_value = greedy_algorithm.run()
+
     f2_value = f2(solution, df_distances_demand)
     f3_value = f3(solution, df_distances_demand)
 
-    add_solutions(solution, f1_value, f2_value, f3_value, route_solutions, df_solutions)
+    solucion_encontrada = add_solutions(
+        solution, f1_value, f2_value, f3_value, route_solutions, df_solutions
+    )
 
-    # Lista de búsquedas locales disponibles
-    local_searches = [
-        ("f1", local_search_f1),
-        ("f2", local_search_f2),
-        ("f3", local_search_f3),
-    ]
+    if solucion_encontrada:
+        print(f"hay nueva solucion: {solution}")
+        return solution
+    else:
+        context, value_prev = contexto_and_evaluate(
+            f1_value, f2_value, f3_value, df_solutions
+        )
 
-    # Elegir dos búsquedas diferentes aleatoriamente
-    first_name, first_ls = random.choice(local_searches)
-    remaining_searches = [ls for ls in local_searches if ls[0] != first_name]
-    second_name, second_ls = random.choice(remaining_searches)
+    # Empiezo bucle
+    reward = 1
+    count = 0
+    values = [value_prev]
+    acciones_escogidas = []
+    while (
+        reward > 0 and count <= m * k
+    ):  # Limito a que la recompensa deje de mejorar, o haga m*k iteraciones
+        # Necesito el context nuevo, pesos nuevos,
 
-    # Ejecutar primera búsqueda local
-    if first_name == "f1":
-        solution, f1_value = first_ls(solution, f1_value, m, df_distances_demand)
-        f2_value = f2(solution, df_distances_demand)
-        f3_value = f3(solution, df_distances_demand)
-    elif first_name == "f2":
-        solution, f2_value = first_ls(solution, f2_value, m, df_distances_demand)
-        f1_value = f1(solution, df_distances_demand)
-        f3_value = f3(solution, df_distances_demand)
-    elif first_name == "f3":
-        solution, f3_value = first_ls(solution, f3_value, m, df_distances_demand)
-        f1_value = f1(solution, df_distances_demand)
-        f2_value = f2(solution, df_distances_demand)
+        chosen_arm = select_arm(context, betha, n_arms, weights)
+        funcion, n_veces = decode_action(
+            chosen_arm, parameters=["f1", "f2", "f3"], k_values=[1, 2, 3, 4, 5]
+        )
+        acciones_escogidas.append(f"mejorar{funcion} {n_veces} veces")
 
-    add_solutions(solution, f1_value, f2_value, f3_value, route_solutions, df_solutions)
+        # Ejecutar primera búsqueda local
+        funcion == "f3"
+        if funcion == "f1":
+            solution, f1_value = local_search_f1(
+                solution, f1_value, m, df_distances_demand, n_veces
+            )
+            f2_value = f2(solution, df_distances_demand)
+            f3_value = f3(solution, df_distances_demand)
+        elif funcion == "f2":
+            solution, f2_value = local_search_f2(
+                solution, f2_value, m, df_distances_demand, n_veces
+            )
+            f1_value = f1(solution, df_distances_demand)
+            f3_value = f3(solution, df_distances_demand)
+        elif funcion == "f3":
+            solution, f3_value = local_search_f3(
+                solution, f3_value, m, df_distances_demand, n_veces
+            )
+            f1_value = f1(solution, df_distances_demand)
+            f2_value = f2(solution, df_distances_demand)
 
-    if second_name == "f1":
-        solution, f1_value = second_ls(solution, f1_value, m, df_distances_demand)
-        f2_value = f2(solution, df_distances_demand)
-        f3_value = f3(solution, df_distances_demand)
-    elif second_name == "f2":
-        solution, f2_value = second_ls(solution, f2_value, m, df_distances_demand)
-        f1_value = f1(solution, df_distances_demand)
-        f3_value = f3(solution, df_distances_demand)
-    elif second_name == "f3":
-        solution, f3_value = second_ls(solution, f3_value, m, df_distances_demand)
-        f1_value = f1(solution, df_distances_demand)
-        f2_value = f2(solution, df_distances_demand)
+        solucion_encontrada = add_solutions(
+            solution, f1_value, f2_value, f3_value, route_solutions, df_solutions
+        )
 
-    add_solutions(solution, f1_value, f2_value, f3_value, route_solutions, df_solutions)
+        if solucion_encontrada:
+            print(f"hay nueva solucion: {solution}")
+            reward = 1
+            weights = update(
+                chosen_arm, context, reward, weights, route_weights, learning_rate
+            )
+            break
+        else:
+            new_context, value_next = contexto_and_evaluate(
+                f1_value, f2_value, f3_value, df_solutions
+            )
+            reward = (value_next - value_prev) / 3
 
-    return solution
+        weights = update(
+            chosen_arm, context, reward, weights, route_weights, learning_rate
+        )
+
+        context = new_context
+        value_prev = value_next
+        values.append(value_prev)
+        count += 1
+
+    print(
+        f"Numero de iteraciones: {count}\nValues: {values}\nAcciones escogidas: {acciones_escogidas}"
+    )
