@@ -96,6 +96,8 @@
 \newpage
 \tableofcontents
 
+\newpage
+
 \section*{Resumen}
 Aquí va el contenido de tu resumen en español. Explica brevemente el objetivo, la metodología, los resultados y las conclusiones de tu TFM.
 
@@ -165,73 +167,104 @@ Si el conjunto de opciones es el total, el algoritmo es "random".
 \end{defi}
 
 \chapter{Introducción}
-La optimización es una de las ramas fundamentales dentro de las matemáticas aplicadas, con una diversa gama de usos en campos tan diversos como la economía, la ingeniería, la informática, y las ciencias naturales y sociales.
+La optimización es una de las ramas fundamentales dentro de las matemáticas aplicadas.  Se utiliza tanto en economía como en ingeniería informática o ciencias naturales y sociales.
 
-En esencia, se trata de encontrar la mejor solución posible a un problema dado.
+En esencia, la optimización trata de encontrar la mejor solución posible a un problema.
 
-Un problema de optimización típicamente se compone de tres elementos clave:
+Un problema de optimización se compone de tres elementos clave:
 \begin{itemize}
     \item Variables de decisión: Las carreteras que tomar en una ruta, el número de personas a contratar para un trabajo, o las ubicaciones en las que construir una instalación.
-    \item Función objetivo: el criterio que se desea tomar, tanto minimizar (costes, tiempos de producción, distancias) o maximizar (eficacia de anuncios publicitarios, beneficios, o la supervivencia en tratamientos médicos).
-    \item Restricciones del problema: límite de carga de camiones, un presupuesto máximo a gastar, limitaciones de maquinaria o de personal.
+    \item Función objetivo: El criterio que se desea tomar, tanto minimizar (costes, tiempos de producción, distancias) o maximizar (eficacia de anuncios publicitarios, beneficios, o la supervivencia en tratamientos médicos).
+    \item Restricciones del problema: límite de carga de camiones, un presupuesto máximo a gastar, limitaciones de maquinaria o de personal etc.
 \end{itemize}
 
 
-Para abordar estos problema de manera sistemática y eficiente, la optimización a menudo implica formular de forma matemática, simplificando las variables del caso real a un plano abstracto donde sea más práctico resolverlos. A través de diversas técnicas y algoritmos, se intenta explorar lo más que se pueda el espacio de soluciones, en el menor tiempo posible.
+Para abordar estos problema de manera sistemática y eficiente, la optimización a menudo implica formular de forma matemática, simplificando las variables del caso real a un plano abstracto donde sea más práctico resolverlos. 
+
+\section{Historia de la optimización}
+El origen de la optimización se remonta a la antigua Grecia, donde matemáticos como Euclides y Arquímedes la utilizaban para buscar soluciones a problemas en el área de la geometría.
+
+La versión que conocemos hoy en día no empezó a desarrollarse hasta el siglo XVII, con el desarrollo del cálculo diferencial por parte de Isaac Newton y Gottfried Wihelm Leibniz, con la que se empezaron a estudiar las funciones y sus puntos extremos,
+donde se encontraban sus máximos y minimos.
+
+No hubo grandes avances hasta mitad del siglo XX, cuando fruto de la necesidad de resolver problemas logísticos durante la Segunda Guerra Mundial, se desarrolló la programación lineal (creada por el matemático George Dantzig),
+que sentó las bases para el posterior surgimiento de la programación no lineal, programación entera y programación dinámica.
+
+A pesar de todos estos avances la mayoría de problemas del mundo real, especialmente aquellos que dependen de un gran número de variables, con funciones objetivo complejas y restricciones no lineales,
+acaban siendo demasiado complejos computacionalmente para tratar de buscar su solución exacta, lo que propició el surgimiento de los metaheurísticos.
+
+Los algoritmos metaheurísticos (que explicaremos en profundidad más adelante) plantan la semilla de la optimización moderna. La búsqueda de soluciones aproximadas pero próximas al óptimo, en un tiempo de procesamiento aceptable.
+
+Para la ciencia de datos serán cruciales para el desarrollo de algoritmos en diversos ámbitos:
+\begin{itemize}
+    \item \textbf{Clustering:} El algoritmo \textbf{k-means} particiona el espacio de observaciones en un número determinado de clústeres (grupos) y determina qué observaciones pertenecen a cada uno de ellos. 
+    Si intentasemos encontrar la solución exacta, sería computacionalmente muy costoso, y la naturaliza del algoritmo hace que la solución sea dependiente de los grupos iniciales (generados aleatoriamente), cayendo en óptimos locales.
+    Las metaheurísticas ayudan a solventar estos problemas.
+    \item \textbf{Selección de variables:} En la construcción de modelos de predicción, solemos encontrarnos con gran cantidad de variables, para las cuales definir el modelo en base a todas ellas no es factible. Mediante metaheurísticos podemos 
+    reducir significativamente la dimensión del espacio, utilizando un subespacio con las variables que sirvan mejor al modelo.
+    \item \textbf{Ajuste de hiperparámetros:} Modelos de inteligencia artificial como redes neuronales necesitan ajustar sus hiperparámetros para ser eficaces. Esto también es un problema de optimización, donde los Metaheurísticos pueden superar la típica \textit{búsqueda en cuadrícula} de parámetros.
+\end{itemize}
+
+\color{red} citar a Libros de texto sobre optimización y algoritmos heurísticos: Por ejemplo, "Metaheuristics: From Design to Implementation" de E.K. Burke y G. Kendall, o "Introduction to Optimization" de E.J. Anderson. \color{black}
 
 \section{Formulación Matemática}
 
-Para expresar un problema de optimización matemáticamente, definimos sus tres partes:
+Para expresar un problema de optimización de forma matemática, definimos las tres partes en las que se puede descomponer:
 
 \begin{itemize}
-    \item \textbf{Variables de Decisión:} Son las incógnitas del problema, es decir, los valores que deberemos modificar para obtener la solución óptima. Se representan como un vector $\mathbf{x} = (x_1, x_2, \ldots, x_n)$, donde $n$ es el número de variables.
+    \item \textbf{Variables de Decisión:} Las incógnitas del problema. Son los valores que deberemos modificar para obtener la solución o soluciones óptimas. Se representan como un vector $\mathbf{x} = (x_1, x_2, \ldots, x_n)$, donde $n$ es el número de variables.
 
-    \item \textbf{Función Objetivo:} Función que se desea minimizar o maximizar. Se denota comúnmente como $f(\mathbf{x})$, donde $f$ es la función que relaciona las variables para obtener un valor al evaluarlas, y $\mathbf{x}$ representa el vector de variables de decisión. Por ejemplo:
+    \item \textbf{Función Objetivo:} Función que se desea minimizar o maximizar. Se denota comúnmente como $f(\mathbf{x})$, donde $f$ es la función que establece la relación entre variables ($\mathbf{x}$) y el objetivo que deseamos optimizar.
+    Por ejemplo:
     $$ \min_{\mathbf{x}} f(\mathbf{x}) \quad \text{o} \quad \max_{\mathbf{x}} f(\mathbf{x}) $$
-    Aquí, la función $f: \mathbb{R}^n \to \mathbb{R}$ mapea el vector de variables a un valor escalar que queremos optimizar.
+    La función $f: \mathbb{R}^n \to \mathbb{R}$ mapea el vector de variables a un valor escalar, el cual buscaremos mejorar.
 
     \item \textbf{Restricciones:} Son las condiciones o limitaciones que deben satisfacer las variables de decisión. Pueden ser de igualdad o de desigualdad. Se expresan generalmente como:
     \begin{align*}
         g_i(\mathbf{x}) &\le 0 & \quad \text{para } i = 1, \ldots, m \\
         h_j(\mathbf{x}) &= 0 & \quad \text{para } j = 1, \ldots, p
     \end{align*}
-    Donde $g_i(\mathbf{x})$ son las restricciones de desigualdad (hay $m$ de ellas) y $h_j(\mathbf{x})$ son las restricciones de igualdad (hay $p$ de ellas).
-    En caso de tener una restricción de $g_k(\mathbf{x})\geq0$, se puede pasar a una de menor o igual haciendo $-g_k(\mathbf{x})\leq0$.
+    Donde $g_i(\mathbf{x})$ son las $m$ restricciones de desigualdad y $h_j(\mathbf{x})$ son las $p$ restricciones de igualdad.
+    En caso de tener restricciones del tipo $g_k(\mathbf{x})\geq0$, se puede pasar a $\leq$ sabiendo que $-g_k(\mathbf{x})=g'_k(\mathbf{x})\leq0$.
     
     Además de restricciones funcionales, también pueden existir restricciones sobre el dominio de las variables, como $x_k \ge 0$ (variables no negativas) o $x_k \in \{0,1\}$ (variables binarias).
 \end{itemize}
 
-Un problema de optimización general se formula entonces de la siguiente manera:
+Ahora si, pasadas las definiciones previas, un problema completo de optimización se formula de la siguiente manera:
 $$
 \begin{array}{ll}
-\text{Minimizar (o Maximizar)} & f(\mathbf{x}) \\
+\text{Minimizar (o Maximizar)} & f(\mathbf{x}) \\ \\
 \text{Sujeto a:} & g_i(\mathbf{x}) \le 0, \quad i = 1, \ldots, m \\
 & h_j(\mathbf{x}) = 0, \quad j = 1, \ldots, p \\
 & \mathbf{x} \in X
 \end{array}
 $$
-Donde $X$ representa el conjunto de factibilidad o dominio de las variables de decisión. La comprensión de estos elementos es el primer paso crucial para abordar cualquier problema de optimización.
+Donde $X$ representa el conjunto de factibilidad o dominio de las variables de decisión.
 
 \subsection{Tipos de Óptimos: Global vs. Local}
 
-En optimización, es fundamental diferenciar entre los distintos tipos de soluciones óptimas, ya que la función objetivo puede tener múltiples puntos donde alcance valores extremos. Por eso hay que diferenciar entre los óptimos locales y globales.
+En optimización, es fundamental distinguir entre los distintos tipos de soluciones óptimas, ya que la función objetivo puede tener múltiples puntos donde alcance valores extremos. Por eso hay que diferenciar entre los óptimos locales y globales.
 
 \subsubsection{Óptimo Global}
-Un óptimo global es el mejor valor posible de la función objetivo, dentro del dominio de factibilidad de $\mathbf{X}$. Esto significa que no existe ninguna otra solución que ofrezca un valor estrictamente mejor que el del óptimo global. Es la solución que siempre queremos obtener a la hora de resolver un problema de optimización. 
-Formalmente, si estamos minimizando $f(\mathbf{x}$, el punto $\mathbf{x}^* \in \mathbf{X}$ es un óptimo global si
+Un óptimo global es el mejor valor posible que, dentro del dominio de factibilidad de $\mathbf{X}$, puede tomar la función objetivo. Esto significa que no existe ninguna otra solución que ofrezca un valor estrictamente mejor que el del óptimo global.
+
+Es la solución que siempre querremos obtener al resolver un problema de optimización.
+
+Si estamos minimizando $f(\mathbf{x}$), el punto $\mathbf{x}^* \in \mathbf{X}$ es un óptimo global si
 $$f(\mathbf{x}^*)\leq f(\mathbf{x}) \quad \forall \mathbf{x}\in X$$
 
 \subsubsection{Óptimo Local}
 
-Un ótimo local es el punto donde la función objetivo alcanza el mejor valor posible dentro de una región próxima, pero no necesariamente todo el dominio. Pueden existir infinidad de óptimos locales.
-Formalmente, si estamos minimizando $f(\mathbf{x}$, el punto $\mathbf{x}^* \in \mathbf{X}$ es un óptimo local si existe un $\epsilon>0$ tal que
+Un ótimo local es un punto donde la función objetivo alcanza el mejor valor posible dentro de una región próxima, pero no necesariamente todo el dominio. Pueden existir infinidad de óptimos locales.
+
+Si estamos minimizando $f(\mathbf{x})$, el punto $\mathbf{x}^* \in \mathbf{X}$ es un óptimo local si existe un $\epsilon>0$ tal que
 $$f(\mathbf{x}^*)\leq f(\mathbf{x}) \quad \forall \mathbf{x}\in X \text{ que cumpla que }||\mathbf{x}-\mathbf{x}^*||<\epsilon$$
 Donde $||\cdot||$ denota una métrica de distancia.
 
-Un ejemplo utilizando la topografía:
+Un par de ejemplos para distinguir los dos tipos de óptimos:
 \begin{itemize}
-    \item Si consideramos la elevación de la superficie terrestre como la función objetivo a maximizar, un óptimo local será la cima de cualquier montaña. Es el punto más alto si consideramos como entorno próximo la prompia montaña.
-    \item En contraste, el óptimo global sería la cima del Monte Everest, el punto más alto de toda la geografía terrestre.
+    \item Si consideramos la elevación de la superficie terrestre como la función objetivo a maximizar, un \textbf{óptimo local} será la cima de cualquier montaña. Es el punto más alto si consideramos como entorno próximo la prompia montaña.
+    \item En contraste, el \textbf{óptimo global} sería la cima del Monte Everest, el punto más alto de toda la geografía terrestre.
 \end{itemize}
 
 \subsection{Optimización Lineal vs. No Lineal}
@@ -331,6 +364,8 @@ Otros ejemplos clásicos de optimización combinatoria incluyen el \textbf{Probl
 
 \section{Optimización Multiobjetivo}
 
+\color{red} Aquí falta meterle las ventajas con respecto a la monoobjetivo \color{black}
+
 A diferencia de la optimización tipica mono-objetivo, donde se busca optimizar una única función, la optimización multiobjetivo aborda problemas en los que es necesario mejorar simultáneamente dos o más funciones objetivo que, a menudo, están en conflicto entre sí. Mejorar una suele llevar al empeoramiento de ka otra. Por ejemplo, en el diseño de un vehículo, minimizar el consumo de combustible (objetivo 1) puede estar en conflicto con maximizar la potencia del motor (objetivo 2).
 
 Aquí radica la diferencia fundamental con la optimización mono-objetivo. No existe el concepto de ``solución óptima''. Raramente existe una única solución que sea la mejor para todos los objetivos a la vez. En su lugar, lo que se busca es encontrar un conjunto de soluciones que representen las mejores soluciones posibles.
@@ -392,8 +427,11 @@ Los principales metaheurísticas son:
     Algoritmo fundamentado en dos partes. Una primera, de construcción, en la que se genera una solución aleatorizada, y una segunda en la que se intenta mejorar la solución generada cambiando elementos de la misma.
 \end{itemize}
 
+\section{Motivación Ciencia de Datos}
 
+\section{Aprendizaje Reforzado}
 
+\section{Resumen del capítuo}
 
 \chapter{Modelo matematico}
 
