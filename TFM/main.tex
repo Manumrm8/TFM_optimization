@@ -269,46 +269,40 @@ Un par de ejemplos para distinguir los dos tipos de óptimos:
 
 \subsection{Optimización Lineal vs. No Lineal}
 
-En la clasificación de los problemas de optimización hay que tener muy en cuenta la forma matemática de sus funciones, tanto de la objetivo como de las restricciones. Esta parte es clave porque determina si el problema puede ser resuelto fácilmente de manera exacta, o se requerirá de métodos más complejos con soluciones aproximadas.
+Otra parte importante a tener en cuenta en los problemas de optimización es la forma de sus funciones, tanto de la objetivo como de las restricciones. Esto determinará si el problema puede ser resuelto fácilmente de manera exacta, o requerirá de métodos más complejos con soluciones aproximadas.
 
 \subsubsection{Optimización Lineal}
-Un problema diremos que es de optimización lineal cuando, tanto la función objetivo como todas las funciones de las restricciones son lineales (con respecto a las variables de decisión). 
+Diremos que un problema es de \textbf{optimización lineal} cuando, tanto la función objetivo como todas las funciones de las restricciones, son lineales (con respecto a las variables de decisión). 
 
 Características principales:
 \begin{itemize}
     \item La función objetivo tiene la forma $f(\mathbf{x})=c_1x_1+c_2x_2+...+c_nx_n$ con los $c_i \in \mathbb{R} \quad \forall i \in 1,2,...,n$.
     \item Todas las restricciones son lineales, con la forma $a_1x_1+a_2x_2+...+a_nx_n\leq b$ o $=b$.
-    \item Todas estas condiciones hacen que el conjunto de soluciones factibles ($X$) tenga la forma de un poliedro convexo, lo que simplifica la búsqueda del óptimo.
-    \item El algoritmo más extendido para resolver este tipo de problemas es el método Simplex, que garantiza encontrar el óptimo global, en caso de que exista. Para más información del algoritmo, está explicado en detalle en la publicación del creador del mismo en \cite{Dantzig1951}
+    \item Estas condiciones hacen que el conjunto de soluciones factibles ($X$) tenga la forma de un poliedro convexo, lo que simplifica la búsqueda del óptimo.
+    \item El algoritmo más extendido para resolver este tipo de problemas es el método Simplex, que garantiza encontrar el óptimo global, en caso de que exista. Para más información del algoritmo, queda explicado en detalle en \cite{Dantzig1951}
 \end{itemize}
-
-Algunos ejemplos:
-\begin{itemize}
-    \item Planificación de la producción: Una fábrica busca maximizar su beneficio produciendo varios artículos, donde cada uno consume una cantidad fija de recursos (horas de máquina, materia prima) y genera un beneficio fijo. Las limitaciones vienen dadas por la disponibilidad de los recursos.
-    \item Problema de la dieta: Minimizar el coste de una dieta que cumpla con requerimientos nutricionales mínimos, sabiendo que cada alimento aporta una cantidad fija de nutrientes por unidad.
-\end{itemize}
-
-
 
 
 \subsubsection{Optimización No Lineal}
-El problema entra en esta categoría cuando, al menos una de sus funciones (objetivo o de restricción) es no lineal con respecto a sus variables de decisión. 
+Diremos que un problema es de \textbf{optimización no lineal} cuando, al menos una de sus funciones (objetivo o de restricción) es no lineal (con respecto a sus variables de decisión). 
 
 Características principales:
 \begin{itemize}
     \item La función objetivo $f(\mathbf{x})$ o alguna de sus restricciones $g_i(\mathbf{x})$ o $h_j(\mathbf{x})$ contiene términos no lineales. Por ejemplo:
     $$f(\mathbf{x})=2x_1^2+5x_2^7-ln(x)$$
-    \item Esto hace que el conjunto de soluciones factibles pueda ser no convexo, por lo que puede tener múltiples óptimos locales y no suele ser sencillo encontrar el óptimo global.
+    \item El conjunto de soluciones factibles puede ser no convexo, lo que deriva en múltiples óptimos locales y a una extrema complejidad a la hora de buscar el óptimo global.
     \item La mayoría de algoritmos para resolverlos suelen utilizar técnicas de búsqueda local, y no garantizan encontrar el óptimo global.
 \end{itemize}
 
-Por ejemplo, casi cualquier problema que requiera minimizar distancias necesitará utilizar funciones cuadráticas (raíces y cuadrados) para poder calcular dichas distancias.
-También para el ajuste de modelos, como encontrar los parámetros de una curva que se ajustan con unos datos concretos, minimizando el error cuadrático entre la aproximación (la curva) y el valor exacto de los datos, es una función no lineal.
-
-
+Ejemplos:
+\begin{itemize}
+    \item Lineal: Una fábrica busca maximizar su beneficio produciendo varios artículos, donde cada uno consume una cantidad fija de recursos (horas de máquina, materia prima) y genera un beneficio fijo, con restricciones de recursos y uso de las máquinas.
+    \item No lineal: Encontrar los parámetros de una curva que se ajustan a unos datos concretos, minimizando el error cuadrático medio entre la aproximación (la curva) y el valor exacto de los datos.
+\end{itemize}
 
 \subsection{Optimización Discreta vs. Continua}
-Es fundamental distinguir entre los 2 tipos de problemas que existen en optimización dependiendo de la naturaleza de las variables de decisión que se tomen en cuenta. Esto influye en el tipo de algoritmos y herramientas matemáticas que se podrán utilizar para resolverlos.
+Probablemente, la mayor distinción en cuanto a problemas de optimización la veamos en bas e ala naturaleza de sus variables de decisión. Que sean continuas o discretas
+limitará en gran medida el tipo de algoritmos que puedan utizarse para resolverlos.
 
 \subsubsection{Optimización Continua}
 En la optimización continua, las variables de decisión pueden tomar cualquier valor real dentro de su dominio o rango permitido. Es decir, no están restringidas a tomar valores enteros, a un conjunto finito, o a un conjunto numerable de posibles soluciones. Esto las hace adecuadas para modelar fenómenos que varían de forma suave, como el tiempo, espacio, temperatura etc.
@@ -317,12 +311,11 @@ Características principales:
 \begin{itemize}
     \item Variables pertenecientes a un espacio continuo, típicamente $\mathbb{R}^n$
     \item Las funciones objetivo $f(\mathbf{x})$ y sus restricciones $g_i(\mathbf{x}), \;h_j(\mathbf{x})$ suelen ser continuas y diferenciables.
-    \item Las técnicas de resolución a menudo involucran cálculo diferencial para encontrar el mejor camino por el que mejorar la solución.
+    \item Las técnicas de resolución a menudo involucran cálculo diferencial para encontrar el mejor camino de mejora de la solución.
 \end{itemize}
-Algunos ejemplos incluyen el diseño aerodinámico de un avión, donde se optimizan los parámetros de las curvas que modelizan la forma de la superficie, la gestión de carteras de inversión, determinando qué porcentaje se asigna a cada activo para maximizar los retornos, o la optimización de la velocidad de un vehículo para reducir al máximo el consumo de combustible.
 
 \subsubsection{Optimización Discreta}
-En este caso las variables de decisión están restringidas a tomar valores de un conjunto finito o, al menos, numerable. Los casos más comunes incluyen variables enteras (0,1,2...), variables binarias (0,1), o variables que representan la elección de elementos de un conjunto específico (por ejemplo, el "trabajador 1" o el "trabajador 2").
+En este caso las variables de decisión están restringidas a tomar valores de un conjunto finito o, al menos, numerable. Los casos más comunes son variables restringidas a tomar valores enteros (0,1,2...), binarios (0,1), o variables que representan la elección de elementos de un conjunto específico (por ejemplo, el "trabajador 1" o el "trabajador 2").
 
 Características principales:
 \begin{itemize}
@@ -330,43 +323,50 @@ Características principales:
     \item No se pueden utilizar directamente las técnicas de cálculo diferencial que, en cambio, si se podrían usar en el espacio continuo.
     \item Los problemas suelen ser más complejos de resolver y computacionalmente más costosos, por lo que suelen requerir algoritmos específicos como la programación entera, programación dinámica o métodos combinatorios para poder resolverlos.
 \end{itemize}
-Los ejemplos más tipicos son la planificación de rutas; asignación de recursos para resolver ciertas tareas (qué empleados se asignan a qué tareas); la ubicación de centros de distribución; o el problema de la mochila (escoger el mayor valor en elementos de un conjunto sin exceder una capacidad dada).
+
+Ejemplos:
+\begin{itemize}
+    \item Como casos continuos, tenemos el diseño de la aerodinámica de un avión (se modelizan los parametros de las curvas de la superficia) o la velocidad óptima de un vehículo para reducir su consumo de combustible.
+    \item Como casos discretos, tenemos el problema de la mochila (escoger el mayor valor en elementos de un conjunto sin exceder una capacidad dada) o la planificación de rutas.
+\end{itemize}
 
 Para estas primeras partes introductorias he tomado como referencia el libro \cite{Numerical_optimization_nocedal_wright} de Numerical Optimization de Jorge Nocedal y Stephen J. Wright
 
 \section{Optimización Combinatoria}
-La optimización combinatoria es una rama de la optimización y las matemáticas aplicadas que se centra en encontrar una solución óptima dentro de un conjunto de soluciones finito o numerable. Aunque la cantidad de posibles soluciones pueda ser finita, esto no implica que el problema sea sencillo. De hecho, la gran mayoría de los problemas de optimización combinatoria pertenecen a la clase de complejidad NP-difícil.
+La optimización combinatoria es la rama de la optimización y matemáticas aplicadas que se centra en encontrar una solución óptima dentro de un conjunto de soluciones finito o numerable. Aunque la cantidad de posibles soluciones pueda ser finita, esto no implica que el problema sea sencillo. De hecho, la gran mayoría de los problemas de optimización combinatoria pertenecen a la clase de complejidad NP-difícil.
 
 La naturaleza NP-difícil de estos problemas implica que el tiempo necesario para encontrar la solución óptima crece de manera exponencial a medida que aumenta el tamaño del problema. Esto hace que la búsqueda exhaustiva de la solución sea computacionalmente inviable para la mayoría de los casos de estudio del mundo real.
 
 \textbf{Características principales:}
 \begin{itemize}
-    \item \textbf{Espacio de soluciones discreto:} Las variables de decisión están restringidas a un conjunto finito o numerable de valores, como la selección o no de un elemento, o la ordenación de un conjunto.
+    \item \textbf{Espacio de soluciones discreto:} Las variables de decisión están restringidas a un conjunto finito o numerable de valores, como la selección o no de un elemento, o la ordenación de un conjunto (están dentro de los casos de \textbf{optimización discreta}). 
     \item \textbf{Complejidad computacional elevada:} A menudo, el número de soluciones posibles es astronómicamente grande, lo que requiere algoritmos especializados para explorar el espacio de búsqueda de manera eficiente.
     \item \textbf{Estructura del problema:} Las técnicas de resolución aprovechan la estructura combinatoria subyacente del problema, utilizando métodos como la programación entera, la teoría de grafos o los algoritmos metaheurísticos.
 \end{itemize}
 
-Un ejemplo fundamental, que además es la base del problema tratado en este TFM, es la \textbf{selección de un subconjunto}. El objetivo es encontrar, en un conjunto de $n$ elementos, un subconjunto de tamaño $k$ que optimice (minimice o maximice) una o varias funciones objetivo. El número total de subconjuntos posibles viene dado por el coeficiente binomial:
+Un ejemplo fundamental, que además es la base del problema que se tratará en este TFM, es la \textbf{selección de un subconjunto}. El objetivo es encontrar, en un conjunto de $n$ elementos, un subconjunto de tamaño $k$ que optimice (minimice o maximice) una o varias funciones objetivo. El número total de subconjuntos posibles viene dado por el coeficiente binomial:
 
 $$
     \binom{n}{k} = \frac{n!}{(n-k)!k!}
 $$
 
-Para ilustrar la explosión combinatoria, consideremos un caso simple con $n=50$ y $k=5$. El número de combinaciones posibles es:
+Para ilustrar la explosión combinatoria, consideremos un caso sencillo, con $n=50$ y $k=5$. El número de combinaciones posibles es:
 
 $$
     \binom{50}{5} = \frac{50!}{(50-5)!5!} = 2,118,760
 $$
 
-Si escalamos el problema a dimensiones más realistas, como $n=5000$ y $k=50$, la cantidad de soluciones posibles se dispara a una cifra del orden de $2.28 \times 10^{120}$. Evaluar cada una de estas soluciones para encontrar la óptima de forma exacta es una tarea imposible, incluso para los superordenadores más potentes, ya que requeriría tiempos de computación astronómicos.
+Si escalamos el problema a dimensiones más realistas, como $n=5000$ y $k=50$, la cantidad de soluciones posibles se dispara a una cifra del orden de $2.28 \times 10^{120}$. Evaluar cada una de estas soluciones para encontrar la óptima de forma exacta es una tarea imposible, incluso para los superordenadores más potentes, ya que requeriría tiempos de computación demasiado elevados.
 
 Otros ejemplos clásicos de optimización combinatoria incluyen el \textbf{Problema del Viajante de Comercio (TSP)}, que busca la ruta más corta que visita un conjunto de ciudades una sola vez; el \textbf{problema de la mochila}, que consiste en seleccionar los objetos más valiosos sin superar una capacidad de peso; o la \textbf{planificación de horarios}, donde se asignan recursos (como aulas o profesores) a franjas horarias para satisfacer un conjunto de restricciones.
 
 \section{Optimización Multiobjetivo}
 
-\color{red} Aquí falta meterle las ventajas con respecto a la monoobjetivo \color{black}
+A diferencia de la optimización tipica mono-objetivo, donde se busca optimizar una única función, la optimización multiobjetivo aborda problemas en los que es necesario mejorar simultáneamente dos o más funciones objetivo que, a menudo, están en conflicto entre sí. Mejorar una suele llevar al empeoramiento de la otra. Por ejemplo, en el diseño de un vehículo, minimizar el consumo de combustible (objetivo 1) puede estar en conflicto con maximizar la potencia del motor (objetivo 2).
 
-A diferencia de la optimización tipica mono-objetivo, donde se busca optimizar una única función, la optimización multiobjetivo aborda problemas en los que es necesario mejorar simultáneamente dos o más funciones objetivo que, a menudo, están en conflicto entre sí. Mejorar una suele llevar al empeoramiento de ka otra. Por ejemplo, en el diseño de un vehículo, minimizar el consumo de combustible (objetivo 1) puede estar en conflicto con maximizar la potencia del motor (objetivo 2).
+La principal ventaja de la optimización multiobjetivo respecto a la mono-objetivo radica en poder reflejar la complejidad de las decisiones en el mundo real.
+Permite analizar las compensaciones (trade-offs) de forma explícita, cuantificando cuánto se debe sacrificar de un objetivo para conseguir una mejora en otro.\\
+Al ofrecer un espectro de soluciones óptimas y equilibradas, en lugar de una única respuesta, facilita la toma de decisiones más realistas con una mejor estrategia.
 
 Aquí radica la diferencia fundamental con la optimización mono-objetivo. No existe el concepto de ``solución óptima''. Raramente existe una única solución que sea la mejor para todos los objetivos a la vez. En su lugar, lo que se busca es encontrar un conjunto de soluciones que representen las mejores soluciones posibles.
 
@@ -381,50 +381,48 @@ Este conjunto de soluciones se conoce como \textbf{Frente de Pareto}. Una soluci
 
 \subsection{Métodos Exactos}
 
-Los métodos exactos para la optimización multiobjetivo tienen como finalidad encontrar el Frente de Pareto completo y con total precisión. Sin embargo, al igual que en sus contrapartes mono-objetivo, estos métodos se enfrentan a un obstáculo formidable: la complejidad computacional. La mayoría de los problemas de optimización combinatoria multiobjetivo son \textbf{NP-hard}.
+Los métodos exactos para la optimización multiobjetivo tienen como finalidad encontrar el Frente de Pareto al completo. Sin embargo, al igual que en sus contrapartes mono-objetivo, se enfrentan al mismo obstáculo: la complejidad computacional. La mayoría de estos problemas son \textbf{NP-hard}.
 
-Algunos de los más conocidos son:
+De todas maneras, para problemas sencillos, con pocas variables y reducido espacio de soluciones, se pueden resolver  con los siguientes métodos:
 
 \begin{itemize}
-    \item \textbf{Métodos de Ponderación (Weighted Sum):} transforman el problema multiobjetivo en problemas mono-objetivo, asignando un peso a cada función objetivo y sumándolas para crear una única función agregada. Al variar sistemáticamente los pesos, se pueden generar diferentes puntos del Frente de Pareto. Sin embargo, este método no garantiza encontrar todas las soluciones del frente si este tiene una forma no convexa.
+    \item \textbf{Métodos de Ponderación (Weighted Sum):} Transforman el problema multiobjetivo en problemas mono-objetivo, asignando pesos a cada una de las funciones objetivo y sumándolos para crear una única función agregada. Al variar sistemáticamente los pesos, se pueden ir generando las soluciones del Frente de Pareto. Sin embargo, este método no garantiza encontrar todas las soluciones  si este tiene una forma no convexa.
 
-    \item \textbf{Método de las Restricciones-$\epsilon$ ($\epsilon$-constraint):} Consiste en optimizar una de las funciones objetivo mientras las demás se convierten en restricciones, limitando su valor a un máximo $\epsilon$. Modificando los valores de $\epsilon$ para cada objetivo-restricción, se puede explorar y reconstruir el Frente de Pareto. A diferencia del método de ponderación, este sí puede encontrar soluciones en frentes no convexos.
+    \item \textbf{Método de las Restricciones Épsilon ($\epsilon$-constraint):} Consiste en optimizar una de las funciones objetivo, convirtiendo el resto en restricciones limitando su valor a un máximo $\epsilon$.\\
+    Modificando los valores de $\epsilon$ para cada objetivo-restricción, se puede explorar y reconstruir el Frente de Pareto. A diferencia del método de ponderación, este sí puede encontrar soluciones en frentes no convexos.
 
     \item \textbf{Algoritmos de Ramificación y Acotación (Branch and Bound) Multiobjetivo:} Estos algoritmos extienden el clásico \textit{Branch and Bound}. El proceso de ramificación es similar (se divide el problema en subproblemas más pequeños), pero la fase de acotación (o poda) es más compleja. En lugar de usar una única cota, se trabaja con conjuntos de cotas (un vector por cada objetivo). Una rama del árbol de búsqueda se poda solo si se puede demostrar que no puede contener ninguna solución no dominada en comparación con las soluciones ya encontradas.
 
     \item \textbf{Algoritmos de Ramificación y Corte (Branch and Cut) Multiobjetivo:} De manera análoga, esta técnica extiende \textit{Branch and Cut}. Se añaden planos de corte (restricciones adicionales) no solo para mejorar la relajación del problema mono-objetivo, sino para refinar la aproximación del espacio de soluciones factibles en el dominio multiobjetivo, permitiendo podar ramas del árbol de búsqueda de forma más eficiente.
 \end{itemize}
 
-El principal inconveniente de todos estos métodos exactos es su coste computacional. La necesidad de encontrar un conjunto de soluciones (el Frente de Pareto) en lugar de una sola, y la complejidad de las operaciones de poda y comparación, hacen el método exacto muy lento. Por esta razón, en la práctica, para problemas de gran tamaño, se suelen preferir los métodos heurísticos o metaheurísticos, que buscan una buena aproximación del Frente de Pareto en un tiempo razonable.
-
-
 
 \subsection{Metaheurísticos}
 Las metaheurísticas aparecen con el desarrollo de las ciencias de la computación, como principal solución a estos problemas. Donde los métodos exactos no serían capaces de encontrar el óptimo,
 los Metaheurísticos buscan soluciones `buenas` en tiempos de ejecución razonables, sacrificando la garantía que proporcionan los métodos exactos de obtener un óptimo global.
 
-Generalmente combinan heurísticas para obtener soluciones buenas, con aleatoriedad, para conseguir una exploración
-más ámplia del conjunto de soluciones posibles, buscando un balance entre exploración y explotación del entorno de soluciones.\\
-Exploración ya que no se quedan bloqueados en regiones aisladas, intentando buscar óptimos locales, sino que recorren el resto del espacio buscando nuevas soluciones.\\
-Explotación porque cuando entran en una región, profundizan en ella buscando los mejores óptimos locales.
+Generalmente combinan heurísticas con aleatoriedad para obtener soluciones buenas, a la vez que se explora el espacio buscándo óptimos locales nuevos.\\
+Estos métodos combinan exploración con explotación:
+\begin{itemize}
+    \item Exploración ya que no se quedan bloqueados en regiones aisladas, intentando buscar óptimos locales, sino que recorren el resto del espacio buscando nuevas soluciones.
+    \item Explotación porque cuando entran en una región, profundizan en ella buscando los mejores óptimos locales.
+\end{itemize}
 
 Son algoritmos muy generales, fáciles de implementar y adaptables a casi 
-cualquier problema de optimización.
-
-Los principales metaheurísticas son:
+cualquier problema de optimización. Los principales metaheurísticas son:
 \begin{itemize}
-    \item Algoritmos Genéticos (GA - Genetic Algorithms)\\
+    \item \textbf{Algoritmos Genéticos (GA - Genetic Algorithms)}\\
     Inspirados en la selección natural y el funcionamiento de la genética, se basan en la generación aleatoria de soluciones, y el cruce de las más prometedoras entre sí, 
-    añadiendo mutaciones. El cruce de las más prometedoras crea soluciones buenas, mientras las mutaciones aumentan la diversidad.
-    \item Recocido Simulado (SA - Simulated Annealing)\\
-    Basada en la física, se basa en el proceso de recocer metales (calentarlos y enfriarlos para alterar su estructura). Explora soluciones aceptando movimientos de mejora, pero también que puedan empeorar, 
-    en función de una probabilidad dependiente de la "temperatura", que decrece con el paso de las iteraciones. Al principio, una temperatura alta favorece la exploración, y al final una baja favorece la explotación.
-    \item Búsqueda Tabú (TS - Tabu Search)
-    Genera una lista `Tabú` que actúa como memoria del algoritmo, incluyendo los movimientos recientes con el objetivo de no repetir soluciones recientes, sino explorar nuevas, aunque estas no sean las mejores posibles. Esto favorece la exploración.
-    \item Optimización por Colonia de Hormigas (ACO - Ant Colony Optimization)
+    mientras se van añadiendo mutaciones (pequeñas modificaciones en las soluciones) para añadir diversidad.
+    \item \textbf{Recocido Simulado (SA - Simulated Annealing)}\\
+    Basada en la física, simula el proceso de recocer metales (calentarlos y enfriarlos para alterar su estructura). Explora soluciones aceptando movimientos de mejora, pero también que puedan empeorar, 
+    en función de una probabilidad dependiente de la variable "temperatura", que decrece con el paso de las iteraciones. En fases tempranas, una temperatura alta favorece la exploración, mientras que en fases finales la baja temperatura favorece la explotación.
+    \item \textbf{Búsqueda Tabú (TS - Tabu Search)}\\
+    Genera una lista `Tabú` que actúa como memoria del algoritmo, incluyendo los movimientos recientes con el objetivo de no repetir soluciones, sino explorar nuevas, aunque eso conlleve que estas no sean las mejores posibles.
+    \item \textbf{Optimización por Colonia de Hormigas (ACO - Ant Colony Optimization)}
     Diseñado para problemas de rutas, construyendo soluciones iterativamente a través de un grafo, cuyas aristas  se van pesando a medida que generan soluciones buenas.
-    \item GRASP (Greedy Randomized Adaptive Search Procedure)
-    Algoritmo fundamentado en dos partes. Una primera, de construcción, en la que se genera una solución aleatorizada, y una segunda en la que se intenta mejorar la solución generada cambiando elementos de la misma.
+    \item \textbf{GRASP (Greedy Randomized Adaptive Search Procedure)}\\
+    Algoritmo fundamentado en dos partes. Una primera de construcción, en la que se genera una solución aleatorizada, y una segunda en la que se intenta mejorar la solución generada cambiando elementos de la misma.
 \end{itemize}
 
 \section{Motivación Ciencia de Datos}
