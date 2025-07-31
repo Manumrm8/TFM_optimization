@@ -428,31 +428,88 @@ cualquier problema de optimización. Las principales metaheurísticas son:
     Algoritmo fundamentado en dos fases. Una primera de construcción, en la que se genera una solución mediante un proceso aleatorizado, y una segunda de búsqueda local, en la que se intenta mejorar la solución generada.
 \end{itemize}
 
-\section{Motivación en Ciencia de Datos}
+\section{Motivación para la Ciencia de Datos}
 
-\section{Aprendizaje por Refuerzo}
+\color{red}
+Motivación para ciencia de dato Por qué los métodos clásicos no siempre sirven, cómo se combina con técnicas de aprendizaje (refuerzo), visión interdisciplinar: matemática, computacional, aplicada.
+
+No entiendo esta parte, he introducido la parte del uso de optimización en ciencia de datos antes, esto debe ser por qué yo, habiendo hecho el máster de ciencia de datos, he escogido un tfm de optimización?
+
+\color{black}
+
+\section{Aprendizaje Reforzado}
+\subsection{Origen del aprendizaje reforzado}
+\subsection{Composición del aprendizaje reforzado}
+\subsection{Modelos de aprendizaje reforzado}
 
 \section{Resumen del capítulo}
 
 \chapter{Modelo matematico}
 
-\section{Problemas de localización}
+\section{Problemas de Localización (Facility Location Problems)}
 
-Los \textbf{problemas de localización} son uno de los tipos principales de optimización combinatoria, que buscan determinar la ubicación óptima para construir instalaciones, como almacenes, centros de distribución, hospitales, escuelas o estaciones de bomberos. 
+Los \textbf{problemas de localización de instalaciones} (\textit{Facility Location Problems}) son uno de los principales casos de optimización combinatoria. En ellos se busca es determinar las \textbf{mejores ubicaciones} donde instalar infraestructuras como almacenes, hospitales, escuelas o antenas de telefonía.
 
-Algunos de los objetivos a optimizar pueden incluir la minimización de la distancia total o máxima a los clientes, la reducción del coste operacional, la maximización de la cobertura de la demanda, la mejora del tiempo de respuesta, el balance de uso entre las instalaciones etc.
-
-Estos problemas son de vital importancia en la práctica en múltiples sectores. En la logística y la gestión de la cadena de suministro, la correcta ubicación de almacenes y centros de distribución puede reducir drásticamente los costes de transporte y mejorar la eficiencia de la entrega. En el ámbito de la salud, la localización de hospitales y clínicas asegura un acceso equitativo a la atención médica y tiempos de respuesta rápidos en caso de emergencia. Asimismo, en la planificación de servicios públicos, como la ubicación de escuelas o parques de bomberos, se busca garantizar la accesibilidad cobertura del total o la mayoría de la población.
-
-Entre los ejemplos clásicos y más estudiados de problemas de localización se encuentran:
-
+La ``mejor'' ubicación depende del objetivo específico que se persiga, que suele centrarse en:
 \begin{itemize}
-    \item \textbf{Problemas de Localización (Facility Location Problems)}: Se busca intentar determinar cuáles son los mejores lugares para instalar varias infraestructuras (almacenes, puntos de distribución, hospitales). El objetivo, si el problema trata únicamente de construir la infraestructura, es minimizar costes/maximizar beneficios, pero generalmente existe también un grupo de clientes o usuarios a los que hay que atender desde los puntos de distribución Con esto el objetivo puede ser reducir la distancia total para suministrar, equilibrar
-el uso de las infraestructuras, y también tener restricciones de demanda, de cobertura, etc.\\
-Hay ejemplos como elegir dónde ubicar almacenes, ubicar estaciones de ambulancias, colocar torres te telefonía o decidir dónde abrir nuevos comercios de una cadena de supermercados.
-    \item p-mediana
-    \item p-center
-    \item coverage
+    \item \textbf{Minimizar costes} o distancias (ya sea la distancia total o la máxima).
+    \item \textbf{Maximizar beneficios} o el área de cobertura.
+    \item \textbf{Mejorar la equidad} del servicio o los tiempos de respuesta.
+    \item \textbf{Equilibrar el uso} entre las distintas instalaciones.
+\end{itemize}
+
+Para encontrar la solución óptima, en estos problemas también se deben considerar \textbf{restricciones} prácticas, como la capacidad de cada centro, los límites presupuestarios o la necesidad de cubrir un mínimo de demanda.
+
+\color{red}No se si meterle lineas de estas \color{black}
+
+\hrulefill
+
+\subsection{Importancia y Aplicaciones}
+
+La correcta resolución de estos problemas es vital en múltiples sectores:
+\begin{description}
+    \item[\textbf{Logística y Cadena de Suministro:}] Ubicar estratégicamente almacenes y centros de distribución reduce drásticamente los costes de transporte y mejora la eficiencia de las entregas.
+    \item[\textbf{Sector Sanitario:}] La localización de hospitales y centros de atención primaria garantiza un acceso equitativo a la atención médica y tiempos de respuesta rápidos en emergencias.
+    \item[\textbf{Servicios Públicos:}] La planificación de escuelas, estaciones de bomberos o parques busca asegurar la máxima cobertura y accesibilidad para toda la población.
+\end{description}
+
+\hrulefill
+
+\subsection*{Modelos Clásicos de Localización}
+
+Entre los ejemplos más estudiados se encuentran los siguientes modelos:
+
+\subsubsection{p-mediana}
+El objetivo es seleccionar $p$ ubicaciones para \textbf{minimizar la suma total de las distancias} entre cada cliente y su instalación asignada. Se prioriza la eficiencia global del sistema, siendo ideal para reducir costes totales de transporte.
+\begin{itemize}
+    \item \textbf{Ejemplos}:
+    \begin{itemize}
+        \item Ubicar $p$ almacenes para minimizar los costes de distribución a una red de tiendas.
+        \item Situar $p$ centros de reciclaje para minimizar la distancia total recorrida por los camiones de recogida.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{p-center}
+El objetivo es seleccionar $p$ ubicaciones para \textbf{minimizar la máxima distancia} que cualquier cliente debe recorrer hasta su instalación más cercana. Este modelo se enfoca en la \textbf{equidad} y en optimizar el ``peor caso'', por lo que es fundamental en servicios de emergencia.
+\begin{itemize}
+    \item \textbf{Ejemplos}:
+    \begin{itemize}
+        \item Colocar $p$ hospitales para que el tiempo máximo de llegada a cualquier emergencia sea el menor posible.
+        \item Ubicar $p$ estaciones de bomberos para minimizar el tiempo de respuesta al incendio más remoto.
+    \end{itemize}
+\end{itemize}
+
+\subsubsection{Problemas de Cobertura (Coverage)}
+Estos modelos buscan \textbf{maximizar la demanda atendida} dentro de un radio de servicio predefinido.
+
+\paragraph{Location Set Covering Problem (LSCP)} Su meta es \textbf{minimizar el número de instalaciones} necesarias para cubrir a todos los puntos de demanda.
+\begin{itemize}
+    \item \textbf{Ejemplo}: Determinar el número mínimo de escuelas para que todos los alumnos vivan a menos de 2 km de una.
+\end{itemize}
+
+\paragraph{Maximal Covering Location Problem (MCLP)} Su meta es \textbf{maximizar la demanda cubierta} con un número fijo $p$ de instalaciones, especialmente cuando no es posible cubrir a toda la población.
+\begin{itemize}
+    \item \textbf{Ejemplo}: Decidir dónde ubicar $p$ nuevas bibliotecas móviles para dar servicio al mayor número posible de ciudadanos.
 \end{itemize}
 
 \section{Motivación}
@@ -462,7 +519,7 @@ Actualmente, uno de los principales retos es maximizar el alcance de ciertos pro
 
 Este equilibrio entre amplitud de cobertura y uso equilibrado de los recursos disponibles es especialmente importante en contextos donde hay un reducido número de emplazamientos posibles, y donde cada selección de localización afecta tanto a la eficiencia del sistema como a la experiencia del usuario o cliente final.
 
-Al abordar el problema es importante considerar que la distancia total o el tiempo medio de viaje no es el factor más crítico. Por ejemplo, si construyes un hospital en una ciudad, el objetivo no es que la población viva lo más cerca posible, sino que se
+Al abordar el problema es importante considerar que la distancia total o el tiempo medio de viaje no es el factor más crítico. Por ejemplo, si construyes un hospital en una ciudad, el objetivo no es que la población viva lo más cerca posible, sino que de
 los residentes se encuentren a una distancia razonable. 
 
 Considera estos dos escenarios para una ciudad:
@@ -470,16 +527,18 @@ Considera estos dos escenarios para una ciudad:
     \item Escenario 1: El tiempo medio de viaje a un hospital es de 15 minutos, y el tiempo máximo de viaje para cualquier individuo es de 30 minutos.
     \item Escenario 2: El tiempo medio de viaje a un hospital es de 13 minutos, pero el tiempo máximo de viaje para cualquier individuo es de 1 hora
 \end{itemize} 
-En tiempo global, podríamos decir que el segundo sistema implementado es más eficiente, pero se dejan de lado los valores extremos extremos. Una parte significativa de la población podría tener grandes dificultades para acceder a servicios esenciales. Por el contrario, aunque el primer caso tenga un tiempo medio mayor, mejora considerablemente la accesibilidad. Esto subraya que mejorar la media no necesariamente mejora el servicio.
+Terminos globales, podríamos decir que el segundo sistema implementado es más eficiente, pero se dejan de lado los valores extremos. Una parte significativa de la población podría tener grandes dificultades para acceder a servicios esenciales. Por el contrario, aunque el primer caso tenga un tiempo medio mayor, mejora considerablemente la accesibilidad. Esto subraya que mejorar la media no implica necesariamente mejora el servicio.
 
 \section{Caso práctico}
 
-Una red hospitalaria está planificando la ubicación de 5 centros médicos dentro de una región con una población de $400$ personas. Debido a limitaciones presupuestarias, de personal e infraestructura, se restringe su construcción a un número $20$ de posibles emplazamientos. El objetivo será encontrar qué $5$ centros, de ese total de $50$ posibles, habrá que construir,teniendo en cuénta los siguientes criterios:
+Una red hospitalaria está planificando la ubicación de 5 centros médicos dentro de una región con una población de $400$ personas. Debido a limitaciones presupuestarias, de personal e infraestructura, se restringe su construcción al número de $20$ posibles emplazamientos. El objetivo será encontrar qué $5$ centros, de ese total de $50$ posibles, habrá que construir.
+
+Tendremos que tener en cuénta los siguientes criterios:
 
 \begin{itemize}
     \item Cobertura Poblacional: Los centros seleccionados deben intentar minimizar la máxima distancia o tiempo de viaje entre el conjunto de la población y los centros médicos.
-    \item Capacidad: Hay que intentar que los centros médicos no queden sobresaturados. Construir un único centro médico en una zona con mucha población puede generar una buena cobertura y tiempos de viaje cortos, pero quedar saturado y generar problemas de tiempo de atención y espera.
-    \item Equilibrio: No queremos tampoco que haya centros médicos con poco uso, intentando que la diferencia entre los más usados y los menos sea la menor posible, con lo que el uso quede bien repartido.
+    \item Capacidad: Los centros médicos no deben quedar sobresaturados. Construir un único centro médico en una zona con mucha población puede generar una buena cobertura y tiempos de viaje cortos, pero quedar sobrepasado y generar problemas de tiempo de atención y espera.
+    \item Equilibrio: El objetivo es que, si se construye un centro, se utilice. No puede ocurrir que un centro quede muy poco usado con respecto a los demas. Así, otro objetivo será que la diferencia entre los más usados y los menos sea la mínima posible, quedando su uso bien repartido.
 \end{itemize}
 Caso de ejemplo ficticio utilizando la zona de Valencia:
 \begin{figure}[H]
@@ -535,37 +594,55 @@ Caso de ejemplo ficticio utilizando la zona de Valencia:
     \caption{Tercer ejemplo de solución}
 \end{figure}
 
- Al final, con este ejemplo de juguete (su población es de casi un millón de habitantes), y una cantidad mayor de posibles emplazamientos, no sería factible buscar la mejor solución probando
- o con un algoritmo exacto. Por eso, voy a modelizar el problema matemáticamente y, con un GRASP, intentar sacar las mejores soluciones posibles, para datos generados aleatoriamente, y comprobar, 
- con resultados de un artículo previo, la viabilidad del modelo.
+ Con este ejemplo, aunque muy simplificado, seguiría sin ser factible buscar la mejor solución probando combinaciones
+ o con un algoritmo exacto.Por ello, he modelizado el problema y usaré una metaheurística GRASP para encontrar soluciones eficientes.\\
+ La efectividad de este enfoque se validará comparando los resultados con los publicados en un artículo de referencia que utiliza el mismo conjunto de datos.
 
 \section{Modelo Matemático}
-3 variables a minimizar
-restricciones
-método exacto? (no viable)
+- El modelo no es lineal
+- Las variables son discretas
+Es multiobjetivo (definir las 3 funciones objetivo)
+Definir las restricciones
+
+Explicación de por qué no se puede utilizar un método exacto (optimización no lineal, variables no continuas, espacio no convexo, problema combinatorio)
 
 
 
 \chapter{GRASP}
 \section{Por qué el GRASP}
+- Es un método sencillo de implementar, pero complicado de adaptar para realizar un buen desempeño
+- Suele obtener buenas soluciones muy rápido, al contrario que Tabu o Algoritmos Genéticos
+- Es especialmente bueno para problemas combinatorios, ya que las búsquedas locales son más fáciles de definir
 
 \section{Metaheurísticas del grasp}
-monoobjetivo, multiobjetivo
+definir primero la monoobjetivo, cómo se comporta, y por qué en monoobjetivo es muy sencillo definir grasp
+definir la multiobjetivo, explicar las diferencias que hay con respecto a la búsqueda de soluciones, y los tipos de búsquedas locales que se pueden hacer (por pesos, mejorando las variables por separado ETC)
 
 \section{Implementación del grasp}
-Primera versión, grasp simple con inicialización aleatoria y búsqueda local en una de las 3 variables
+Primera versión, grasp con inicialización greedy randomizada (con alpha fijo) y 2 búsquedas locales (aleatorizadas) en serie.
 
-Segunda versión, grasp con inicialización greedy randomizada (con alpha fijo) y 2 búsquedas locales en serie
+Explicar por qué voy a utilizar aprendizaje reforzado para mejorar el algoritmo
 
-Tercera y última versión, grasp con inicialización greedy randomizada (con alpha ranodom), búsquedas locales escogidas por aprendizaje reforzado.
+Segunda y última versión, grasp con inicialización greedy randomizada (con alpha ranodom), búsquedas locales escogidas por aprendizaje reforzado.
 
-\chapter{Aprendizaje Reforzado}
+Explicar la paralelización, como afecta a los pesos del reforzado y a la generación de los frentes de pareto, y cómo mejora la velocidad del algoritmo
 
-\chapter{Experimentación y Resultados}
+\chapter{Experimentación y Resultados}facilita
+instancias de ejemplo (2 o 3)
 
-Instancias, comparativa, CASO DE ESTUDIO
+Ajuste de los parámetros del algoritmo (tanto la alpha del greedy como la betha, temperatura y learning rate de la parte de aprendizaje reforzado)
+
+Comparativa entre utilizar o no aprendizaje reforzado (resultados vs tiempos), ya que el reforzado irá mejor, pero será algo más lento (no mucho)
+
+Ahora del algoritmo con aprendizaje reforzado, comparativa con el algoritmo del artículo (greedy con path relinking)
+
+Si se puede encontrar, comparar con los tiempos. Si no, solo comparar el frente de pareto encontrado por x iteraciones del algoritmo vs el frente de pareto del artículo.
+
+Si tengo tiempo, me gustaría implementar el algoritmo en un caso real. Si no, al caso de ejemplo de la ciudad de valencia introducido en el capítulo del modelo matemático
 
 \chapter{Conclusiones}
+
+- El algoritmo va peor, igual, mejora o va distinto 
 
 \chapter{Agradecimientos}
 Valgrai, compañeros del máster, amigos, familia, mi tutora del TFM
