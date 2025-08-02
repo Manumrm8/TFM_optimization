@@ -722,41 +722,66 @@ Caso de ejemplo ficticio utilizando la zona de Valencia:
  La efectividad de este enfoque se validará comparando los resultados con los publicados en un artículo de referencia que utiliza el mismo conjunto de datos.
 
 \section{Modelo Matemático}
-Sea $N={1,2,...,n}$ un conjunto de puntos de demanda y $M={1,2,...,m}$ el conjunto de ubicaciones para las potenciales instalaciones. \\
-También definamos $d_{ij}$ la distancia entre el punto de demanda $i \in N$ y la instalación $j \in M$.\\
-Asumimos que cada punto de demanda es suplido por su instalación más cercana. Por tanto, definimos $n_j$ la cantidad de puntos de demandas asignados a la instalación $j$.\\
-Sea $k$ el número de instalaciones que se han de construir. Entonces definimos como $S$ la solución formada por esos $k$ puntos.
 
-Dicho esto, las tres funciones objetivo a definir serán:
-$$
-\text{Minimizar} \quad f_1(S) = \max_{i \in N} \min_{j \in S} d_{ij}
-$$
-Es decir, el objetivo de la $f1$ será que la distancia del punto que queda más alejado de todas las instalaciones construidas sea la menor posible.
-$$
-\text{Minimizar} \quad f_2(S) = \max_{j \in S} n_j
-$$
-$f_2$ se utilizará para que las instalaciones queden lo menos sobrecargadas posibles.
+Sean $N=\{1, 2, \dots, n\}$ el conjunto de \textbf{puntos de demanda} y $M=\{1, 2, \dots, m\}$ el conjunto de ubicaciones para las \textbf{potenciales instalaciones}.
 
-$$
-\text{Minimizar} \quad f_3(S) = \max_{j \in S, \, j' \in S, \, j \neq j'} |n_j - n_{j'}|
-$$
+Se define $d_{ij}$ como la distancia entre el punto de demanda $i \in N$ y la ubicación $j \in M$.\\
+La variable de decisión es el conjunto $S \subseteq M$, que representa las $k$ ubicaciones seleccionadas para construir las instalaciones. Por tanto, el modelo debe cumplir la siguiente restricción:
+\begin{equation}
+    |S| = k
+\end{equation}
 
-Para que las instalaciones se utilicen de manera equitativa, y no ocurra el caso contrario, que una quede con poco uso.
-$$
- \text{sujeto a} \quad |S| = k
-$$
-La solución ha de contener exactamente $k$ puntos de instalaciones.ç
+Se asume que cada punto de demanda es atendido por la instalación más cercana dentro del conjunto de soluciones $S$. En base a esto, se define $n_j$ como la cantidad de puntos de demanda asignados a la instalación $j \in S$.
 
-Enunciado el problema, podemos deducir ya varias cosas:
+El problema da lugar a las siguientes tres funciones objetivo:
+
+\begin{equation}
+    \text{Minimizar} \quad f_1(S) = \max_{i \in N} \min_{j \in S} d_{ij}
+\end{equation}
+Esta función, propia de los problemas \textit{p-center}, busca minimizar la \textbf{distancia máxima} que debe recorrer cualquier cliente hasta su instalación asignada. El objetivo es lograr la mejor cobertura posible, evitando que algún punto de demanda quede excesivamente lejos.
+
+\begin{equation}
+    \text{Minimizar} \quad f_2(S) = \max_{j \in S} n_j
+\end{equation}
+El objetivo de $f_2$ es minimizar la carga de trabajo de la instalación más congestionada. 
+
+\begin{equation}
+    \text{Minimizar} \quad f_3(S) = \max_{\substack{j, j' \in S \\ j \neq j'}} |n_j - n_{j'}|
+\end{equation}
+Esta función minimiza la diferencia entre la instalación con más carga y la que tiene menos. Es el objetivo más estricto en términos de \textbf{equidad operativa}, ya que busca que todas las instalaciones tengan una carga de trabajo lo más homogénea posible.
+
+\subsection{Características del Problema}
+
+A partir de la formulación anterior, se deducen las siguientes características clave:
+
 \begin{itemize}
-    \item Es un problema de optimización no lineal, ya que las tres funciones objetivo utilizan tanto el operador máximo como el mínimo, que no son lineales.
-    \item También es de optimización discreta, ya que el espacio de soluciones es finito, y sus variables discretas (conjunto también de elementos finitos).
-    \item Es un problema de optimización combinatorio (NP-difícil), ya que se trata de encontrar un subconjunto de $k$ elementos de $M$.
-    \item Es un problema multiobjetivo, tenemos tres funciones objetivo, con equidad de importancia entre ellas.
+    \item \textbf{Optimización no lineal}: Las funciones objetivo son no lineales, ya que contienen operadores como $\max$, $\min$ y valor absoluto.
+    
+    \item \textbf{Optimización discreta}: El dominio de la solución es discreto, pues se debe elegir un subconjunto de un conjunto finito de ubicaciones.
+    
+    \item \textbf{Problema combinatorio (NP-difícil)}: El problema consiste en encontrar el mejor subconjunto de $k$ elementos de un total de $m$, lo cual es característico de los problemas NP-difíciles. El número de soluciones posibles es $\binom{m}{k}$.
+    
+    \item \textbf{Problema multiobjetivo}: Se desean optimizar simultáneamente tres funciones objetivo.
 \end{itemize}
-Por todas las consideraciones anteriores, ni existen métodos exactos para resolverlo ni sería viable probar todas las soluciones, al ser NP-difícil. Por lo tanto hay que escoger 
-métodos alternativos como los algoritmos heurísticos para poder resolverlo.
 
+Tomando en cuenta estas consideraciones,  la búsqueda de una solución óptima mediante la enumeración completa o métodos exactos es computacionalmente prohibitiva. Por ello habrá que utilizar
+métodos alternativos como los algoritmos heurísticos para encontrar, al menos, una buena aproximación al frente de pareto.
+
+\section{Resumen del Capítulo}
+
+En este capítulo se introducen los \textbf{problemas de localización de instalaciones} (\textit{Facility Location Problems}), un campo clave de la optimización combinatoria que busca determinar las ubicaciones óptimas para infraestructuras. Se presentan los modelos clásicos como el \textbf{\textit{p-mediana}}, enfocado en minimizar la distancia total; el \textbf{\textit{p-center}}, que minimiza la distancia máxima para garantizar equidad; y los \textbf{problemas de cobertura} (\textit{LSCP} y \textit{MCLP}), que buscan maximizar el servicio con un número limitado de instalaciones.
+
+La motivación principal del problema abordado es la necesidad de ir más allá de los objetivos tradicionales, centrándose en un enfoque multiobjetivo que equilibre la \textbf{cobertura}, la \textbf{capacidad} de las instalaciones y la \textbf{homogeneidad} en su uso. Se busca evitar tanto la falta de acceso en ciertas zonas como la saturación de los centros seleccionados.
+
+Para abordar este desafío, se formaliza un \textbf{modelo matemático} con tres funciones objetivo, a partir de un conjunto de $n$ puntos de demanda y $m$ ubicaciones potenciales para construir $k$ instalaciones:
+
+\begin{itemize}
+    \item \textbf{Minimizar la distancia máxima }
+    \item \textbf{Minimizar la carga máxima}
+    \item \textbf{Minimizar el desequilibrio}
+\end{itemize}
+
+El problema resultante es de naturaleza \textbf{discreta}, \textbf{no lineal}, \textbf{combinatoria} (NP-difícil) y \textbf{multiobjetivo}. Debido a esta complejidad, los métodos exactos son computacionalmente inviables, lo que justifica el uso de metaheurísticas para encontrar un conjunto de soluciones eficientes que representen un buen compromiso entre los tres objetivos.
 
 \chapter{GRASP}
 \section{Por qué el GRASP}
