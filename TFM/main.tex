@@ -699,7 +699,7 @@ Caso de ejemplo ficticio utilizando la zona de Valencia:
     \end{minipage}
     \hfill
     \begin{minipage}[c]{0.45\textwidth}
-        Aquí ya se pueden ver mejoras, pero sigue sin ser una buena solución. Por el sur y el norte tienen aún bastante lejos los centros médicos, y hay alguno como el de la izquierda del todo, por Valencia Sud, que se utilizará relativamente poco al ir la población a los otros 2 más centricos (estos a su vez quedarán sobre saturados).
+        Aquí ya se pueden ver mejoras, pero sigue sin ser una buena solución. Por el sur y el norte tienen aún bastante lejos los centros médicos, y hay alguno como el de la izquierda del todo, por Valencia Sud, que se utilizará relativamente poco al ir la población a los otros 2 más centricos (estos a su vez quedarán sobresaturados).
     \end{minipage}
     \caption{Segundo ejemplo de solución}
 \end{figure}
@@ -722,13 +722,40 @@ Caso de ejemplo ficticio utilizando la zona de Valencia:
  La efectividad de este enfoque se validará comparando los resultados con los publicados en un artículo de referencia que utiliza el mismo conjunto de datos.
 
 \section{Modelo Matemático}
-- El modelo no es lineal
-- Las variables son discretas
-Es multiobjetivo (definir las 3 funciones objetivo)
-Definir las restricciones
+Sea $N={1,2,...,n}$ un conjunto de puntos de demanda y $M={1,2,...,m}$ el conjunto de ubicaciones para las potenciales instalaciones. \\
+También definamos $d_{ij}$ la distancia entre el punto de demanda $i \in N$ y la instalación $j \in M$.\\
+Asumimos que cada punto de demanda es suplido por su instalación más cercana. Por tanto, definimos $n_j$ la cantidad de puntos de demandas asignados a la instalación $j$.\\
+Sea $k$ el número de instalaciones que se han de construir. Entonces definimos como $S$ la solución formada por esos $k$ puntos.
 
-Explicación de por qué no se puede utilizar un método exacto (optimización no lineal, variables no continuas, espacio no convexo, problema combinatorio)
+Dicho esto, las tres funciones objetivo a definir serán:
+$$
+\text{Minimizar} \quad f_1(S) = \max_{i \in N} \min_{j \in S} d_{ij}
+$$
+Es decir, el objetivo de la $f1$ será que la distancia del punto que queda más alejado de todas las instalaciones construidas sea la menor posible.
+$$
+\text{Minimizar} \quad f_2(S) = \max_{j \in S} n_j
+$$
+$f_2$ se utilizará para que las instalaciones queden lo menos sobrecargadas posibles.
 
+$$
+\text{Minimizar} \quad f_3(S) = \max_{j \in S, \, j' \in S, \, j \neq j'} |n_j - n_{j'}|
+$$
+
+Para que las instalaciones se utilicen de manera equitativa, y no ocurra el caso contrario, que una quede con poco uso.
+$$
+ \text{sujeto a} \quad |S| = k
+$$
+La solución ha de contener exactamente $k$ puntos de instalaciones.ç
+
+Enunciado el problema, podemos deducir ya varias cosas:
+\begin{itemize}
+    \item Es un problema de optimización no lineal, ya que las tres funciones objetivo utilizan tanto el operador máximo como el mínimo, que no son lineales.
+    \item También es de optimización discreta, ya que el espacio de soluciones es finito, y sus variables discretas (conjunto también de elementos finitos).
+    \item Es un problema de optimización combinatorio (NP-difícil), ya que se trata de encontrar un subconjunto de $k$ elementos de $M$.
+    \item Es un problema multiobjetivo, tenemos tres funciones objetivo, con equidad de importancia entre ellas.
+\end{itemize}
+Por todas las consideraciones anteriores, ni existen métodos exactos para resolverlo ni sería viable probar todas las soluciones, al ser NP-difícil. Por lo tanto hay que escoger 
+métodos alternativos como los algoritmos heurísticos para poder resolverlo.
 
 
 \chapter{GRASP}
