@@ -205,9 +205,6 @@ las metaheurísticas son fundamentales en la ciencia de datos, complementandose 
     
     \item \textbf{Ajuste de hiperparámetros:} Modelos de inteligencia artificial como las redes neuronales necesitan ajustar sus hiperparámetros para ser eficaces. Esto también es un problema de optimización, donde los metaheurísticos pueden superar la típica \textit{búsqueda en cuadrícula} (\textit{grid search}) de parámetros.
 \end{itemize}
-
-\color{red} citar a Libros de texto sobre optimización y algoritmos heurísticos: Por ejemplo, "Metaheuristics: From Design to Implementation" de E.K. Burke y G. Kendall, o "Introduction to Optimization" de E.J. Anderson. \color{black}
-
 \section{Formulación Matemática}
 
 Para expresar un problema de optimización de forma matemática, definimos las tres partes en las que se puede descomponer:
@@ -438,28 +435,29 @@ No entiendo esta parte, he introducido la parte del uso de optimización en cien
 
 \color{black}
 
+\color{red} Meto una subsección sobre el aprendizaje automático?\color{black}
 \section{Aprendizaje por Refuerzo}
 
 \subsection{Introducción al Aprendizaje por Refuerzo}
 
-El Aprendizaje por Refuerzo (del inglés, \textit{Reinforcement Learning} o RL) es un área del aprendizaje automático inspirada en la psicología conductista. Se ocupa de cómo un \textbf{agente} inteligente debe tomar \textbf{acciones} en un \textbf{entorno} dinámico para maximizar una noción de \textbf{recompensa} acumulada a lo largo del tiempo.
+El Aprendizaje por Refuerzo (del inglés, \textit{Reinforcement Learning} o RL) es un área del aprendizaje automático inspirada en la psicología conductista. Se utiliza en problemas donde un agente debe tomar acciones en un entorno dinámico, con el objetivo de para maximizar una cierta recompensa.
 A diferencia de otros paradigmas de la ciencia de datos como el aprendizaje supervisado, donde los algoritmos aprenden de un conjunto de datos etiquetado, en RL el agente aprende por sí mismo a través de la experiencia directa, en un proceso de prueba y error.
 
-El objetivo fundamental del RL no es encontrar una respuesta "correcta" predefinida, sino descubrir una \textbf{estrategia óptima} de actuación. Por esta razón, el RL se considera intrínsecamente un problema de \textbf{optimización de decisiones secuenciales}. El agente busca optimizar su comportamiento para lograr un objetivo a largo plazo, lo que lo convierte en una herramienta excepcionalmente potente para resolver problemas complejos en dominios como la robótica, la gestión de la cadena de suministro, las finanzas algorítmicas o problemas de optimización.
+El objetivo del RL no es encontrar la respuesta correcta, sino descubrir una estrategia óptima de actuación. Por esta razón, el RL se considera un problema de optimización de decisiones. El agente busca optimizar su comportamiento para lograr un objetivo a largo plazo, lo que lo convierte en una herramienta excepcionalmente potente para resolver problemas complejos en dominios como la robótica, la gestión de la cadena de suministro, las finanzas algorítmicas o hasta los mismos problemas de optimización.
 
 \subsection{Componentes Clave del Aprendizaje por Refuerzo}
 
-Todo problema de RL puede ser modelado a través de los siguientes componentes fundamentales, que interactúan en un ciclo continuo:
+Todo problema de Aprendizaje por Refuerzo se modela a través de los siguientes componentes:
 
 \begin{itemize}
-    \item \textbf{Agente (Agent)}: Es la entidad que aprende y toma decisiones. Puede ser un robot que aprende a caminar, un programa que juega al ajedrez o un sistema que gestiona el tráfico de una ciudad.
-    \item \textbf{Entorno (Environment)}: Es el mundo, real o simulado, con el que interactúa el agente. El agente no tiene control total sobre el entorno.
-    \item \textbf{Estado ($s$)}: Es una descripción completa de la situación actual del entorno. Representa toda la información relevante que el agente necesita para tomar una decisión informada. El conjunto de todos los posibles estados se conoce como espacio de estados ($S$).
+    \item \textbf{Agente}: Entidad que aprende y toma las decisiones. Puede ser un robot aprendiendo a caminar, un programa jugando al ajedrez o un sistema de gestión de tráfico urbano.
+    \item \textbf{Entorno}: Es el mundo, real o simulado, donde se encuentra el agente y con el que interactúa. El agente únicamente puede tener control parcial sobre el entorno.
+    \item \textbf{Estado ($s$)}: Descripción de la situación actual del entorno. Representa toda la información relevante que el agente puede necesitar en la toma de decisiones. El conjunto de todos los posibles estados se conoce como espacio de estados ($S$).
     \item \textbf{Acción ($a$)}: Es una de las posibles decisiones que el agente puede tomar en un estado determinado. El conjunto de todas las acciones disponibles en un estado se denomina espacio de acciones ($A(s)$).
-    \item \textbf{Recompensa ($r$)}: Es una señal numérica que el entorno envía al agente tras cada acción. La recompensa indica cuán buena o mala ha sido la acción tomada en el estado actual. El objetivo del agente es maximizar la suma de estas recompensas a lo largo del tiempo.
+    \item \textbf{Recompensa ($r$)}: Señal numérica que el entorno devuelve al agente tras cada acción. La recompensa indica cómo de buena o mala ha sido la acción tomada en el estado actual. El objetivo del agente es maximizar la suma de estas recompensas a lo largo del tiempo.
 \end{itemize}
 
-El proceso de interacción se desarrolla en pasos de tiempo discretos ($t=0, 1, 2, ...$). En cada paso $t$:
+El proceso iterativo va desarrollando a lo largo de los tiempos $t=0, 1, 2, ...$. En cada paso $t$:
 \begin{enumerate}
     \item El agente observa el estado actual del entorno, $S_t$.
     \item Basándose en $S_t$, el agente elige una acción, $A_t$.
@@ -470,9 +468,9 @@ Este ciclo se repite continuamente, generando una trayectoria de estados, accion
 
 \subsection{El Objetivo: Maximización de la Recompensa Acumulada}
 
-El objetivo del agente no es maximizar la recompensa inmediata, sino el \textbf{retorno} (o recompensa acumulada), denotado como $G_t$. El retorno es la suma de todas las recompensas futuras a partir del instante $t$. Para evitar sumas infinitas en tareas continuas y para dar más importancia a las recompensas cercanas en el tiempo, se introduce un \textbf{factor de descuento} $\gamma$ (gamma), donde $0 \le \gamma \le 1$.
+El objetivo del agente no es maximizar la recompensa inmediata, sino el \textbf{retorno} (o recompensa acumulada), denotado como $G_t$. El retorno es la suma de todas las recompensas futuras a partir del instante $t$. Para evitar sumas infinitas en tareas continuas y para dar más importancia a las recompensas cercanas en el tiempo, se introduce un factor de descuento $\gamma$, donde $0 \le \gamma \le 1$.
 
-El retorno descontado se define como:
+El \textbf{retorno descontado} se define como:
 \[ G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \dots = \sum_{k=0}^{\infty} \gamma^k R_{t+k+1} \]
 
 \begin{itemize}
@@ -495,47 +493,49 @@ La política es la estrategia que va a seguir el agente en base al estado. Matem
 El objetivo del RL es encontrar la \textbf{política óptima}, denotada como $\pi^*$, que maximiza el retorno esperado a largo plazo.
 
 \subsubsection{Función de Valor de Estado ($V^{\pi}(s)$)}
-Se define como el retorno esperado si el agente parte del estado $s$ y sigue la política $\pi$. En terminos coloquiales, mide cómo de bueno es tomar cada una de lals acciones dependiendo de la política tomada.
+Se define como el retorno esperado cuando agente, partiendo del estado $s$, si sigue la política $\pi$. En terminos coloquiales, mide cómo de bueno es tomar cada una de las acciones dependiendo de la política tomada.
 \[ V^{\pi}(s) = \mathbb{E}_{\pi}[G_t | S_t = s] \]
 Un valor alto de $V^{\pi}(s)$ indica que el estado $s$ es favorable bajo la política $\pi$, ya que conduce a una alta recompensa acumulada.
 
 \subsubsection{Función de Valor-Acción ($Q^{\pi}(s, a)$)}
-Conocida como \textbf{función Q}, esta función mide "lo bueno" que es tomar una acción específica $a$ en un estado $s$ y después seguir la política $\pi$. Se define como el retorno esperado al tomar la acción $a$ en el estado $s$ y, a partir de ahí, seguir la política $\pi$.
+Conocida como \textbf{función Q}, se define como el retorno esperado al tomar la acción $a$, en el estado $s$, y a partir de ahí seguir la política $\pi$.
 \[ Q^{\pi}(s, a) = \mathbb{E}_{\pi}[G_t | S_t = s, A_t = a] \]
 La función Q es fundamental porque, si el agente conoce la función $Q^*$ óptima, puede derivar la política óptima $\pi^*$ directamente sin necesidad de conocer las dinámicas del entorno. La política óptima sería simplemente elegir la acción que maximiza $Q^*(s, a)$ en cada estado: $\pi^*(s) = \arg\max_a Q^*(s, a)$.
 
 \subsection{El Dilema de Exploración vs. Explotación}
 
-Antes encontrar la mejor política, el agente deberá enfrentar la elección entre las siguientes estrategias:
+Para que un agente aprenda la política óptima, deberá equilibrar explotación y exploración para diseñar la estrategia:
 \begin{itemize}
     \item \textbf{Explotación}: Utilizar el conocimiento actual para tomar la mejor acción conocida y maximizar la recompensa inmediata.
     \item \textbf{Exploración}: Probar nuevas acciones, potencialmente subóptimas, para descubrir si pueden conducir a recompensas mayores a largo plazo y mejorar su conocimiento del entorno.
 \end{itemize}
-Un agente que solo explota puede quedarse atascado en un óptimo local. Un agente que solo explora nunca aprovechará su conocimiento y obtendrá un rendimiento bajo. El equilibrio entre ambos es crucial. Una estrategia común es la \textbf{política $\epsilon$-greedy (épsilon-voraz)}, donde el agente elige la mejor acción conocida con probabilidad $1-\epsilon$ (explotación) y una acción aleatoria con probabilidad $\epsilon$ (exploración).
+Si únicamente explota, se quedará atascado en un local.\\
+Si solo explora, obtendrá un rendimiento bajo al no poder alcanzar nunca óptimos locales, ni si quiera el global (se podrá quedar cerca pero no indagará en el entorno cercano).\\
+Esto se suele solventar siguiendo una \textbf{política $\epsilon$-greedy (épsilon-voraz)}, donde el agente elige la mejor acción conocida con probabilidad $1-\epsilon$ (explotación), y una acción aleatoria con probabilidad $\epsilon$ (exploración).
 
 \subsection{Ejemplos de Aplicación del Aprendizaje por Refuerzo}
 
 \subsubsection{El Problema del Multi-Armed Bandit (Bandido de múltiples brazos)}
 
-El problema del Multi-Armed Bandit (MAB) es un ejemplo clásico y simplificado de RL que ilustra perfectamente el dilema de exploración vs. explotación. Imaginemos un jugador en un casino frente a $k$ máquinas tragaperras (los "bandidos"). Cada máquina $i$ tiene una probabilidad desconocida $p_i$ de dar una recompensa. El objetivo del jugador es maximizar su ganancia total en un número limitado de jugadas.
+El problema del Multi-Armed Bandit (MAB) es un ejemplo clásico que ilustra perfectamente el dilema de exploración vs. explotación. Imaginemos a un jugador en un casino frente a $k$ máquinas tragaperras (los "bandidos"). Cada máquina $i$ tiene una probabilidad desconocida $p_i$ de dar una recompensa. El objetivo del jugador es maximizar su ganancia total en un número limitado de jugadas.
 
 \begin{itemize}
     \item \textbf{Agente}: El jugador.
     \item \textbf{Acciones}: Elegir una de las $k$ máquinas para jugar.
     \item \textbf{Recompensa}: 1 si la máquina da premio, 0 si no.
-    \item \textbf{Estado}: En este problema simplificado, solo hay un estado (el agente siempre está frente a las máquinas), por lo que el problema se centra únicamente en qué acción tomar.
+    \item \textbf{Estado}: En este caso no habría estado, ya que no podemos inferir nada de cómo se encuentre la propia máquina.
 \end{itemize}
 
-El dilema es: ¿debería el jugador seguir jugando con la máquina que, hasta ahora, ha dado los mejores resultados (explotación), o debería probar otras máquinas que podrían tener una tasa de pago aún mayor (exploración)?
+¿Debería el jugador seguir jugando con la máquina que, hasta ahora, ha dado los mejores resultados (explotación), o debería probar otras máquinas que podrían tener una tasa de pago aún mayor (exploración)?
 
-Una solución simple es la estrategia $\epsilon$-greedy:
+Una solución siguiendo la política $\epsilon$-greedy sería:
 \begin{enumerate}
     \item Mantener una estimación del valor $Q(a)$ para cada máquina $a$ (la recompensa media obtenida de esa máquina).
     \item Con probabilidad $1-\epsilon$, elegir la máquina con el mayor valor $Q(a)$ actual.
     \item Con probabilidad $\epsilon$, elegir una máquina al azar.
 \end{enumerate}
 
-Se suele utilizar este sistema en ensayos clínicos, para asignar pacientes a diferentes tratamientos.
+Este sistema se suele utilizar en ensayos clínicos, para asignar pacientes a diferentes tratamientos.
 
 \subsubsection{Robótica y Control Motor}
 
@@ -543,16 +543,16 @@ En robótica, el RL permite a los robots aprender tareas complejas sin necesidad
 
 \begin{itemize}
     \item \textbf{Agente}: El controlador del robot.
-    \item \textbf{Estado}: La posición y velocidad de las articulaciones del robot, lecturas de sensores (cámaras, sensores de proximidad).
-    \item \textbf{Acciones}: Los comandos enviados a los motores (ej. aplicar un cierto par de fuerza a una articulación).
-    \item \textbf{Recompensa}: Una señal que depende de la tarea. Por ejemplo, para un robot que aprende a caminar, la recompensa puede ser positiva por cada metro que avanza sin caerse y negativa si se cae.
+    \item \textbf{Estado}: La posición, velocidad de las articulaciones, lecturas de sensores (cámaras, sensores de proximidad) etc. Cualquier cosa que pueda medir el propio robot.
+    \item \textbf{Acciones}: Cualquier combinación de movimientos que sea capaz de realizar el robot.
+    \item \textbf{Recompensa}: Para un robot que aprende a caminar, la recompensa puede ser un valor positivo por cada metro que avanza sin caerse, y uno negativo si se cae o deja de avanzar.
 \end{itemize}
 
 Mediante RL, un robot puede aprender a caminar, correr, manipular objetos o incluso a ensamblar piezas, optimizando su comportamiento para ser más rápido, estable o eficiente energéticamente.
 
 \subsubsection{Juegos  de Estrategia}
 
-El RL ha alcanzado un éxito espectacular en juegos de estrategia complejos como el ajedrez, Go o videojuegos.
+Se utiliza hasta para juegos de estrategia complejos como el ajedrez, Go o videojuegos.
 
 \begin{itemize}
     \item \textbf{Agente}: El programa que juega.
