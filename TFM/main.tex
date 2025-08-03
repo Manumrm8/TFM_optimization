@@ -240,6 +240,8 @@ $$
 $$
 Donde $X$ representa el conjunto de factibilidad o dominio de las variables de decisión.
 
+\hrulefill
+
 \subsection{Tipos de Óptimos: Global vs. Local}
 
 En optimización, es fundamental distinguir entre los distintos tipos de soluciones óptimas, ya que la función objetivo puede tener múltiples puntos donde alcance valores extremos. Por eso hay que diferenciar entre los óptimos locales y globales.
@@ -264,6 +266,8 @@ Un par de ejemplos para distinguir los dos tipos de óptimos:
     \item Si consideramos la elevación de la superficie terrestre como la función objetivo a maximizar, un \textbf{óptimo local} será la cima de cualquier montaña. Es el punto más alto si consideramos como entorno próximo la \textbf{propia} montaña.
     \item En contraste, el \textbf{óptimo global} sería la cima del Monte Everest, el punto más alto de toda la geografía terrestre.
 \end{itemize}
+
+\hrulefill
 
 \subsection{Optimización Lineal vs. No Lineal}
 
@@ -296,6 +300,8 @@ Ejemplos:
     \item \textbf{Lineal:} Una fábrica busca maximizar su beneficio produciendo varios artículos, donde cada uno consume una cantidad fija de recursos (horas de máquina, materia prima) y genera un beneficio fijo, con restricciones de recursos y uso de las máquinas.
     \item \textbf{No lineal:} Encontrar los parámetros de una curva que se ajustan a unos datos concretos, minimizando el error cuadrático medio entre la aproximación (la curva) y el valor exacto de los datos.
 \end{itemize}
+
+\hrulefill
 
 \subsection{Optimización Discreta vs. Continua}
 Probablemente, la mayor distinción en cuanto a problemas de optimización la veamos en base a la naturaleza de sus variables de decisión. Que sean continuas o discretas
@@ -376,6 +382,8 @@ Una solución es \textbf{no dominada} (u óptima en el sentido de Pareto) si no 
     \label{fig:pareto}
 \end{figure}
 
+\hrulefill
+
 \subsection{Métodos Exactos}
 
 Los métodos exactos para la optimización multiobjetivo tienen como finalidad encontrar el Frente de Pareto al completo. Sin embargo, al igual que en sus contrapartes mono-objetivo, se enfrentan al mismo obstáculo: la complejidad computacional. La mayoría de estos problemas son \textbf{NP-hard}.
@@ -393,6 +401,7 @@ No obstante, para problemas sencillos, con pocas variables y reducido espacio de
     \item \textbf{Algoritmos de Ramificación y Corte (Branch and Cut) Multiobjetivo:} De manera análoga, esta técnica extiende \textit{Branch and Cut}. Se añaden planos de corte (restricciones adicionales) no solo para mejorar la relajación del problema mono-objetivo, sino para refinar la aproximación del espacio de soluciones factibles en el dominio multiobjetivo, permitiendo podar ramas del árbol de búsqueda de forma más eficiente.
 \end{itemize}
 
+\hrulefill
 
 \subsection{Metaheurísticos}
 Las metaheurísticas aparecen con el desarrollo de las ciencias de la computación como principal solución a estos problemas. Allí donde los métodos exactos no serían capaces de encontrar el óptimo,
@@ -438,6 +447,8 @@ No entiendo esta parte, he introducido la parte del uso de optimización en cien
 \color{red} Meto una subsección sobre el aprendizaje automático?\color{black}
 \section{Aprendizaje por Refuerzo}
 
+\hrulefill
+
 \subsection{Introducción al Aprendizaje por Refuerzo}
 
 El Aprendizaje por Refuerzo \cite{intro_reforzado} (del inglés, \textit{Reinforcement Learning} o RL) es un área del aprendizaje automático inspirada en la psicología conductista. Se utiliza en problemas donde un agente debe tomar acciones en un entorno dinámico con el objetivo de maximizar una cierta recompensa.\\
@@ -446,6 +457,8 @@ A diferencia de otros paradigmas de la ciencia de datos como el aprendizaje supe
 El objetivo del RL no es encontrar la respuesta correcta, sino descubrir una estrategia de actuación óptima. Por esta razón, el RL se considera un problema de optimización de decisiones.
 
 El agente busca optimizar su comportamiento para lograr un objetivo a largo plazo, lo que lo convierte en una herramienta excepcionalmente potente para resolver problemas complejos en dominios como la robótica, la gestión de la cadena de suministro, las finanzas algorítmicas o incluso para resolver los propios problemas de optimización.
+
+\hrulefill
 
 \subsection{Componentes Clave del Aprendizaje por Refuerzo}
 
@@ -468,6 +481,8 @@ El proceso iterativo se desarrolla a lo largo de los instantes de tiempo $t=0, 1
 \end{enumerate}
 Este ciclo se repite continuamente, generando una trayectoria de estados, acciones y recompensas.
 
+\hrulefill
+
 \subsection{El Objetivo: Maximización de la Recompensa Acumulada}
 
 El objetivo del agente no es maximizar la recompensa inmediata, sino el \textbf{retorno} (o recompensa acumulada), denotado como $G_t$. El retorno es la suma de todas las recompensas futuras a partir del instante $t$. Para evitar sumas infinitas en tareas continuas y para dar más importancia a las recompensas cercanas en el tiempo, se introduce un factor de descuento $\gamma$, donde $0 \le \gamma \le 1$.
@@ -482,6 +497,8 @@ El \textbf{retorno descontado} se define como:
 
 El problema de optimización en RL consiste en encontrar una estrategia que maximice el valor esperado de este retorno.
 
+\hrulefill
+
 \subsection{Conceptos Fundamentales para la Optimización}
 
 Para resolver este problema, el agente se apoya en tres conceptos clave: la política, la función de valor de estado y la función de valor-acción.
@@ -494,15 +511,19 @@ La política es la estrategia que sigue el agente en función del estado. Matem�
 \end{itemize}
 El objetivo del RL es encontrar la \textbf{política óptima}, denotada como $\pi^*$, que maximiza el retorno esperado a largo plazo.
 
+
 \subsubsection{Función de Valor de Estado ($V^{\pi}(s)$)}
 Se define como el retorno esperado que se obtiene al partir del estado $s$ y seguir la política $\pi$. En términos coloquiales, mide cómo de bueno es para el agente encontrarse en un estado determinado siguiendo una política.
 \[ V^{\pi}(s) = \mathbb{E}_{\pi}[G_t | S_t = s] \]
 Un valor alto de $V^{\pi}(s)$ indica que el estado $s$ es favorable bajo la política $\pi$, ya que conduce a una alta recompensa acumulada.
 
+
 \subsubsection{Función de Valor-Acción ($Q^{\pi}(s, a)$)}
 Conocida como \textbf{función Q} \cite{q-learning}, se define como el retorno esperado al tomar la acción $a$ en el estado $s$ y, a partir de ahí, seguir la política $\pi$.
 \[ Q^{\pi}(s, a) = \mathbb{E}_{\pi}[G_t | S_t = s, A_t = a] \]
 La función Q es fundamental porque, si el agente conoce la función $Q^*$ óptima, puede derivar la política óptima $\pi^*$ directamente sin necesidad de conocer las dinámicas del entorno. La política óptima consistiría simplemente en elegir la acción que maximiza $Q^*(s, a)$ en cada estado: $\pi^*(s) = \arg\max_a Q^*(s, a)$.
+
+\hrulefill
 
 \subsection{El Dilema de Exploración vs. Explotación}
 
@@ -514,6 +535,8 @@ Para que un agente aprenda la política óptima, debe equilibrar la explotación
 Si únicamente explota, se arriesga a quedar atascado en un óptimo local.\\
 Si solo explora, obtendrá un rendimiento bajo al no aprovechar las buenas acciones que ha descubierto previamente.\\
 El dilema se suele solventar siguiendo una \textbf{política $\epsilon$-greedy (épsilon-voraz)}, donde el agente elige la mejor acción conocida con probabilidad $1-\epsilon$ (explotación) y una acción aleatoria con probabilidad $\epsilon$ (exploración).
+
+\hrulefill
 
 \subsection{Ejemplos de Aplicación del Aprendizaje por Refuerzo}
 
@@ -539,6 +562,8 @@ Una solución siguiendo la política $\epsilon$-greedy sería:
 
 Este sistema se suele utilizar en ensayos clínicos para asignar pacientes a diferentes tratamientos.
 
+\hrulefill
+
 \subsubsection{Robótica y Control Motor}
 
 En robótica, el RL permite a los robots aprender tareas complejas sin necesidad de ser programados explícitamente.
@@ -551,6 +576,8 @@ En robótica, el RL permite a los robots aprender tareas complejas sin necesidad
 \end{itemize}
 
 Mediante RL, un robot puede aprender a caminar, correr, manipular objetos o incluso a ensamblar piezas, optimizando su comportamiento para ser más rápido, estable o eficiente energéticamente.
+
+\hrulefill
 
 \subsubsection{Juegos de Estrategia}
 
@@ -583,8 +610,6 @@ Suelen centrar sus esfuerzos en:
 
 Para encontrar la solución óptima, en estos problemas también se deben considerar \textbf{restricciones} prácticas, como la capacidad de cada centro, los límites presupuestarios o la necesidad de cubrir un mínimo de demanda.
 
-\color{red}No se si meterle lineas de estas \color{black}
-
 \hrulefill
 
 \subsection{Importancia y Aplicaciones}
@@ -598,7 +623,7 @@ La correcta resolución de estos problemas es vital en múltiples sectores:
 
 \hrulefill
 
-\subsection*{Modelos Clásicos de Localización}
+\subsection{Modelos Clásicos de Localización}
 
 Entre los ejemplos más estudiados se encuentran los siguientes modelos:
 
@@ -750,6 +775,8 @@ El objetivo de $f_2$ es minimizar la carga de trabajo de la instalación más co
 \end{equation}
 Esta función minimiza la diferencia entre la instalación con más carga y la que tiene menos. Es el objetivo más estricto en términos de \textbf{equidad operativa}, ya que busca que todas las instalaciones tengan una carga de trabajo lo más homogénea posible.
 
+\hrulefill
+
 \subsection{Características del Problema}
 
 A partir de la formulación anterior, se deducen las siguientes características clave:
@@ -767,21 +794,16 @@ A partir de la formulación anterior, se deducen las siguientes características
 Tomando en cuenta estas consideraciones,  la búsqueda de una solución óptima mediante la enumeración completa o métodos exactos es computacionalmente prohibitiva. Por ello habrá que utilizar
 métodos alternativos como los algoritmos heurísticos para encontrar, al menos, una buena aproximación al frente de pareto.
 
-\section{Resumen del Capítulo}
+\section{Resumen del capítulo}
 
-En este capítulo se introducen los \textbf{problemas de localización de instalaciones} (\textit{Facility Location Problems}), un campo clave de la optimización combinatoria que busca determinar las ubicaciones óptimas para infraestructuras. Se presentan los modelos clásicos como el \textbf{\textit{p-mediana}}, enfocado en minimizar la distancia total; el \textbf{\textit{p-center}}, que minimiza la distancia máxima para garantizar equidad; y los \textbf{problemas de cobertura} (\textit{LSCP} y \textit{MCLP}), que buscan maximizar el servicio con un número limitado de instalaciones.
+En este capítulo se ha introducido los problemas de localización, junto con los principales objetivos que se buscan optimizar y algunas de sus aplicaciones.
 
-La motivación principal del problema abordado es la necesidad de ir más allá de los objetivos tradicionales, centrándose en un enfoque multiobjetivo que equilibre la \textbf{cobertura}, la \textbf{capacidad} de las instalaciones y la \textbf{homogeneidad} en su uso. Se busca evitar tanto la falta de acceso en ciertas zonas como la saturación de los centros seleccionados.
+Se han introducido los modelos clásicos de localización, como el \textit{p-mediana}, el \textit{p-center} y los problemas de cobertura. Posteriormente se ha explicado la motivación y el objetivo de este TFM, junto con un 
+caso práctico de ejemplo sobre localización de centros médicos.
 
-Para abordar este desafío, se formaliza un \textbf{modelo matemático} con tres funciones objetivo, a partir de un conjunto de $n$ puntos de demanda y $m$ ubicaciones potenciales para construir $k$ instalaciones:
+Para terminar, se ha modelado el problema que habrá que resolver y se ha explicado, razonando el tipo de caso en el que nos encontramos,
+que la mejor forma de resolverlo será utilizando algoritmos heurísticos.
 
-\begin{itemize}
-    \item \textbf{Minimizar la distancia máxima }
-    \item \textbf{Minimizar la carga máxima}
-    \item \textbf{Minimizar el desequilibrio}
-\end{itemize}
-
-El problema resultante es de naturaleza \textbf{discreta}, \textbf{no lineal}, \textbf{combinatoria} (NP-difícil) y \textbf{multiobjetivo}. Debido a esta complejidad, los métodos exactos son computacionalmente inviables, lo que justifica el uso de metaheurísticas para encontrar un conjunto de soluciones eficientes que representen un buen compromiso entre los tres objetivos.
 
 \chapter{GRASP}
 \section{Por qué el GRASP}
@@ -802,25 +824,34 @@ Segunda y última versión, grasp con inicialización greedy randomizada (con al
 
 Explicar la paralelización, como afecta a los pesos del reforzado y a la generación de los frentes de pareto, y cómo mejora la velocidad del algoritmo
 
-\chapter{Experimentación y Resultados}facilita
-instancias de ejemplo (2 o 3)
+\chapter{Experimentación y Resultados}
+facilitar instancias de ejemplo (la pequeña que he utilizado para diseñarlo, y luego probarlo en una más grande.)
 
 Ajuste de los parámetros del algoritmo (tanto la alpha del greedy como la betha, temperatura y learning rate de la parte de aprendizaje reforzado)
 
-Comparativa entre utilizar o no aprendizaje reforzado (resultados vs tiempos), ya que el reforzado irá mejor, pero será algo más lento (no mucho)
+Comparativa entre utilizar o no aprendizaje reforzado (resultados vs tiempos), ya que el reforzado irá mejor, pero será algo más lento (no mucho).
+Para la comparativa del caso pequeño tengo el frente de pareto exacto, calculado a lo bruto. Por el momento, el algoritmo reforzado en 25 min (50.000 iteraciones) saca casi todo el frente de pareto (le ha faltado 1 solución).
 
-Ahora del algoritmo con aprendizaje reforzado, comparativa con el algoritmo del artículo (greedy con path relinking)
+Buscar la comparativa con el algoritmo del artículo (necesitaría tiempos de ejecución para poder compararlo)
 
-Si se puede encontrar, comparar con los tiempos. Si no, solo comparar el frente de pareto encontrado por x iteraciones del algoritmo vs el frente de pareto del artículo.
-
-Si tengo tiempo, me gustaría implementar el algoritmo en un caso real. Si no, al caso de ejemplo de la ciudad de valencia introducido en el capítulo del modelo matemático
+Si tengo tiempo, me gustaría implementar el algoritmo e inventar para un caso real. Si no, al caso de ejemplo de la ciudad de valencia introducido en el capítulo del modelo matemático.
 
 \chapter{Conclusiones}
 
-- El algoritmo va peor, igual, mejora o va distinto 
 
 \chapter{Agradecimientos}
-Valgrai, compañeros del máster, amigos, familia, mi tutora del TFM
+Valgrai
+
+compañeros del máster
+
+amigos
+
+familia
+
+Tutora del TFM
+
+Profesores tanto de la carrera como del máster 
+
 
 
 \begin{thebibliography}{X}
