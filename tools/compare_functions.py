@@ -4,9 +4,10 @@ import numpy as np
 
 def load_solutions(csv_path, txt_path):
     df_csv_full = pd.read_csv(csv_path)
-    df_csv_full.iloc[:, 1] = df_csv_full.iloc[:, 1].round().astype(int)
+    df_csv_full.iloc[:, 1] = df_csv_full.iloc[:, 1]
     df_csv = df_csv_full.iloc[:, 1:]  # Solo los objetivos
     df_txt = pd.read_csv(txt_path, sep="\t", header=None)
+    df_txt.iloc[:, 0] = df_txt.iloc[:, 0]
     return df_csv_full, df_csv, df_txt
 
 

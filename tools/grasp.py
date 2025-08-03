@@ -8,7 +8,7 @@ class Grasp:
     def __init__(self, archive, k, m, alpha=1.0):
         folder_distances = "./data/distances/demand/"
         route_distances = folder_distances + archive + ".csv"
-        self.df_distances_demand = pd.read_csv(route_distances)
+        self.df_distances_demand = pd.read_csv(route_distances, index_col=0)
 
         folder_solutions = "Solutions/"
         self.route_solutions = folder_solutions + archive + ".csv"

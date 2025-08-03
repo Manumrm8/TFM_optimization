@@ -175,7 +175,7 @@ def multi_GRASP(archive, k, m, alpha=1.0, i=0):
 
     folder_distances = "./data/distances/demand/"
     route_distances = folder_distances + archive + ".csv"
-    df_distances_demand = pd.read_csv(route_distances)
+    df_distances_demand = pd.read_csv(route_distances, index_col=0)
 
     folder_solutions = f"Solutions/Multiprocessing/{archive}/"
     # Crea la carpeta si no existe
