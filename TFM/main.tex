@@ -18,6 +18,7 @@
 \renewcommand{\contentsname}{Índice}
 \renewcommand{\bibname}{Bibliografía}
 \renewcommand{\figurename}{Figura}
+\setcounter{chapter}{-1}
 
 \definecolor{verde_oscuro}{rgb}{0.0, 0.5, 0.0}
 
@@ -470,10 +471,57 @@ El agente juega millones de partidas contra sí mismo, explorando el espacio de 
 
 
 \section{Resumen de los capítulos}
+El presente Trabajo de Fin de Máster se estructura en cuatro capítulos, además de un apartado de agradecimientos y un anexo con definiciones necesarias para entender el trabajo.
+En el capítulo 1 se presenta el Problema de Localización de k-Centros Balanceado, introduciendo el marco general de los problemas de localización, la motivación de este estudio y el modelo matemático para resolverlo.
+El capítulo 2 expone la justificación de la elección de la metaheurística GRASP para abordar el problema, describe su implementación y detalla la incorporación del Aprendizaje Reforzado, mediante Multi-Armed Bandits (MAB).
+El capítulo 3 recoge el diseño experimental y el análisis de los resultados obtenidos, comparando el rendimiento del algoritmo GRASP con y sin refuerzo frente a soluciones reportadas en estudios previos.
+Finalmente, el capítulo 4 presenta las conclusiones derivadas del trabajo, así como posibles líneas de investigación futura.
 
-\chapter{Modelo matematico}
+\chapter{Problema de Localización de k-Centros Balanceado Multiobjetivo}
+
+Ya podemos entrar en definir el problema que queremos abordar. Explicaré brevemente en lo que consisten los problemas de localización, sectores claves que requieres de soluciones a 
+estos problemas, los principales modelos que se han realizado para resolverlos y la motivación junto al modelo propuesto para resolver el problema de localización de k-centros balanceado multiobjetivo.
 
 \section{Problemas de Localización (Facility Location Problems)}
+
+Los \textbf{problemas de localización de instalaciones} (\textit{Facility Location Problems}) constituyen una de las clases más relevantes dentro de la optimización combinatoria. Su objetivo es determinar las \textbf{ubicaciones óptimas} donde instalar infraestructuras como almacenes, hospitales, escuelas o antenas de telecomunicaciones.
+
+Estos problemas suelen centrarse en algunos  delos siguientes objetivos:
+\begin{itemize}
+    \item \textbf{Minimizar los costes} o las distancias (ya sea la distancia total o la máxima entre instalaciones y clientes).
+    \item \textbf{Maximizar beneficios} o el área de cobertura alcanzada.
+    \item \textbf{Mejorar la equidad} del servicio o los tiempos de respuesta.
+    \item \textbf{Equilibrar el uso} entre las distintas instalaciones.
+\end{itemize}
+
+Para encontrar la solución óptima, en estos problemas también se deben considerar \textbf{restricciones} prácticas, como la capacidad de cada centro, los límites presupuestarios o la necesidad de cubrir un mínimo de demanda.
+
+La resolución de estos problemas es vital en \textbf{logística y cadena de suministro}, donde ubicar estratégicamente almacenes y centros
+de distribución reduce drásticamente los costes de transporte y mejora la eficiencia de entregas, en el \textbf{sector sanitario}, para el cual ubicar hospitales y centros de atención primaria es crítico para
+asegurar la máxima cobertura y accesibilidad de los mismos a toda la población, u en otros servicios públicos como la \textbf{planificación de escuelas}, \textbf{estaciones de bomberos} o \textbf{ubicación de bocas de metro}.
+
+Algunas de las soluciones propuestas en la literatura se basan en los siguientes modelos:
+
+\subsubsection{P-Mediana (p-median)}
+El objetivo de este modelo es seleccionar $p$ ubicaciones de manera que se \textbf{minimice la suma total de las distancias} entre cada cliente y la instalación que se le asigna. Su enfoque está orientado a optimizar la \textbf{eficiencia global del sistema}, lo que lo convierte en una herramienta idónea para reducir los costes totales de transporte.
+Se utiliza para determinar la ubicación de $p$ almacenes minimizando los costes de distribución, o para ubicar los $p$ centros de reciclaje reduciendod la distancia total recorrida por los vehículos de recogida.
+
+\subsubsection{K-Centro (k-center)}
+En este modelo, el objetivo es seleccionar $k$ ubicaciones para \textbf{minimizar la máxima distancia} que cualquier cliente debe recorrer hasta la instalación más cercana. Se trata de un enfoque centrado en la \textbf{equidad}, ya que busca optimizar el ``peor caso''. Es especialmente relevante en el diseño de servicios de respuesta rápida o de carácter crítico.
+Su uso es clave en localizar qué $k$ hospitales se construyen para que el máximo tiempo de llegada ante una emergencia sea lo menor posible, o al ubicar las $k$ estaciones de bomberos, con el objetivo de que puedan responder
+en situaciones remotas lo más rápido posible.
+
+\subsubsection{Problemas de Cobertura (Coverage)}
+Estos modelos tienen como propósito \textbf{maximizar la demanda atendida} dentro de un radio de servicio predefinido.
+
+\paragraph{Location Set Covering Problem (LSCP)}
+Su objetivo es \textbf{minimizar el número de instalaciones} necesarias para cubrir todos los puntos de demanda.
+Se utiliza para determinar el número mínimo de escuelas de forma que todos los estudiantes vivan a menos de 2 km de una de ellas.
+
+
+\paragraph{Maximal Covering Location Problem (MCLP)}
+En este caso, el objetivo es \textbf{maximizar la demanda cubierta} con un número fijo $p$ de instalaciones, lo que resulta especialmente útil cuando no es posible cubrir a toda la población.
+Es necesario para casos en los que se selecciona la ubicación de $p$ bibliotecas móviles para dar servicio al mayor número posible de ciudadanos.
 
 
 
@@ -483,7 +531,9 @@ El agente juega millones de partidas contra sí mismo, explorando el espacio de 
 
 
 
-\chapter{GRASP}
+\chapter{Resolución del problema}
+Aquí metería una breve introducción a lo que voy a utilizar.
+
 \section{Por qué el GRASP}
 - Es un método sencillo de implementar, pero complicado de adaptar para realizar un buen desempeño
 - Suele obtener buenas soluciones muy rápido, al contrario que Tabu o Algoritmos Genéticos
