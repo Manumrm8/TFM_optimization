@@ -18,6 +18,8 @@
 \renewcommand{\contentsname}{Índice}
 \renewcommand{\bibname}{Bibliografía}
 \renewcommand{\figurename}{Figura}
+\setcounter{chapter}{-1}
+
 \definecolor{verde_oscuro}{rgb}{0.0, 0.5, 0.0}
 
 \newtheorem{defi}{Definición}[section]
@@ -115,12 +117,11 @@ Aquí va el contingut del teu resum en valencià. Explica breument l'objectiu, l
 \chapter{Introducción}
 
 \section{Introducción al TFM}
-En este Trabajo de Fin de Máster se va a estudiar, mediante un Procedimiento de Búsqueda Adaptativa Aleatoria Voraz (\textit{Greedy Randomized Adaptive Search Procedure}, GRASP) con técnicas de Aprendizaje Reforzado, la resolución del problema multiobjetivo de localización de k-centros balanceado.
-{\color{red} Hasta donde sabemos, sólo existen dos artículos previos en este problema. En el primero de ellos, } \cite{k-balanced_1} {\color{red}  propone el problema y lo resuelve utilizando ??.
-Posteriormente, en }\cite{k-Balanced_2}, {\color{red}  los autores desarrollaron un nuevo método de resolución basada en las metaheurísticas denominadas ``GRASP'' y ``Path Relinking'' (denominaciones en inglés y citar ambas).}
+En este Trabajo de Fin de Máster se va a estudiar, mediante un algoritmo GRASP con técnicas de Aprendizaje Reforzado, la resolución del problema de localización de k-centros balanceado multiobjetivo.
+Se ha tomado como referencia \cite{k-balanced_1}, enunciando y resolviendo el problema, junto a la publicación posterior \cite{k-Balanced_2}, donde se desarrollaron nuevos métodos de resolución utilizando GRASP y Path Relinking.
 
 Se han tomado las mismas consideraciones a la hora de definir el problema, y se han trabajado los mismos datos sintéticos.
-Se han realizado dos implementaciones del algoritmo propuesto GRASP con y sin aprendizaje reforzado, y se compararán contrastando los resultados con los de los artículos previos.
+Más adelante se compararán dos implementaciones distintas del algoritmo, contrastando sus resultados con los obtenidos en los artículos previos.
 
 El objetivo principal será evaluar si la implementación de modelos de aprendizaje no supervisado en algoritmos metaheurísticos puede mejorar significativamente su rendimiento.
 
@@ -341,16 +342,17 @@ No obstante, para problemas sencillos, con pocas variables y reducido espacio de
 
 \subsection{Metaheurísticas}
 Como se indicó al principio del capítulo, las metaheurísticas\cite{metaheuristicos} aparecen con el desarrollo de las ciencias de la computación como principal solución a los problemas de optimización complejos. Allí donde los métodos exactos no serían capaces de encontrar el óptimo,
-los algoritmos metaheurísticos buscan soluciones ``buenas'' en tiempos de ejecución razonables, sacrificando la garantía de optimalidad global que proporcionan los métodos exactos.
+los algoritmos metaheurísticos buscan soluciones "buenas" en tiempos de ejecución razonables, sacrificando la garantía de optimalidad global que proporcionan los métodos exactos.
 
-Generalmente combinan heurísticas con aleatoriedad para explorar el espacio de soluciones y obtener resultados diversos, a la vez que se intensifica la búsqueda en las distintas regiones en busca de nuevos óptimos locales.\\
+Generalmente combinan heurísticas con aleatoriedad para obtener soluciones de calidad, a la vez que se explora el espacio buscando nuevos óptimos locales.\\
 Estos métodos combinan dos estrategias:
 \begin{itemize}
     \item \textbf{Exploración:} Capacidad de recorrer diversas áreas del espacio de búsqueda para encontrar nuevas soluciones, evitando quedar atrapado en óptimos locales.
     \item \textbf{Explotación:} Capacidad de intensificar la búsqueda en una región prometedora para encontrar los mejores óptimos locales dentro de ella.
 \end{itemize}
 
-Son algoritmos muy generales y se adaptan a casi cualquier problema de optimización. Algunos de los principales algoritmos metaheurísticos son:
+Son algoritmos muy generales, fáciles de implementar y adaptables a casi 
+cualquier problema de optimización. Los principales algoritmos metaheurísticos son:
 \begin{itemize}
     \item \textbf{Algoritmos Genéticos (GA - Genetic Algorithms)}\\
     Inspirados en la selección natural y la genética, se basan en la generación aleatoria de soluciones y en el cruce de las más prometedoras entre sí, 
@@ -358,7 +360,7 @@ Son algoritmos muy generales y se adaptan a casi cualquier problema de optimizac
     
     \item \textbf{Recocido Simulado (SA - Simulated Annealing)}\\
     Basado en un proceso físico, simula el recocido de metales (calentarlos y enfriarlos para alterar su estructura). Explora soluciones aceptando movimientos de mejora, pero también aquellos que puedan empeorar la solución, 
-    en función de una probabilidad dependiente de una variable ``temperatura'', que decrece con el paso de las iteraciones. En fases tempranas, una temperatura alta favorece la exploración, mientras que en fases finales una temperatura baja favorece la explotación.
+    en función de una probabilidad dependiente de una variable ``temperatura", que decrece con el paso de las iteraciones. En fases tempranas, una temperatura alta favorece la exploración, mientras que en fases finales una temperatura baja favorece la explotación.
     
     \item \textbf{Búsqueda Tabú (TS - Tabu Search)}\\
     Genera una lista ``tabú'' que actúa como memoria a corto plazo del algoritmo, incluyendo los movimientos recientes con el objetivo de no repetir soluciones y así forzar la exploración de nuevas zonas, aunque eso conlleve aceptar movimientos que no sean los mejores posibles.
@@ -432,7 +434,7 @@ El dilema se suele solventar siguiendo una estrategia \textbf{$\epsilon$-greedy 
 
 \subsubsection{El Problema del Multi-Armed Bandit (Bandido de múltiples brazos)}
 
-El problema del Multi-Armed Bandit (MAB) \cite{MAB} es un ejemplo clásico que ilustra perfectamente el dilema de exploración vs. explotación. Imaginemos a un jugador en un casino frente a $k$ máquinas tragaperras (los ``bandidos'').
+El problema del Multi-Armed Bandit (MAB) \cite{MAB} es un ejemplo clásico que ilustra perfectamente el dilema de exploración vs. explotación. Imaginemos a un jugador en un casino frente a $k$ máquinas tragaperras (los ``bandidos").
 Cada máquina $i$ tiene una probabilidad desconocida $p_i$ de dar una recompensa. El objetivo del jugador es maximizar su ganancia total en un número limitado de jugadas.
 
 \begin{itemize}
@@ -480,9 +482,9 @@ Finalmente, el capítulo 4 presenta las conclusiones derivadas del trabajo, así
 Ya podemos entrar en definir el problema que queremos abordar. Explicaré brevemente en lo que consisten los problemas de localización, sectores claves que requieres de soluciones a 
 estos problemas, los principales modelos que se han realizado para resolverlos y la motivación junto al modelo propuesto para resolver el problema de localización de k-centros balanceado multiobjetivo.
 
-\section{Problemas de Localización de instalaciones}
+\section{Problemas de Localización (Facility Location Problems)}
 
-Los \textbf{problemas de localización de instalaciones} (\textit{Facility Location Problems} en su terminología en inglés) constituyen una de las clases más relevantes dentro de la optimización combinatoria. Su objetivo es determinar las \textbf{ubicaciones óptimas} donde instalar infraestructuras como almacenes, hospitales, escuelas o antenas de telecomunicaciones.
+Los \textbf{problemas de localización de instalaciones} (\textit{Facility Location Problems}) constituyen una de las clases más relevantes dentro de la optimización combinatoria. Su objetivo es determinar las \textbf{ubicaciones óptimas} donde instalar infraestructuras como almacenes, hospitales, escuelas o antenas de telecomunicaciones.
 
 Estos problemas suelen centrarse en algunos  delos siguientes objetivos:
 \begin{itemize}
