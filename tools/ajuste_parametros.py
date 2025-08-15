@@ -1,0 +1,158 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import os
+
+
+def contar_soluciones_en_pareto(archive: str, total_corridas: int = 110) -> list:
+    """
+    Carga un frente de Pareto desde un CSV y cuenta cuántas soluciones de cada
+    archivo de resultados (también CSV) se encuentran en dicho frente, usando
+    solo las columnas 'f1', 'f2' y 'f3'.
+
+    Args:
+        archive (str): El nombre base del archivo para construir las rutas de soluciones.
+        total_corridas (int): El número total de archivos de soluciones a procesar.
+
+    Returns:
+        list: Una lista donde cada elemento es el recuento de soluciones
+              en el frente de Pareto para el archivo correspondiente.
+    """
+    path_pareto = f"Pareto_front/{archive}.csv"
+    path_soluciones = f"Solutions/Multiprocessing/{archive}"
+
+    # 1. Cargar el frente de Pareto de referencia desde un CSV
+    try:
+        # Leer el archivo CSV completo
+        df_pareto = pd.read_csv(path_pareto)
+        # Seleccionar solo las columnas de interés y convertir a un array de NumPy
+        frente_pareto = df_pareto[["f1", "f2", "f3"]].values
+
+        print(
+            f"✅ Frente de Pareto cargado desde '{path_pareto}'. Contiene {len(frente_pareto)} soluciones."
+        )
+    except FileNotFoundError:
+        print(
+            f"❌ Error: No se encontró el archivo del frente de Pareto en '{path_pareto}'."
+        )
+        return []
+    except KeyError:
+        print(
+            f"❌ Error: El archivo '{path_pareto}' no contiene las columnas 'f1', 'f2' y 'f3'."
+        )
+        return []
+    except Exception as e:
+        print(f"❌ Error al leer el archivo del frente de Pareto: {e}")
+        return []
+
+    # 2. Iterar a través de cada archivo de solución y contar las coincidencias
+    conteo_por_archivo = []
+
+    for i in range(1, total_corridas + 1):
+        # Construir la ruta para cada archivo CSV de solución
+        ruta_solution = f"{path_soluciones}/{archive}_#{i}.csv"
+
+        if not os.path.exists(ruta_solution):
+            print(
+                f"⚠️  Advertencia: El archivo '{ruta_solution}' no existe. Se contará como 0."
+            )
+            conteo_por_archivo.append(0)
+            continue
+
+        try:
+            # Cargar las soluciones del archivo actual
+            df_soluciones = pd.read_csv(ruta_solution)
+            # Seleccionar solo las columnas de interés y convertir a NumPy array
+            soluciones_actuales = df_soluciones[["f1", "f2", "f3"]].values
+
+            # Contar cuántas soluciones están en el frente de Pareto
+            contador = 0
+            if (
+                soluciones_actuales.size > 0
+            ):  # Asegurarse de que no está vacío tras seleccionar
+                for sol in soluciones_actuales:
+                    if any(
+                        np.allclose(sol, p_sol, atol=1e-6) for p_sol in frente_pareto
+                    ):
+                        contador += 1
+
+            conteo_por_archivo.append(contador)
+
+        except pd.errors.EmptyDataError:
+            print(
+                f"ℹ️  Info: El archivo '{ruta_solution}' está vacío. Se contará como 0."
+            )
+            conteo_por_archivo.append(0)
+        except KeyError:
+            print(
+                f"⚠️  Advertencia: El archivo '{ruta_solution}' no contiene las columnas 'f1', 'f2' y 'f3'. Se contará como 0."
+            )
+            conteo_por_archivo.append(0)
+        except Exception as e:
+            print(f"❌ Error procesando el archivo '{ruta_solution}': {e}")
+            conteo_por_archivo.append(0)
+
+    return conteo_por_archivo
+
+
+def graficar_boxplots_por_alpha(vector_de_conteos: list, archive: str):
+    """
+    Genera una gráfica de boxplots a partir de un vector de conteos.
+
+    La función asume que el vector contiene 110 elementos que corresponden a
+    11 grupos de 10 ejecuciones cada uno, donde cada grupo representa un
+    valor de alpha de 0.0 a 1.0.
+
+    Args:
+        vector_de_conteos (list): La lista de 110 conteos de soluciones.
+        archive (str): El nombre base del archivo, usado para el título del gráfico.
+    """
+    if len(vector_de_conteos) != 110:
+        print(
+            f"❌ Error: Se esperaba un vector con 110 elementos, pero se recibieron {len(vector_de_conteos)}."
+        )
+        return
+
+    # 1. Preparar los datos para la gráfica
+    # Creamos las etiquetas para los 11 grupos de alpha
+    alphas = np.linspace(0, 1, 11)  # [0.0, 0.1, ..., 1.0]
+
+    # Repetimos cada valor de alpha 10 veces para que coincida con cada conteo
+    grupos_alpha = np.repeat(alphas, 10)  # [0.0, 0.0, ..., 0.1, 0.1, ..., 1.0]
+
+    # Creamos un DataFrame de Pandas, que es el formato ideal para Seaborn
+    df_grafica = pd.DataFrame(
+        {"Alpha": grupos_alpha, "Conteo de Soluciones": vector_de_conteos}
+    )
+
+    df_grafica["Alpha"] = df_grafica["Alpha"].map("{:.1f}".format)
+
+    # 2. Crear la gráfica
+    sns.set_theme(style="whitegrid")  # Establecer un estilo visual agradable
+    plt.figure(figsize=(14, 8))  # Definir el tamaño de la figura
+
+    # Crear el boxplot
+    ax = sns.boxplot(
+        x="Alpha",
+        y="Conteo de Soluciones",
+        data=df_grafica,
+        palette="viridis",
+        hue="Alpha",
+        legend=False,
+    )
+
+    # 3. Personalizar la gráfica
+    # Formatear las etiquetas del eje X para que muestren solo un decimal
+    # ax.set_xticklabels([f'{alpha:.1f}' for alpha in alphas])
+
+    plt.title(
+        f"Distribución de Soluciones Encontradas en el Frente de Pareto\n(Instancia: {archive})",
+        fontsize=16,
+    )
+    plt.xlabel("Valor de Alpha", fontsize=12)
+    plt.ylabel("Número de Soluciones en el Frente", fontsize=12)
+    plt.tight_layout()  # Ajusta el gráfico para que todo encaje bien
+
+    # 4. Mostrar la gráfica
+    plt.show()
