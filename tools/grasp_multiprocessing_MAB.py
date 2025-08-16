@@ -325,7 +325,7 @@ def update(chosen_arm, context, reward, weights, route_weights, learning_rate):
         return np.full(weights.shape, 0)
 
     # 3. Aplicar la fórmula de normalización Min-Max
-    #reescaled_weights = (weights - min_val) / (max_val - min_val)
+    reescaled_weights = (weights - min_val) / (max_val - min_val)
     reescaled_weights = np.round(reescaled_weights, 2)
 
     np.save(route_weights, reescaled_weights)

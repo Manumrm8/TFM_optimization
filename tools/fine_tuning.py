@@ -108,7 +108,7 @@ def graficar_boxplots_por_alpha(vector_de_conteos: list, archive: str):
         vector_de_conteos (list): La lista de 110 conteos de soluciones.
         archive (str): El nombre base del archivo, usado para el título del gráfico.
     """
-    if len(vector_de_conteos) != 110:
+    if len(vector_de_conteos) != 220:
         print(
             f"❌ Error: Se esperaba un vector con 110 elementos, pero se recibieron {len(vector_de_conteos)}."
         )
@@ -119,7 +119,7 @@ def graficar_boxplots_por_alpha(vector_de_conteos: list, archive: str):
     alphas = np.linspace(0, 1, 11)  # [0.0, 0.1, ..., 1.0]
 
     # Repetimos cada valor de alpha 10 veces para que coincida con cada conteo
-    grupos_alpha = np.repeat(alphas, 10)  # [0.0, 0.0, ..., 0.1, 0.1, ..., 1.0]
+    grupos_alpha = np.repeat(alphas, 20)  # [0.0, 0.0, ..., 0.1, 0.1, ..., 1.0]
 
     # Creamos un DataFrame de Pandas, que es el formato ideal para Seaborn
     df_grafica = pd.DataFrame(
@@ -156,3 +156,33 @@ def graficar_boxplots_por_alpha(vector_de_conteos: list, archive: str):
 
     # 4. Mostrar la gráfica
     plt.show()
+
+def borrar_resultados_hashtag(ruta_carpeta):
+    """
+    Elimina todos los archivos dentro de una carpeta específica si su nombre
+    contiene el carácter '#'.
+
+    :param ruta_carpeta: La ruta a la carpeta donde se buscarán los archivos.
+    """
+    # Comprobar si la ruta de la carpeta existe
+    if not os.path.isdir(ruta_carpeta):
+        print(f"Error: La carpeta '{ruta_carpeta}' no existe.")
+        return
+
+    print(f"Buscando archivos con '#' en la carpeta: {ruta_carpeta}")
+
+    # Recorrer todos los elementos en el directorio
+    for nombre_archivo in os.listdir(ruta_carpeta):
+        # Comprobar si el '#' está en el nombre del archivo
+        if '#' in nombre_archivo:
+            # Construir la ruta completa del archivo
+            ruta_completa = os.path.join(ruta_carpeta, nombre_archivo)
+            
+            # Asegurarse de que es un archivo y no una carpeta
+            if os.path.isfile(ruta_completa):
+                try:
+                    # Eliminar el archivo
+                    os.remove(ruta_completa)
+                    print(f"Eliminado: {nombre_archivo}")
+                except OSError as e:
+                    print(f"Error al eliminar el archivo {nombre_archivo}: {e}")
