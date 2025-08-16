@@ -14,6 +14,7 @@
 \usepackage{hyperref}
 \usepackage[parfill]{parskip}
 \usepackage{float}
+\usepackage{subcaption}
 \renewcommand{\chaptername}{Capítulo}
 \renewcommand{\contentsname}{Índice}
 \renewcommand{\bibname}{Bibliografía}
@@ -88,7 +89,7 @@
 
 \begin{document}
 
-\nuevaportada{Ciencia de Datos}{Resolución mediante GRASP y aprendizaje reforzado del Problema de Localización de k-Centros Balanceado Multiobjetivo}{Manuel Rubio Martínez}{Anna Martínez Gavara}{Abril, 2025}
+\nuevaportada{Ciencia de Datos}{Resolución mediante GRASP y aprendizaje reforzado del Problema Multiobjetivo de Localización de k-Centros Balanceado }{Manuel Rubio Martínez}{Anna Martínez Gavara}{Abril, 2025}
 
 \clearpage
 
@@ -116,8 +117,10 @@ Aquí va el contingut del teu resum en valencià. Explica breument l'objectiu, l
 
 \section{Introducción al TFM}
 En este Trabajo de Fin de Máster se va a estudiar, mediante un Procedimiento de Búsqueda Adaptativa Aleatoria Voraz (\textit{Greedy Randomized Adaptive Search Procedure}, GRASP) con técnicas de Aprendizaje Reforzado, la resolución del problema multiobjetivo de localización de k-centros balanceado.
-{\color{red} Hasta donde sabemos, sólo existen dos artículos previos en este problema. En el primero de ellos, } \cite{k-balanced_1} {\color{red}  propone el problema y lo resuelve utilizando ??.
-Posteriormente, en }\cite{k-Balanced_2}, {\color{red}  los autores desarrollaron un nuevo método de resolución basada en las metaheurísticas denominadas ``GRASP'' y ``Path Relinking'' (denominaciones en inglés y citar ambas).}
+Hasta donde sabemos, sólo existen dos artículos previos en este problema. En el primero de ellos, \cite{k-balanced_1} propone el problema, actualizándo el clásico de k-centros introduciendo que se busque balancear las cargas de las instalaciones.
+y lo resuelve diseñando su propio algoritmo MOAkBCL (\textit{Multi-Objective Algorithm k-Balanced Center Location}), basado en un enfoque de escalada y compartiendo similitudes con algoritmos evolutivos.
+
+Posteriormente, en \cite{k-Balanced_2}, los autores desarrollaron un nuevo método de resolución basada en las metaheurísticas denominadas ``GRASP''\cite{GRASP} (\textit{Greedy Randomized Adaptive Search Procedure}) con ``Strategic Oscillation''\cite{oscillation} (explorando soluciones infactibles) y ``Path Relinking''\cite{path_relinking} (combinando estas para obtener mejores soluciones factibles).
 
 Se han tomado las mismas consideraciones a la hora de definir el problema, y se han trabajado los mismos datos sintéticos.
 Se han realizado dos implementaciones del algoritmo propuesto GRASP con y sin aprendizaje reforzado, y se compararán contrastando los resultados con los de los artículos previos.
@@ -428,7 +431,7 @@ Si solo explora, obtendrá un rendimiento bajo al no aprovechar las buenas accio
 
 El dilema se suele solventar siguiendo una estrategia \textbf{$\epsilon$-greedy (épsilon-voraz)}, donde el agente elige la mejor acción conocida con probabilidad $1-\epsilon$ (explotación) y una acción aleatoria con probabilidad $\epsilon$ (exploración).
 
-\subsection{Ejemplos de Aplicación del Aprendizaje por Refuerzo}
+\subsection{Ejemplos de Aplicación del Aprendizaje Reforzado}
 
 \subsubsection{El Problema del Multi-Armed Bandit (Bandido de múltiples brazos)}
 
@@ -475,16 +478,16 @@ El capítulo 2 expone la justificación de la elección de la metaheurística GR
 El capítulo 3 recoge el diseño experimental y el análisis de los resultados obtenidos, comparando el rendimiento del algoritmo GRASP con y sin refuerzo frente a soluciones reportadas en estudios previos.
 Finalmente, el capítulo 4 presenta las conclusiones derivadas del trabajo, así como posibles líneas de investigación futura.
 
-\chapter{Problema de Localización de k-Centros Balanceado Multiobjetivo}
+\chapter{Problema Multiobjetivo de Localización de k-Centros Balanceado}
 
-Ya podemos entrar en definir el problema que queremos abordar. Explicaré brevemente en lo que consisten los problemas de localización, sectores claves que requieres de soluciones a 
-estos problemas, los principales modelos que se han realizado para resolverlos y la motivación junto al modelo propuesto para resolver el problema de localización de k-centros balanceado multiobjetivo.
+Ya se puede entrar a definir el problema a abordar. Se explicará brevemente en lo que consisten los problemas de localización, sectores claves que requieren de soluciones a 
+estos problemas, los principales modelos que se han realizado para resolverlos y la motivación junto al modelo propuesto para resolver el problema multiobjetivo de localización de k-centros balanceado.
 
 \section{Problemas de Localización de instalaciones}
 
 Los \textbf{problemas de localización de instalaciones} (\textit{Facility Location Problems} en su terminología en inglés) constituyen una de las clases más relevantes dentro de la optimización combinatoria. Su objetivo es determinar las \textbf{ubicaciones óptimas} donde instalar infraestructuras como almacenes, hospitales, escuelas o antenas de telecomunicaciones.
 
-Estos problemas suelen centrarse en algunos  delos siguientes objetivos:
+Estos problemas suelen centrarse en
 \begin{itemize}
     \item \textbf{Minimizar los costes} o las distancias (ya sea la distancia total o la máxima entre instalaciones y clientes).
     \item \textbf{Maximizar beneficios} o el área de cobertura alcanzada.
@@ -492,9 +495,9 @@ Estos problemas suelen centrarse en algunos  delos siguientes objetivos:
     \item \textbf{Equilibrar el uso} entre las distintas instalaciones.
 \end{itemize}
 
-Para encontrar la solución óptima, en estos problemas también se deben considerar \textbf{restricciones} prácticas, como la capacidad de cada centro, los límites presupuestarios o la necesidad de cubrir un mínimo de demanda.
+Para encontrar la solución óptima, en elos problemas de localización también se deben considerar \textbf{restricciones} prácticas, como la capacidad de cada centro, los límites presupuestarios o la necesidad de cubrir un mínimo de demanda.
 
-La resolución de estos problemas es vital en \textbf{logística y cadena de suministro}, donde ubicar estratégicamente almacenes y centros
+Encontrar la solución óptima es vital en \textbf{logística y cadena de suministro}, donde ubicar estratégicamente almacenes y centros
 de distribución reduce drásticamente los costes de transporte y mejora la eficiencia de entregas, en el \textbf{sector sanitario}, para el cual ubicar hospitales y centros de atención primaria es crítico para
 asegurar la máxima cobertura y accesibilidad de los mismos a toda la población, u en otros servicios públicos como la \textbf{planificación de escuelas}, \textbf{estaciones de bomberos} o \textbf{ubicación de bocas de metro}.
 
@@ -502,31 +505,144 @@ Algunas de las soluciones propuestas en la literatura se basan en los siguientes
 
 \subsubsection{P-Mediana (p-median)}
 El objetivo de este modelo es seleccionar $p$ ubicaciones de manera que se \textbf{minimice la suma total de las distancias} entre cada cliente y la instalación que se le asigna. Su enfoque está orientado a optimizar la \textbf{eficiencia global del sistema}, lo que lo convierte en una herramienta idónea para reducir los costes totales de transporte.
-Se utiliza para determinar la ubicación de $p$ almacenes minimizando los costes de distribución, o para ubicar los $p$ centros de reciclaje reduciendod la distancia total recorrida por los vehículos de recogida.
+Se utiliza para determinar la ubicación de almacenes minimizando los costes de distribución, o para ubicar los centros de reciclaje reduciendod la distancia total recorrida por los vehículos de recogida.
 
 \subsubsection{K-Centro (k-center)}
 En este modelo, el objetivo es seleccionar $k$ ubicaciones para \textbf{minimizar la máxima distancia} que cualquier cliente debe recorrer hasta la instalación más cercana. Se trata de un enfoque centrado en la \textbf{equidad}, ya que busca optimizar el ``peor caso''. Es especialmente relevante en el diseño de servicios de respuesta rápida o de carácter crítico.
-Su uso es clave en localizar qué $k$ hospitales se construyen para que el máximo tiempo de llegada ante una emergencia sea lo menor posible, o al ubicar las $k$ estaciones de bomberos, con el objetivo de que puedan responder
+Su uso es clave en localizar qué hospitales se construyen para que el máximo tiempo de llegada ante una emergencia sea lo menor posible, o al ubicar las estaciones de bomberos, con el objetivo de que puedan responder
 en situaciones remotas lo más rápido posible.
 
-\subsubsection{Problemas de Cobertura (Coverage)}
-Estos modelos tienen como propósito \textbf{maximizar la demanda atendida} dentro de un radio de servicio predefinido.
+\subsubsection{Problemas de Cobertura (Coverage)} 
+Estos modelos tienen como propósito \textbf{maximizar la demanda atendida} dentro de un radio de servicio predefinido. 
+Suelen usarse en el diseño de redes de telecomunicaciones, donde cada antena de telefonía móvil cubre un área geográfica determinada.
 
-\paragraph{Location Set Covering Problem (LSCP)}
-Su objetivo es \textbf{minimizar el número de instalaciones} necesarias para cubrir todos los puntos de demanda.
+\begin{itemize}
+    \item \textbf{Location Set Covering Problem (LSCP):}
+    Su objetivo es \textbf{minimizar el número de instalaciones} necesarias para cubrir todos los puntos de demanda.
 Se utiliza para determinar el número mínimo de escuelas de forma que todos los estudiantes vivan a menos de 2 km de una de ellas.
 
+    \item \textbf{Maximal Covering Location Problem (MCLP):}
+En este caso, el objetivo es \textbf{maximizar la demanda cubierta} con un número fijo de instalaciones, lo que resulta especialmente útil cuando no es posible cubrir a toda la población.
+Es necesario para casos en los que se selecciona la ubicación de bibliotecas móviles para dar servicio al mayor número posible de ciudadanos.
 
-\paragraph{Maximal Covering Location Problem (MCLP)}
-En este caso, el objetivo es \textbf{maximizar la demanda cubierta} con un número fijo $p$ de instalaciones, lo que resulta especialmente útil cuando no es posible cubrir a toda la población.
-Es necesario para casos en los que se selecciona la ubicación de $p$ bibliotecas móviles para dar servicio al mayor número posible de ciudadanos.
-
-
-
+\end{itemize}
 \section{Motivación}
 
-\section{Modelo Matemático}
+En un entorno cada vez más competitivo y dinámico, la localización estratégica de infraestructuras no solo debe considerar criterios tradicionales como la distancia o el coste, sino también otros factores clave como la cobertura del mercado, la accesibilidad o el equilibrio en la distribución de la demanda.
 
+Actualmente, uno de los principales retos es maximizar el alcance de ciertos productos o servicios, garantizando que lleguen al mayor número posible de personas. Al mismo tiempo, es necesario evitar la concentración excesiva de demanda en unos pocos puntos, lo que puede provocar saturación, pérdida de calidad del servicio o ineficiencias operativas, mientras existen centros que, por tener una localización más aislada, prácticamente no recibirían demanda.
+
+El equilibrio entre amplitud de cobertura y uso equilibrado de los recursos disponibles es especialmente importante en contextos donde hay un reducido número de emplazamientos posibles, y donde cada selección de localización afecta tanto a la eficiencia del sistema como a la experiencia del usuario o cliente final.
+
+Al abordar el problema es importante considerar que la distancia total o el tiempo medio de viaje no es el factor más crítico. 
+Tomemos como ejemplo la construcción de un hospital en una ciudad: el objetivo no es que la población viva lo más cerca posible, sino que todos los residentes se encuentren a una distancia razonable para poder acceder al servicio.
+
+Considera estos dos escenarios para una ciudad:
+
+\begin{itemize}
+    \item Escenario 1: El tiempo medio de trayecto hasta el hospital más cercano es de 15 minutos, y el tiempo máximo que ha de recorrer un individuo de 30 minutos.
+    \item Escenario 2: El tiempo medio de trayecto hasta el hospital más cercano es de 13 minutos, pero pasa a 1 h el tiempo que tendrá de recorrer la persona más alejada de su hospital más cercano.
+\end{itemize} 
+
+Términos globales, podríamos decir que el segundo sistema implementado es más eficiente, pero se dejan de lado los valores extremos.
+Una parte significativa de la población podría tener grandes dificultades para acceder a servicios esenciales.
+Por el contrario, aunque el primer caso tenga un tiempo medio mayor, mejora considerablemente la accesibilidad. Esto subraya que mejorar la media no implica necesariamente mejora el servicio.
+\newpage
+
+Para ilustrar estas ideas de forma práctica, consideremos un ejemplo ficticio inspirado en la zona de Valencia, donde una red hospitalaria está
+planificando la ubicación de 5 centros médicos dentro de una región con una población de $1000$ personas. 
+
+Debido a limitaciones presupuestarias, de personal e infraestructura, se restringe su construcción a un conjunto de $50$ posibles emplazamientos. 
+
+El objetivo será encontrar qué $5$ centros, de ese total de $50$ posibles, habrá que construir teniendo en cuenta los siguientes criterios:
+
+\begin{itemize}
+    \item \textbf{Cobertura Poblacional:} Los centros seleccionados deben intentar minimizar la máxima distancia o tiempo de viaje entre el conjunto de la población y los centros médicos.
+    \item \textbf{Capacidad:} Los centros médicos no deben quedar sobresaturados. Construir un único centro médico en una zona con mucha población puede generar una buena cobertura y tiempos de viaje cortos, pero quedar sobrepasado y generar problemas de tiempo de atención y espera.
+    \item \textbf{Equilibrio:} El objetivo es que, si se construye un centro, se utilice. No puede ocurrir que un centro quede muy poco usado con respecto a los demás. Así, otro objetivo será que la diferencia entre los más usados y los menos sea la mínima posible, quedando su uso bien repartido.
+\end{itemize}
+
+Como se observa en la Figura~\ref{fig:casos_ejemplo}. La Figura~\ref{fig:poblacion_centros_medicos} muestra la distribución inicial, con 400 puntos azules representando a la población y 20 puntos verdes para las posibles localizaciones de los centros.
+
+A continuación, se evalúan tres soluciones de ejemplo. Una primera solución aleatoria (Figura~\ref{fig:ejemplo_1}) resulta en una mala cobertura, ya que al escogerse centros por el sur y oeste, gran parte de Valencia queda con un acceso deficiente. Una segunda aproximación (Figura~\ref{fig:ejemplo_2}) mejora la distribución, pero sigue presentando desequilibrios: zonas del norte y sur permanecen alejadas y algunos centros podrían sobresaturarse mientras otros, como el del extremo oeste, tendrían poco uso. Finalmente, la solución de la Figura~\ref{fig:ejemplo_3} ofrece una dispersión más equilibrada y es la que mejor apariencia tiene de las tres, dejando solo la zona sur del puerto más desatendida.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/ejemplo_centros_medicos.png}
+        \caption{Población y centros médicos potenciales.}
+        \label{fig:poblacion_centros_medicos}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/solucion_ejemplo_1.png}
+        \caption{Ejemplo de solución aleatoria.}
+        \label{fig:ejemplo_1}
+    \end{subfigure}
+    
+    \vspace{0.5cm} % Espacio vertical entre las filas de imágenes
+    
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/solucion_ejemplo_2.png}
+        \caption{Segundo ejemplo de solución.}
+        \label{fig:ejemplo_2}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/solucion_ejemplo_3.png}
+        \caption{Tercer ejemplo de solución (mejorada).}
+        \label{fig:ejemplo_3}
+    \end{subfigure}
+    
+    \caption{Ejemplo del problema de localización: (a) población y sitios potenciales, y (b-d) tres posibles soluciones con distintos niveles de eficacia.}
+    \label{fig:casos_ejemplo}
+\end{figure}
+
+\color{red} cambiar las figuras utilizando el workspace 1000 50 5 \color{black}
+
+Como ya se mencionó al definir las características de la optimización combinatoria, el problema es NP-difícil, así
+que habrá que definir el modelo matemático y resolverlo de manera aproximada con alguna metaheurística.
+\section{Modelo Matemático}
+Sean $N=\{1, 2, \dots, n\}$ el conjunto de \textbf{puntos de demanda} y $M=\{1, 2, \dots, m\}$ el conjunto de ubicaciones para las \textbf{potenciales instalaciones}.
+
+Se define $d_{ij}$ como la distancia entre el punto de demanda $i \in N$ y la ubicación $j \in M$.\\
+El conjunto de variables de decisión será $X$. Cada una de las variables $x_j \in X$ toma valores en $\{0,1\}$, siendo 1 si la ubicación $j \in M$ se selecciona y 0 en caso contrario. Como debe haber $k$ ubicaciones seleccionadas:
+\begin{equation}
+    \sum_{j \in M} x_j = k
+\end{equation}
+
+Se asume que cada punto de demanda es atendido por la instalación más cercana dentro del conjunto de localizaciones $M$. En base a esto, se define $n_j$ como la cantidad de puntos de demanda asignados a la instalación $j \in M$.
+
+El problema da lugar a las siguientes tres funciones objetivo:
+
+\begin{equation}
+    \text{Minimizar} \quad f_1(X) = \max_{i \in N} \min_{j \in M} d_{ij}
+\end{equation}
+Esta función, propia de los problemas \textit{k-centro}, busca minimizar la \textbf{distancia máxima} que debe recorrer cualquier cliente hasta su instalación asignada. El objetivo es lograr la mejor cobertura posible, evitando que algún punto de demanda quede excesivamente lejos.
+
+\begin{equation}
+    \text{Minimizar} \quad f_2(X) = \max_{j \in M} n_j
+\end{equation}
+El objetivo de $f_2$ es minimizar la carga de trabajo de la instalación más congestionada. 
+
+\begin{equation}
+    \text{Minimizar} \quad f_3(X) = \max_{\substack{j, j' \in M \\ j \neq j'}} |n_j - n_{j'}|
+\end{equation}
+Esta función minimiza la diferencia entre la instalación con más carga y la que tiene menos. Es el objetivo más estricto en términos de \textbf{equidad operativa}, ya que busca que todas las instalaciones tengan una carga de trabajo lo más homogénea posible.
+
+Recopilando lo visto hasta ahora, se deducen las siguientes características clave:
+
+\begin{itemize}
+    \item \textbf{Optimización no lineal}: Las funciones objetivo son no lineales, ya que contienen operadores como $\max$, $\min$ y valor absoluto.
+    
+    \item \textbf{Optimización discreta}: El dominio de la solución es discreto, pues se debe elegir un subconjunto de un conjunto finito de ubicaciones.
+    
+    \item \textbf{Problema combinatorio (NP-difícil)}: El problema consiste en encontrar el mejor subconjunto de $k$ elementos de un total de $m$, lo cual es característico de los problemas NP-difíciles. El número de soluciones posibles es $\binom{m}{k}$.
+    
+    \item \textbf{Problema multiobjetivo}: Se desean optimizar simultáneamente tres funciones objetivo.
+\end{itemize}
+
+Tomando en cuenta esto, se va a proponer el algoritmo metaheurístico para resolver el problema.
 
 
 \chapter{Resolución del problema}
@@ -539,6 +655,7 @@ Aquí metería una breve introducción a lo que voy a utilizar.
 
 \section{Metaheurísticas del grasp}
 definir primero la monoobjetivo, cómo se comporta, y por qué en monoobjetivo es muy sencillo definir grasp
+
 definir la multiobjetivo, explicar las diferencias que hay con respecto a la búsqueda de soluciones, y los tipos de búsquedas locales que se pueden hacer (por pesos, mejorando las variables por separado ETC)
 
 \section{Implementación del grasp}
@@ -547,6 +664,11 @@ Primera versión, grasp con inicialización greedy randomizada (con alpha fijo) 
 Explicar por qué voy a utilizar aprendizaje reforzado para mejorar el algoritmo
 
 Segunda y última versión, grasp con inicialización greedy randomizada (con alpha ranodom), búsquedas locales escogidas por aprendizaje reforzado.
+
+Utilizo softmax para ajustar los pesos
+$$
+\sigma(z)_i = \frac{e^{\frac{z_i - \max(z)}{\tau}}}{\sum_{j=1}^{K} e^{\frac{z_j - \max(z)}{\tau}}}
+$$
 
 Explicar la paralelización, como afecta a los pesos del reforzado y a la generación de los frentes de pareto, y cómo mejora la velocidad del algoritmo
 
@@ -649,6 +771,23 @@ Si el conjunto de opciones es el total, el algoritmo es ``random''.
     \url{https://www.sciencedirect.com/science/article/pii/S0305054819300164}
 
     \bibitem{k-Balanced_2} \textsc{Sánchez-Oro, Jesús; López-Sánchez, Ana D.; Martínez-Gavara, Anna; Hernández-Díaz, Alfredo G.; Duarte, Abraham}. \textit{A Hybrid Strategic Oscillation with Path Relinking Algorithm for the Multiobjective k-Balanced Center Location Problem.} Mathematics, Vol. 9, No. 8, 2021, Artículo 853. \url{https://www.mdpi.com/2227-7390/9/8/853}
+
+    \bibitem{GRASP}
+    T. A. Feo and M. G. C. Resende, 
+    "Greedy randomized adaptive search procedures," 
+    \textit{Journal of Global Optimization}, 
+    vol. 6, no. 2, pp. 109--133, 1995.
+
+    \bibitem{oscillation}
+    F. Glover and J.-K. Hao,
+    "The case for strategic oscillation,"
+    \textit{Annals of Operations Research},
+    vol. 183, pp. 163--173, Mar. 2011.
+
+    \bibitem{path_relinking}
+    R. Mart\'i, F. Glover and M. Laguna,
+    "Scatter search and path-relinking: Fundamentals, advances, and applications,"
+    in \textit{Handbook of Metaheuristics}, M. Gendreau and J-Y. Potvin, Eds., Springer, 2010, pp. 1--27.
 
     \bibitem{Leibniz}
     J.~J.~O'Connor and E.~F.~Robertson,
