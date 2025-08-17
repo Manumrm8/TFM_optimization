@@ -15,6 +15,8 @@
 \usepackage[parfill]{parskip}
 \usepackage{float}
 \usepackage{subcaption}
+\usepackage{natbib}
+
 \renewcommand{\chaptername}{Capítulo}
 \renewcommand{\contentsname}{Índice}
 \renewcommand{\bibname}{Bibliografía}
@@ -117,7 +119,7 @@ Aquí va el contingut del teu resum en valencià. Explica breument l'objectiu, l
 
 \section{Introducción al TFM}
 En este Trabajo de Fin de Máster se va a estudiar, mediante un Procedimiento de Búsqueda Adaptativa Aleatoria Voraz (\textit{Greedy Randomized Adaptive Search Procedure}, GRASP) con técnicas de Aprendizaje Reforzado, la resolución del problema multiobjetivo de localización de k-centros balanceado.
-Hasta donde sabemos, sólo existen dos artículos previos en este problema. En el primero de ellos, \cite{k-balanced_1} propone el problema, actualizándo el clásico de k-centros introduciendo que se busque balancear las cargas de las instalaciones.
+Hasta donde sabemos, sólo existen dos artículos previos en este problema. En el primero de ellos, \citet{k-balanced_1} propone el problema, actualizándo el clásico de k-centros introduciendo que se busque balancear las cargas de las instalaciones.
 y lo resuelve diseñando su propio algoritmo MOAkBCL (\textit{Multi-Objective Algorithm k-Balanced Center Location}), basado en un enfoque de escalada y compartiendo similitudes con algoritmos evolutivos.
 
 Posteriormente, en \cite{k-Balanced_2}, los autores desarrollaron un nuevo método de resolución basada en las metaheurísticas denominadas ``GRASP''\cite{GRASP} (\textit{Greedy Randomized Adaptive Search Procedure}) con ``Strategic Oscillation''\cite{oscillation} (explorando soluciones infactibles) y ``Path Relinking''\cite{path_relinking} (combinando estas para obtener mejores soluciones factibles).
@@ -562,43 +564,51 @@ El objetivo será encontrar qué $5$ centros, de ese total de $50$ posibles, hab
     \item \textbf{Equilibrio:} El objetivo es que, si se construye un centro, se utilice. No puede ocurrir que un centro quede muy poco usado con respecto a los demás. Así, otro objetivo será que la diferencia entre los más usados y los menos sea la mínima posible, quedando su uso bien repartido.
 \end{itemize}
 
-Como se observa en la Figura~\ref{fig:casos_ejemplo}. La Figura~\ref{fig:poblacion_centros_medicos} muestra la distribución inicial, con 400 puntos azules representando a la población y 20 puntos verdes para las posibles localizaciones de los centros.
+% Con respecto a la imagen, mas o menos hay una tasa de 6.25,  1 unidad equivaldrá a 6 metros.
 
-A continuación, se evalúan tres soluciones de ejemplo. Una primera solución aleatoria (Figura~\ref{fig:ejemplo_1}) resulta en una mala cobertura, ya que al escogerse centros por el sur y oeste, gran parte de Valencia queda con un acceso deficiente. Una segunda aproximación (Figura~\ref{fig:ejemplo_2}) mejora la distribución, pero sigue presentando desequilibrios: zonas del norte y sur permanecen alejadas y algunos centros podrían sobresaturarse mientras otros, como el del extremo oeste, tendrían poco uso. Finalmente, la solución de la Figura~\ref{fig:ejemplo_3} ofrece una dispersión más equilibrada y es la que mejor apariencia tiene de las tres, dejando solo la zona sur del puerto más desatendida.
+Como se observa en la Figura~\ref{fig:casos_ejemplo}, la Figura~\ref{fig:centros_medicos} muestra la distribución inicial, donde 1000 puntos azules representan a la población y 50 estrellas rojas indican las posibles ubicaciones de los centros médicos.
+
+A continuación, se presentan tres soluciones de ejemplo:
+
+\begin{itemize}
+    \item \textbf{Solución aleatoria (Figura~\ref{fig:solucion_aleatoria}):} Esta opción presenta dos problemas principales. Primero, algunos centros se ubican en la periferia, mientras que uno permanece en el centro, lo que genera sobrecarga en ciertas instalaciones y deja a varios puntos muy alejados de cualquier centro médico (hasta 3,13 km). En este caso, el centro más cargado atiende a 417 personas, mientras que el menos utilizado solo a 49.
+    \item \textbf{Solución de cobertura poblacional (Figura~\ref{fig:min_distancias}):} Aquí se busca minimizar la distancia máxima de la población a los centros. La distancia máxima se reduce a 2,35 km, pero se genera un desequilibrio significativo en la carga de los centros, donde el más utilizado atiende a 281 personas y el menos a 69.
+    \item \textbf{Solución equilibrada (Figura~\ref{fig:equilibrada}):} Esta alternativa prioriza distribuir de manera equitativa la demanda entre los centros. El centro más utilizado atiende a 203 personas y el menos a 197. Sin embargo, la distancia máxima aumenta a 3 km, mostrando la compensación entre equilibrio y proximidad.
+\end{itemize}
+
+
 
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{images/ejemplo_centros_medicos.png}
+        \includegraphics[width=\textwidth]{images/centros_medicos.png}
         \caption{Población y centros médicos potenciales.}
-        \label{fig:poblacion_centros_medicos}
+        \label{fig:centros_medicos}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{images/solucion_ejemplo_1.png}
-        \caption{Ejemplo de solución aleatoria.}
-        \label{fig:ejemplo_1}
+        \includegraphics[width=\textwidth]{images/solucion_aleatoria.png}
+        \caption{Solución aleatoria.}
+        \label{fig:solucion_aleatoria}
     \end{subfigure}
     
     \vspace{0.5cm} % Espacio vertical entre las filas de imágenes
     
     \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{images/solucion_ejemplo_2.png}
-        \caption{Segundo ejemplo de solución.}
-        \label{fig:ejemplo_2}
+        \includegraphics[width=\textwidth]{images/min_distancias.png}
+        \caption{Solución minimizando distancia máxima}
+        \label{fig:min_distancias}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{images/solucion_ejemplo_3.png}
-        \caption{Tercer ejemplo de solución (mejorada).}
-        \label{fig:ejemplo_3}
+        \includegraphics[width=\textwidth]{images/equilibrada.png}
+        \caption{Solución equilibrando la carga de los centros}
+        \label{fig:equilibrada}
     \end{subfigure}
     
     \caption{Ejemplo del problema de localización: (a) población y sitios potenciales, y (b-d) tres posibles soluciones con distintos niveles de eficacia.}
     \label{fig:casos_ejemplo}
 \end{figure}
-
-\color{red} cambiar las figuras utilizando el workspace 1000 50 5 \color{black}
 
 Como ya se mencionó al definir las características de la optimización combinatoria, el problema es NP-difícil, así
 que habrá que definir el modelo matemático y resolverlo de manera aproximada con alguna metaheurística.
@@ -856,87 +866,10 @@ Un algoritmo \textbf{``greedy randomizado''} se basa en el ``greedy'', pero en c
 Si el conjunto de opciones es el total, el algoritmo es ``random''.
 \end{defi}
 
-\begin{thebibliography}{X}
-    % Introduccion
-    \bibitem{k-balanced_1}
-    M.~Davoodi,
-    k-balanced center location problem: A new multi-objective facility location problem,
-    \textit{Computers \& Operations Research}, 105 (2019) 68--84.
-    \url{https://www.sciencedirect.com/science/article/pii/S0305054819300164}
+\nocite{*}
+\bibliographystyle{plainnat}
+\bibliography{bibliografia/k-balanced_1, bibliografia/k-Balanced_2, bibliografia/GRASP, bibliografia/oscillation,bibliografia/path_relinking, bibliografia/Leibniz, bibliografia/Dantzig, bibliografia/metaheuristicos, bibliografia/Dantzig1951}
 
-    \bibitem{k-Balanced_2} \textsc{Sánchez-Oro, Jesús; López-Sánchez, Ana D.; Martínez-Gavara, Anna; Hernández-Díaz, Alfredo G.; Duarte, Abraham}. \textit{A Hybrid Strategic Oscillation with Path Relinking Algorithm for the Multiobjective k-Balanced Center Location Problem.} Mathematics, Vol. 9, No. 8, 2021, Artículo 853. \url{https://www.mdpi.com/2227-7390/9/8/853}
-
-    \bibitem{GRASP}
-    T. A. Feo and M. G. C. Resende, 
-    "Greedy randomized adaptive search procedures," 
-    \textit{Journal of Global Optimization}, 
-    vol. 6, no. 2, pp. 109--133, 1995.
-
-    \bibitem{oscillation}
-    F. Glover and J.-K. Hao,
-    "The case for strategic oscillation,"
-    \textit{Annals of Operations Research},
-    vol. 183, pp. 163--173, Mar. 2011.
-
-    \bibitem{path_relinking}
-    R. Mart\'i, F. Glover and M. Laguna,
-    "Scatter search and path-relinking: Fundamentals, advances, and applications,"
-    in \textit{Handbook of Metaheuristics}, M. Gendreau and J-Y. Potvin, Eds., Springer, 2010, pp. 1--27.
-
-    \bibitem{Leibniz}
-    J.~J.~O'Connor and E.~F.~Robertson,
-    \textit{Gottfried Wilhelm von Leibniz}.
-    MacTutor History of Mathematics Archive, University of St Andrews.
-    October 1998.
-    \url{https://mathshistory.st-andrews.ac.uk/Biographies/Leibniz/}.
-
-    \bibitem{Dantzig}
-    W.~L.~Hosch,
-    ``George Dantzig'',
-    en \textit{Encyclopedia Britannica}, 9 de mayo de 2025.
-    \url{https://www.britannica.com/biography/George-Dantzig}.
-
-    \bibitem{metaheuristicos}
-    R.~Martí, M.~Sevaux, and K.~Sörensen,
-    Fifty years of metaheuristics,
-    \textit{European Journal of Operational Research}, 321(2) (2025) 345--362.
-    DOI: \href{https://doi.org/10.1016/j.ejor.2024.04.004}{10.1016/j.ejor.2024.04.004}.
-
-    \bibitem{Dantzig1951} \textsc{Dantzig, George B.} \textit{Maximization of a Linear Function of Variables Subject to Linear Inequalities.} En: Koopmans, Tjalling C. (ed.). \textit{Activity Analysis of Production and Allocation}. New York: John Wiley \& Sons, Inc., 1951, pp. 339-347. \url{https://wwwf.imperial.ac.uk/~ajacquie/IC_Num_Methods/IC_Num_Methods_Docs/Literature/Dantzig2.pdf}
-
-    \bibitem{Numerical_optimization_nocedal_wright}
-    Jorge Nocedal and Stephen J. Wright.
-    \newblock {\em Numerical Optimization}.
-    \newblock Springer, 2nd edition, 2006.
-
-    \bibitem{np_hard}
-    J.~Erickson, ``Lecture 30: NP-Hard Problems,'' \emph{CS 573: Graduate Algorithms, University of Illinois at Urbana-Champaign}, Fall 2010. [Online].
-    \url{https://courses.grainger.illinois.edu/cs573/fa2010/notes/30-nphard.pdf}
-
-    \bibitem{Bre2017}
-    Facundo Bre and Víctor Fachinotti.
-    \newblock A computational multi-objective optimization method to improve energy efficiency and thermal comfort in dwellings.
-    \newblock {\em Energy and Buildings}, 154: (missing pages, if available), August 2017.
-    \newblock \href{https://doi.org/10.1016/j.enbuild.2017.08.002}{DOI: 10.1016/j.enbuild.2017.08.002}
-    
-    \bibitem{intro_reforzado}
-    R.~S. Sutton and A.~G. Barto.
-    \newblock \textit{Reinforcement Learning, second edition: An Introduction}.
-    \newblock Adaptive Computation and Machine Learning series. MIT Press, 2018.
-
-    \bibitem{MAB}
-    H.~Robbins.
-    \newblock Some aspects of the sequential design of experiments.
-    \newblock \textit{Bulletin of the American Mathematical Society}, 58(5):527--535, 1952.
-        
-    \bibitem{AlphaGo}
-    D.~Silver, A.~Huang, C.~J. Maddison, A.~Guez, L.~Sifre, G.~van~den Driessche, J.~Schrittwieser, I.~Antonoglou, V.~Panneershelvam, M.~Lanctot, S.~Dieleman, D.~Grewe, J.~Nham, N.~Kalchbrenner, I.~Sutskever, T.~Lillicrap, M.~Leach, K.~Kavukcuoglu, T.~Graepel, and D.~Hassabis.
-    \newblock Mastering the game of Go with deep neural networks and tree search.
-    \newblock \textit{Nature}, 529:484--489, January 2016.
-
-    % Modelo matematico
-
-\end{thebibliography}
 
 
 \end{document}
