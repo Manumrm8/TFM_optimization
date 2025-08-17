@@ -684,6 +684,100 @@ Buscar la comparativa con el algoritmo del artículo (necesitaría tiempos de ej
 
 Si tengo tiempo, me gustaría implementar el algoritmo e inventar para un caso real. Si no, al caso de ejemplo de la ciudad de valencia introducido en el capítulo del modelo matemático.
 
+\section{Fine tuning}
+
+Primero, voy a evaluar las 3 variables que quiero ajustar:
+\begin{itemize}
+    \item \textbf{Alpha ($\alpha$)}: Durante la inicialización de las soluciones greedy, en cada paso se incorpora un elemento $x_i$ a la solución. El parámetro $1-\alpha$ determina el porcentaje de los mejores candidatos $x_i \in X, \; x_i \neq 1$ entre los cuales se selecciona.  
+Si $\alpha = 1$, siempre se elige el mejor candidato; si $\alpha = 0$, la elección es completamente aleatoria. En términos generales, el procedimiento consiste en escoger aleatoriamente un $x_i$ dentro del conjunto de los $(1-\alpha)$ mejores candidatos.
+    \item \textbf{Beta ($\beta$)}: El rendimiento del MAB depende en gran medida del equilibrio entre exploración y explotación. El parámetro $\beta$ regula, durante la selección de la búsqueda local en el GRASP, qué proporción de elecciones se realiza de manera aleatoria y cuál de forma probabilística ponderada según los pesos del MAB.  
+Si $\beta = 0$, la selección es siempre probabilística y ponderada; si $\beta = 1$, la elección es completamente aleatoria.
+    \item \textbf{Learning Rate (lr)}: Tasa de aprendizaje del MAB. Define cuánto influye la recompensa y el contexto en la actualización de los pesos. 
+Un valor pequeño de \textit{lr} produce actualizaciones más suaves y estables, mientras que un valor grande genera cambios más rápidos y pronunciados.
+\end{itemize}
+
+Se comienza variando el parámetro $\alpha$ en el rango $[0,1]$, dividido en 11 valores equiespaciados: $0, 0.1, 0.2, \dots, 0.9, 1$.  
+Para cada valor de $\alpha$, el algoritmo se ejecuta en paralelo en 20 instancias independientes, cada una de ellas corriendo con una duración total de 6000 iteraciones. Los resultados se registran adicionalmente en las iteraciones 2000 y 4000 con el fin de analizar la evolución del desempeño a lo largo de la ejecución.
+En total, esto equivale a 220 ejecuciones simultáneas, lo que permite observar la evolución del algoritmo y disponer de un espacio muestral suficiente para comparar su desempeño bajo distintos valores de $\alpha$.
+
+Los resultados son los siguientes:
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images_finetuning/alpha_2000}
+        \caption{Resultados con 2000 iteraciones}
+        \label{fig:alpha_2000}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images_finetuning/alpha_4000}
+        \caption{Resultados con 4000 iteraciones}
+        \label{fig:alpha_4000}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images_finetuning/alpha_6000}
+        \caption{Resultados con 6000 iteraciones}
+        \label{fig:alpha_6000}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images_finetuning/alphas}
+        \caption{Comparativa general de $\alpha$}
+        \label{fig:alphas}
+    \end{subfigure}
+    \caption{Resultados del algoritmo para distintos valores de $\alpha$ y diferentes números de iteraciones.}
+    \label{fig:resultados_alpha}
+\end{figure}
+
+\color{red} añadir explicación de qué alpha se coge \color{black}
+
+El siguiente será el $\beta$, igualmente en el rango $[0,1]$ con los mismos valores $0, 0.1, 0.2, \dots, 0.9, 1$.  
+Para cada valor de $\beta$, el algoritmo se ejecuta en paralelo en 20 instancias independientes, cada una de ellas corriendo con una duración total de 6000 iteraciones. Los resultados se registran adicionalmente en las iteraciones 2000 y 4000 con el fin de analizar la evolución del desempeño a lo largo de la ejecución.
+En total, esto equivale a 220 ejecuciones simultáneas, lo que permite observar la evolución del algoritmo y disponer de un espacio muestral suficiente para comparar su desempeño bajo distintos valores de $\alpha$.
+
+Los resultados son los siguientes:
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images_finetuning/alpha_2000}
+        \caption{Resultados con 2000 iteraciones}
+        \label{fig:beta_2000}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images_finetuning/alpha_4000}
+        \caption{Resultados con 4000 iteraciones}
+        \label{fig:beta_4000}
+    \end{subfigure}
+    \vskip\baselineskip
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images_finetuning/alpha_6000}
+        \caption{Resultados con 6000 iteraciones}
+        \label{fig:beta_6000}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images_finetuning/alphas}
+        \caption{Comparativa general de $\alpha$}
+        \label{fig:betas}
+    \end{subfigure}
+    \caption{Resultados del algoritmo para distintos valores de $\alpha$ y diferentes números de iteraciones.}
+    \label{fig:resultados_beta}
+\end{figure}
+
+\color{red} añadir explicación de qué beta se coge \color{black}
+
 \chapter{Conclusiones}
 
 
