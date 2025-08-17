@@ -157,6 +157,69 @@ def graficar_boxplots_por_alpha(vector_de_conteos: list, archive: str):
     # 4. Mostrar la gráfica
     plt.show()
 
+
+def graficar_boxplots_por_betha(vector_de_conteos: list, archive: str):
+    """
+    Genera una gráfica de boxplots a partir de un vector de conteos.
+
+    La función asume que el vector contiene 110 elementos que corresponden a
+    11 grupos de 10 ejecuciones cada uno, donde cada grupo representa un
+    valor de alpha de 0.0 a 1.0.
+
+    Args:
+        vector_de_conteos (list): La lista de 110 conteos de soluciones.
+        archive (str): El nombre base del archivo, usado para el título del gráfico.
+    """
+    if len(vector_de_conteos) != 220:
+        print(
+            f"❌ Error: Se esperaba un vector con 110 elementos, pero se recibieron {len(vector_de_conteos)}."
+        )
+        return
+
+    # 1. Preparar los datos para la gráfica
+    # Creamos las etiquetas para los 11 grupos de alpha
+    bethas = np.linspace(0, 1, 11)  # [0.0, 0.1, ..., 1.0]
+
+    # Repetimos cada valor de alpha 10 veces para que coincida con cada conteo
+    grupos_alpha = np.repeat(bethas, 20)  # [0.0, 0.0, ..., 0.1, 0.1, ..., 1.0]
+
+    # Creamos un DataFrame de Pandas, que es el formato ideal para Seaborn
+    df_grafica = pd.DataFrame(
+        {"Betha": grupos_alpha, "Conteo de Soluciones": vector_de_conteos}
+    )
+
+    df_grafica["Betha"] = df_grafica["Betha"].map("{:.1f}".format)
+
+    # 2. Crear la gráfica
+    sns.set_theme(style="whitegrid")  # Establecer un estilo visual agradable
+    plt.figure(figsize=(14, 8))  # Definir el tamaño de la figura
+
+    # Crear el boxplot
+    ax = sns.boxplot(
+        x="Betha",
+        y="Conteo de Soluciones",
+        data=df_grafica,
+        palette="viridis",
+        hue="Betha",
+        legend=False,
+    )
+
+    # 3. Personalizar la gráfica
+    # Formatear las etiquetas del eje X para que muestren solo un decimal
+    # ax.set_xticklabels([f'{alpha:.1f}' for alpha in alphas])
+
+    plt.title(
+        f"Distribución de Soluciones Encontradas en el Frente de Pareto\n(Instancia: {archive})",
+        fontsize=16,
+    )
+    plt.xlabel("Valor de Betha", fontsize=12)
+    plt.ylabel("Número de Soluciones en el Frente", fontsize=12)
+    plt.tight_layout()  # Ajusta el gráfico para que todo encaje bien
+
+    # 4. Mostrar la gráfica
+    plt.show()
+
+
 def borrar_resultados_hashtag(ruta_carpeta):
     """
     Elimina todos los archivos dentro de una carpeta específica si su nombre
@@ -174,15 +237,14 @@ def borrar_resultados_hashtag(ruta_carpeta):
     # Recorrer todos los elementos en el directorio
     for nombre_archivo in os.listdir(ruta_carpeta):
         # Comprobar si el '#' está en el nombre del archivo
-        if '#' in nombre_archivo:
+        if "#" in nombre_archivo:
             # Construir la ruta completa del archivo
             ruta_completa = os.path.join(ruta_carpeta, nombre_archivo)
-            
+
             # Asegurarse de que es un archivo y no una carpeta
             if os.path.isfile(ruta_completa):
                 try:
                     # Eliminar el archivo
                     os.remove(ruta_completa)
-                    print(f"Eliminado: {nombre_archivo}")
                 except OSError as e:
                     print(f"Error al eliminar el archivo {nombre_archivo}: {e}")
