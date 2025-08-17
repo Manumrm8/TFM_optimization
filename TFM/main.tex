@@ -5,7 +5,12 @@
 %\renewcommand{\baselinestretch}{1}
 %\setlength{\parskip}{8pt}
 
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
 \usepackage[utf8]{inputenc}
+
+
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -114,7 +119,7 @@ Here goes the content of your abstract in English. Briefly explain the objective
 Aquí va el contingut del teu resum en valencià. Explica breument l'objectiu, la metodologia, els resultats i les conclusions del teu TFM.
 
 \newpage
-
+ 
 \chapter{Introducción}
 
 \section{Introducción al TFM}
@@ -122,7 +127,7 @@ En este Trabajo de Fin de Máster se va a estudiar, mediante un Procedimiento de
 Hasta donde sabemos, sólo existen dos artículos previos en este problema. En el primero de ellos, \citet{k-balanced_1} propone el problema, actualizándo el clásico de k-centros introduciendo que se busque balancear las cargas de las instalaciones.
 y lo resuelve diseñando su propio algoritmo MOAkBCL (\textit{Multi-Objective Algorithm k-Balanced Center Location}), basado en un enfoque de escalada y compartiendo similitudes con algoritmos evolutivos.
 
-Posteriormente, en \cite{k-Balanced_2}, los autores desarrollaron un nuevo método de resolución basada en las metaheurísticas denominadas ``GRASP''\cite{GRASP} (\textit{Greedy Randomized Adaptive Search Procedure}) con ``Strategic Oscillation''\cite{oscillation} (explorando soluciones infactibles) y ``Path Relinking''\cite{path_relinking} (combinando estas para obtener mejores soluciones factibles).
+Posteriormente, en \cite{k-Balanced_2}, los autores desarrollaron un nuevo método de resolución basada en las metaheurísticas denominadas ``GRASP'' \cite{GRASP} (\textit{Greedy Randomized Adaptive Search Procedure}) con ``Strategic Oscillation'' \cite{oscillation} (explorando soluciones infactibles) y ``Path Relinking'' \cite{path_relinking} (combinando estas para obtener mejores soluciones factibles).
 
 Se han tomado las mismas consideraciones a la hora de definir el problema, y se han trabajado los mismos datos sintéticos.
 Se han realizado dos implementaciones del algoritmo propuesto GRASP con y sin aprendizaje reforzado, y se compararán contrastando los resultados con los de los artículos previos.
@@ -135,14 +140,14 @@ Esta introducción se centrará en contextualizar el área de la optimización, 
 \section{Historia de la optimización}
 El origen de la optimizacaión se remonta a la antigua Grecia, donde matemáticos como Euclides o Arquímedes la utilizaban en busca de soluciones a problemas del área de la geometría.
 
-La versión que conocemos hoy en día no empezó a desarrollarse hasta el siglo XVII, con la aparición del cálculo diferencial, impulsado por los trabajos de Isaac Newton y Gottfried Wilhelm Leibniz\cite{Leibniz}. Con él se empezaron a estudiar las funciones y sus puntos extremos,
+La versión que conocemos hoy en día no empezó a desarrollarse hasta el siglo XVII, con la aparición del cálculo diferencial, impulsado por los trabajos de Isaac Newton y Gottfried Wilhelm Leibniz \cite{Leibniz}. Con él se empezaron a estudiar las funciones y sus puntos extremos,
 en los cuales, bajo ciertas condiciones, pueden encontrarse los valores óptimos.
 
 No encontramos grandes avances hasta mediados del siglo XX cuando, fruto de la necesidad de resolver problemas logísticos durante la Segunda Guerra Mundial, el matemático George Bernard Dantzig \cite{Dantzig} desarrolló la programación lineal, la cual sentó las bases para el posterior surgimiento tanto de la programación no lineal, como de la entera y la dinámica.
 
 A pesar de todo, la mayoría de problemas del mundo real, especialmente aquellos que dependen de un gran número de variables, con funciones objetivo complejas y restricciones no lineales, acaban siendo demasiado costosos computacionalmente. Esta inviabilidad de los métodos de obtención de soluciones exactas propició el surgimiento de los metaheurísticos.
 
-Los algoritmos metaheurísticos\cite{metaheuristicos}, acuñados por el especialista en ciencias de la computación Fred Glover,
+Los algoritmos metaheurísticos \cite{metaheuristicos}, acuñados por el especialista en ciencias de la computación Fred Glover,
 son la alternativa realista para la búsqueda de soluciones aproximadas, pero cercanas al óptimo, en un tiempo aceptable.
 
 Las metaheurísticas son fundamentales en Ciencia de Datos, ya que permiten abordar de manera eficiente problemas complejos presentes en:
@@ -236,7 +241,7 @@ Ejemplos:
 
 
 \subsection{Optimización Discreta vs. Continua}
-la segunda característica a estudiar será la naturaleza de sus variables de decisión. Que sean continuas o discretas
+La segunda característica a estudiar será la naturaleza de sus variables de decisión. Que sean continuas o discretas
 limitará en gran medida el tipo de algoritmos que puedan utilizarse para resolverlos.
 
 \subsubsection{Optimización Continua}
@@ -345,7 +350,7 @@ No obstante, para problemas sencillos, con pocas variables y reducido espacio de
 \end{itemize}
 
 \subsection{Metaheurísticas}
-Como se indicó al principio del capítulo, las metaheurísticas\cite{metaheuristicos} aparecen con el desarrollo de las ciencias de la computación como principal solución a los problemas de optimización complejos. Allí donde los métodos exactos no serían capaces de encontrar el óptimo,
+Como se indicó al principio del capítulo, las metaheurísticas \cite{metaheuristicos} aparecen con el desarrollo de las ciencias de la computación como principal solución a los problemas de optimización complejos. Allí donde los métodos exactos no serían capaces de encontrar el óptimo,
 los algoritmos metaheurísticos buscan soluciones ``buenas'' en tiempos de ejecución razonables, sacrificando la garantía de optimalidad global que proporcionan los métodos exactos.
 
 Generalmente combinan heurísticas con aleatoriedad para explorar el espacio de soluciones y obtener resultados diversos, a la vez que se intensifica la búsqueda en las distintas regiones en busca de nuevos óptimos locales.\\
@@ -868,9 +873,22 @@ Si el conjunto de opciones es el total, el algoritmo es ``random''.
 
 \nocite{*}
 \bibliographystyle{plainnat}
-\bibliography{bibliografia/k-balanced_1, bibliografia/k-Balanced_2, bibliografia/GRASP, bibliografia/oscillation,bibliografia/path_relinking, bibliografia/Leibniz, bibliografia/Dantzig, bibliografia/metaheuristicos, bibliografia/Dantzig1951}
-
-
+\bibliography{bibliografia/k-balanced_1,
+              bibliografia/k-Balanced_2,
+              bibliografia/GRASP,
+              bibliografia/oscillation,
+              bibliografia/path_relinking,
+              bibliografia/Leibniz,
+              bibliografia/Dantzig,
+              bibliografia/metaheuristicos,
+              bibliografia/Dantzig1951,
+              bibliografia/Numerical_optimization_nocedal_wright,
+              bibliografia/np_hard,
+              bibliografia/Bre2017,
+              bibliografia/intro_reforzado,
+              bibliografia/MAB,
+              bibliografia/AlphaGo
+              }
 
 \end{document}
 
