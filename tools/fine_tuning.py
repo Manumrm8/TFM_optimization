@@ -158,7 +158,7 @@ def graficar_boxplots_por_alpha(vector_de_conteos: list, archive: str):
     plt.show()
 
 
-def graficar_boxplots_por_betha(vector_de_conteos: list, archive: str):
+def graficar_boxplots_por_beta(vector_de_conteos: list, archive: str):
     """
     Genera una gráfica de boxplots a partir de un vector de conteos.
 
@@ -178,17 +178,17 @@ def graficar_boxplots_por_betha(vector_de_conteos: list, archive: str):
 
     # 1. Preparar los datos para la gráfica
     # Creamos las etiquetas para los 11 grupos de alpha
-    bethas = np.linspace(0, 1, 11)  # [0.0, 0.1, ..., 1.0]
+    betas = np.linspace(0, 1, 11)  # [0.0, 0.1, ..., 1.0]
 
     # Repetimos cada valor de alpha 10 veces para que coincida con cada conteo
-    grupos_alpha = np.repeat(bethas, 20)  # [0.0, 0.0, ..., 0.1, 0.1, ..., 1.0]
+    grupos_beta = np.repeat(betas, 20)  # [0.0, 0.0, ..., 0.1, 0.1, ..., 1.0]
 
     # Creamos un DataFrame de Pandas, que es el formato ideal para Seaborn
     df_grafica = pd.DataFrame(
-        {"Betha": grupos_alpha, "Conteo de Soluciones": vector_de_conteos}
+        {"Beta": grupos_beta, "Conteo de Soluciones": vector_de_conteos}
     )
 
-    df_grafica["Betha"] = df_grafica["Betha"].map("{:.1f}".format)
+    df_grafica["Beta"] = df_grafica["Beta"].map("{:.1f}".format)
 
     # 2. Crear la gráfica
     sns.set_theme(style="whitegrid")  # Establecer un estilo visual agradable
@@ -196,11 +196,11 @@ def graficar_boxplots_por_betha(vector_de_conteos: list, archive: str):
 
     # Crear el boxplot
     ax = sns.boxplot(
-        x="Betha",
+        x="Beta",
         y="Conteo de Soluciones",
         data=df_grafica,
         palette="viridis",
-        hue="Betha",
+        hue="Beta",
         legend=False,
     )
 
