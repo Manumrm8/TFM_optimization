@@ -717,40 +717,10 @@ En total, esto equivale a 220 ejecuciones simultáneas, lo que permite observar 
 
 Los resultados son los siguientes:
 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images_finetuning/alpha_2000}
-        \caption{Resultados con 2000 iteraciones}
-        \label{fig:alpha_2000}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images_finetuning/alpha_4000}
-        \caption{Resultados con 4000 iteraciones}
-        \label{fig:alpha_4000}
-    \end{subfigure}
-    \vskip\baselineskip
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images_finetuning/alpha_6000}
-        \caption{Resultados con 6000 iteraciones}
-        \label{fig:alpha_6000}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images_finetuning/alphas}
-        \caption{Comparativa general de $\alpha$}
-        \label{fig:alphas}
-    \end{subfigure}
-    \caption{Resultados del algoritmo para distintos valores de $\alpha$ y diferentes números de iteraciones.}
-    \label{fig:resultados_alpha}
-\end{figure}
+\includegraphics[width=\linewidth]{images_finetuning/alpha}
 
-\color{red} añadir explicación de qué alpha se coge \color{black}
+Podemos ver como el alpha qu eparece tener mejores resultados es el 0.3, y por sus alrededores se encuentran los mejores resultados.
+También cómo elegir tanto alpha 1 (solucion puramente greedy) o 0 (solución aleatoria) son los que peores resultados dan.
 
 El siguiente será el $\beta$, igualmente en el rango $[0,1]$ con los mismos valores $0, 0.1, 0.2, \dots, 0.9, 1$.  
 Para cada valor de $\beta$, el algoritmo se ejecuta en paralelo en 20 instancias independientes, cada una de ellas corriendo con una duración total de 6000 iteraciones. Los resultados se registran adicionalmente en las iteraciones 2000 y 4000 con el fin de analizar la evolución del desempeño a lo largo de la ejecución.

@@ -96,92 +96,30 @@ def contar_soluciones_en_pareto(archive: str, total_corridas: int = 110) -> list
     return conteo_por_archivo
 
 
-def graficar_boxplots_por_alpha(vector_de_conteos: list, archive: str):
+def graficar_boxplots(vector_de_conteos: list, archive: str):
     """
     Genera una gráfica de boxplots a partir de un vector de conteos.
 
-    La función asume que el vector contiene 110 elementos que corresponden a
-    11 grupos de 10 ejecuciones cada uno, donde cada grupo representa un
-    valor de alpha de 0.0 a 1.0.
+    La función asume que el vector contiene 220 elementos que corresponden a
+    11 grupos de 20 ejecuciones cada uno, donde cada grupo representa un
+    valor de beta de 0.0 a 1.0.
 
     Args:
-        vector_de_conteos (list): La lista de 110 conteos de soluciones.
+        vector_de_conteos (list): La lista de 220 conteos de soluciones.
         archive (str): El nombre base del archivo, usado para el título del gráfico.
     """
     if len(vector_de_conteos) != 220:
         print(
-            f"❌ Error: Se esperaba un vector con 110 elementos, pero se recibieron {len(vector_de_conteos)}."
+            f"❌ Error: Se esperaba un vector con 220 elementos, pero se recibieron {len(vector_de_conteos)}."
         )
         return
 
     # 1. Preparar los datos para la gráfica
-    # Creamos las etiquetas para los 11 grupos de alpha
-    alphas = np.linspace(0, 1, 11)  # [0.0, 0.1, ..., 1.0]
-
-    # Repetimos cada valor de alpha 10 veces para que coincida con cada conteo
-    grupos_alpha = np.repeat(alphas, 20)  # [0.0, 0.0, ..., 0.1, 0.1, ..., 1.0]
-
-    # Creamos un DataFrame de Pandas, que es el formato ideal para Seaborn
-    df_grafica = pd.DataFrame(
-        {"Alpha": grupos_alpha, "Conteo de Soluciones": vector_de_conteos}
-    )
-
-    df_grafica["Alpha"] = df_grafica["Alpha"].map("{:.1f}".format)
-
-    # 2. Crear la gráfica
-    sns.set_theme(style="whitegrid")  # Establecer un estilo visual agradable
-    plt.figure(figsize=(14, 8))  # Definir el tamaño de la figura
-
-    # Crear el boxplot
-    ax = sns.boxplot(
-        x="Alpha",
-        y="Conteo de Soluciones",
-        data=df_grafica,
-        palette="viridis",
-        hue="Alpha",
-        legend=False,
-    )
-
-    # 3. Personalizar la gráfica
-    # Formatear las etiquetas del eje X para que muestren solo un decimal
-    # ax.set_xticklabels([f'{alpha:.1f}' for alpha in alphas])
-
-    plt.title(
-        f"Distribución de Soluciones Encontradas en el Frente de Pareto\n(Instancia: {archive})",
-        fontsize=16,
-    )
-    plt.xlabel("Valor de Alpha", fontsize=12)
-    plt.ylabel("Número de Soluciones en el Frente", fontsize=12)
-    plt.tight_layout()  # Ajusta el gráfico para que todo encaje bien
-
-    # 4. Mostrar la gráfica
-    plt.show()
-
-
-def graficar_boxplots_por_beta(vector_de_conteos: list, archive: str):
-    """
-    Genera una gráfica de boxplots a partir de un vector de conteos.
-
-    La función asume que el vector contiene 110 elementos que corresponden a
-    11 grupos de 10 ejecuciones cada uno, donde cada grupo representa un
-    valor de alpha de 0.0 a 1.0.
-
-    Args:
-        vector_de_conteos (list): La lista de 110 conteos de soluciones.
-        archive (str): El nombre base del archivo, usado para el título del gráfico.
-    """
-    if len(vector_de_conteos) != 220:
-        print(
-            f"❌ Error: Se esperaba un vector con 110 elementos, pero se recibieron {len(vector_de_conteos)}."
-        )
-        return
-
-    # 1. Preparar los datos para la gráfica
-    # Creamos las etiquetas para los 11 grupos de alpha
+    # Creamos las etiquetas para los 11 grupos de beta
     betas = np.linspace(0, 1, 11)  # [0.0, 0.1, ..., 1.0]
 
-    # Repetimos cada valor de alpha 10 veces para que coincida con cada conteo
-    grupos_beta = np.repeat(betas, 20)  # [0.0, 0.0, ..., 0.1, 0.1, ..., 1.0]
+    # Repetimos cada valor de beta 20 veces para que coincida con cada conteo
+    grupos_beta = np.repeat(betas, 20)
 
     # Creamos un DataFrame de Pandas, que es el formato ideal para Seaborn
     df_grafica = pd.DataFrame(
@@ -205,20 +143,110 @@ def graficar_boxplots_por_beta(vector_de_conteos: list, archive: str):
     )
 
     # 3. Personalizar la gráfica
-    # Formatear las etiquetas del eje X para que muestren solo un decimal
-    # ax.set_xticklabels([f'{alpha:.1f}' for alpha in alphas])
-
     plt.title(
         f"Distribución de Soluciones Encontradas en el Frente de Pareto\n(Instancia: {archive})",
         fontsize=16,
     )
-    plt.xlabel("Valor de Betha", fontsize=12)
+    plt.xlabel("Valor de Beta", fontsize=12)
     plt.ylabel("Número de Soluciones en el Frente", fontsize=12)
+
+    # ---> MODIFICACIÓN: Establecer los límites del eje Y <---
+    plt.ylim(0, 17)
+
     plt.tight_layout()  # Ajusta el gráfico para que todo encaje bien
 
     # 4. Mostrar la gráfica
     plt.show()
 
+
+def graficar_boxplots_comparativo(
+    conteos_modelo1: list,
+    conteos_modelo2: list,
+    conteos_modelo3: list,
+    nombres_modelos: list,
+    archive: str,
+):
+    """
+    Genera una gráfica de boxplots comparando los resultados de tres modelos.
+
+    La función asume que cada vector contiene 220 elementos que corresponden a
+    11 grupos de 20 ejecuciones cada uno (para valores de beta de 0.0 a 1.0).
+
+    Args:
+        conteos_modelo1 (list): Vector de conteos del primer modelo.
+        conteos_modelo2 (list): Vector de conteos del segundo modelo.
+        conteos_modelo3 (list): Vector de conteos del tercer modelo.
+        nombres_modelos (list): Una lista con tres strings para los nombres
+                                de los modelos. Ej: ['Modelo A', 'Modelo B', 'Modelo C'].
+        archive (str): El nombre base del archivo, usado para el título.
+    """
+    # 1. Validar las entradas
+    if not all(len(v) == 220 for v in [conteos_modelo1, conteos_modelo2, conteos_modelo3]):
+        print("❌ Error: Todos los vectores de conteos deben tener 220 elementos.")
+        return
+    if len(nombres_modelos) != 3:
+        print("❌ Error: Se debe proporcionar una lista con exactamente 3 nombres de modelos.")
+        return
+
+    # 2. Preparar los datos para la gráfica
+    betas = np.linspace(0, 1, 11)  # [0.0, 0.1, ..., 1.0]
+    grupos_beta = np.repeat(betas, 20)
+
+    # Crear un DataFrame para cada modelo y luego unirlos
+    df1 = pd.DataFrame({
+        "Alpha": grupos_beta,
+        "Conteo de Soluciones": conteos_modelo1,
+        "Número de iteraciones": nombres_modelos[0]
+    })
+    df2 = pd.DataFrame({
+        "Alpha": grupos_beta,
+        "Conteo de Soluciones": conteos_modelo2,
+        "Número de iteraciones": nombres_modelos[1]
+    })
+    df3 = pd.DataFrame({
+        "Alpha": grupos_beta,
+        "Conteo de Soluciones": conteos_modelo3,
+        "Número de iteraciones": nombres_modelos[2]
+    })
+
+    # Combinar los tres DataFrames en uno solo
+    df_grafica = pd.concat([df1, df2, df3], ignore_index=True)
+    
+    # Formatear la columna Beta para que se muestre con un solo decimal
+    df_grafica["Alpha"] = df_grafica["Alpha"].map("{:.1f}".format)
+
+
+    # 3. Crear la gráfica
+    sns.set_theme(style="whitegrid")
+    plt.figure(figsize=(18, 9)) # Aumentamos el tamaño para mejor legibilidad
+
+    # Crear el boxplot usando 'hue' para diferenciar los modelos
+    ax = sns.boxplot(
+        x="Alpha",
+        y="Conteo de Soluciones",
+        hue="Número de iteraciones",  # <-- La clave para la comparación
+        data=df_grafica,
+        palette="viridis",
+    )
+
+    # 4. Personalizar la gráfica
+    plt.title(
+        f"Compativa de resultados en función del Alpha\n(Instancia: {archive})",
+        fontsize=18,
+    )
+    plt.xlabel("Valor de Alpha", fontsize=14)
+    plt.ylabel("Número de Soluciones en el Frente", fontsize=14)
+    
+    # Establecer el límite del eje Y como en la función anterior
+    plt.ylim(0, 17)
+    
+    # Mejorar la leyenda
+    plt.legend(title="Número de iteraciones", fontsize=12)
+    
+    plt.tight_layout()
+
+    # 5. Mostrar la gráfica
+    plt.show()
 
 def borrar_resultados_hashtag(ruta_carpeta):
     """
