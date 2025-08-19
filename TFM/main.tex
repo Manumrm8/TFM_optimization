@@ -65,38 +65,44 @@
 \newcommand{\nuevaportada}[6]{
     \thispagestyle{empty}
     \begin{center}
-        \includegraphics[width=0.5\textwidth]{images/logo.png}
+        % Usamos \vfill para empujar el contenido hacia abajo desde el borde superior
+        \vfill 
         
-        \vspace{0.3cm} % Espacio reducido
-        {\Large\bfseries\textsc{M\'aster Universitario en #1}\par}
+        \includegraphics[width=0.45\textwidth]{images/logo.png}
         
-        \vspace{0.3cm} % Espacio reducido
-        \includegraphics[width=0.4\textwidth]{images/uv.png}
+        \vspace{0.5cm} % Un espacio fijo pequeño
+        {\large\bfseries\textsc{M\'aster Universitario en #1}\par} % Reducido a \large
         
-        \vspace{0.3cm} % Espacio reducido
-        {\Large\bfseries\textsc{Trabajo de Fin de M\'aster}\par}
+        \vspace{0.5cm}
+        \includegraphics[width=0.35\textwidth]{images/uv.png} % Imagen ligeramente más pequeña
         
-        \vspace{0.5cm} % Mantener este espacio un poco más grande para el título
-        {\Large\bfseries #2\par}
+        \vspace{0.5cm}
+        {\large\bfseries\textsc{Trabajo de Fin de M\'aster}\par} % Reducido a \large
         
-        \vspace{1.5cm} % Reducido a 1.5cm desde 2cm
+        % \vfill distribuye el espacio restante entre este punto y el siguiente
+        \vfill 
+        
+        {\LARGE\bfseries #2\par} % Mantenemos el título principal en \LARGE
+        
+        \vfill % Otro espacio elástico
+        
         \begin{flushright}
             \begin{tabular}{l} 
                 {\large\bfseries\textsc{Autor:}} \\
-                {\large\textsc{#3}} \\ [0.3cm] % Espacio reducido
+                {\large\textsc{#3}} \\ [0.2cm] % Espacio reducido
                 {\large\bfseries\textsc{Tutora:}} \\ 
-                {\large\textsc{#4}} \\ [0.3cm] % Espacio reducido
+                {\large\textsc{#4}} \\ [0.2cm] % Espacio reducido
                 {\large\bfseries #5} 
             \end{tabular}
         \end{flushright}
+        
+        \vfill % Espacio final para empujar el bloque de autor hacia arriba
     \end{center}
-    % Eliminamos \clearpage de aquí, ya que la portada debe ser una sola página
-    % Si necesitas un salto de página después de la portada, lo añades en el documento principal.
 }
 
 \begin{document}
 
-\nuevaportada{Ciencia de Datos}{Resolución mediante GRASP y aprendizaje reforzado del Problema Multiobjetivo de Localización de k-Centros Balanceado }{Manuel Rubio Martínez}{Anna Martínez Gavara}{Abril, 2025}
+\nuevaportada{Ciencia de Datos}{Resolución mediante GRASP y Aprendizaje Reforzado del Problema Multiobjetivo de Localización de k-Centros Balanceado }{Manuel Rubio Martínez}{Anna Martínez Gavara}{Septiembre, 2025}
 
 \clearpage
 
@@ -632,16 +638,19 @@ El problema da lugar a las siguientes tres funciones objetivo:
 
 \begin{equation}
     \text{Minimizar} \quad f_1(X) = \max_{i \in N} \min_{j \in M} d_{ij}
+    \label{eq:f1}
 \end{equation}
 Esta función, propia de los problemas \textit{k-centro}, busca minimizar la \textbf{distancia máxima} que debe recorrer cualquier cliente hasta su instalación asignada. El objetivo es lograr la mejor cobertura posible, evitando que algún punto de demanda quede excesivamente lejos.
 
 \begin{equation}
     \text{Minimizar} \quad f_2(X) = \max_{j \in M} n_j
+    \label{eq:f2}
 \end{equation}
 El objetivo de $f_2$ es minimizar la carga de trabajo de la instalación más congestionada. 
 
 \begin{equation}
     \text{Minimizar} \quad f_3(X) = \max_{\substack{j, j' \in M \\ j \neq j'}} |n_j - n_{j'}|
+    \label{eq:f3}
 \end{equation}
 Esta función minimiza la diferencia entre la instalación con más carga y la que tiene menos. Es el objetivo más estricto en términos de \textbf{equidad operativa}, ya que busca que todas las instalaciones tengan una carga de trabajo lo más homogénea posible.
 
@@ -661,43 +670,125 @@ Tomando en cuenta esto, se va a proponer el algoritmo metaheurístico para resol
 
 
 \chapter{Resolución del problema}
-Aquí metería una breve introducción a lo que voy a utilizar.
+Para resolver el \textbf{Problema Multiobjetivo de Localización de k-Centros Balanceado}, se va a utilizar el algoritmo GRASP (Greedy Randomized Adaptive Search Procedure) con Aprendizaje Reforzado.
+El algoritmo constará de dos partes principales, una primera de generación de solución inicial y una segunda en la que se mejorará mediante búsqueda local aplicada a esta solución.
 
-\section{Por qué el GRASP}
-- Es un método sencillo de implementar, pero complicado de adaptar para realizar un buen desempeño
-- Suele obtener buenas soluciones muy rápido, al contrario que Tabu o Algoritmos Genéticos
-- Es especialmente bueno para problemas combinatorios, ya que las búsquedas locales son más fáciles de definir
+El tipo de búsqueda local a ejecutar será seleccionado dinámicamente por un Multi-Armed Bandit (MAB), el cual, en función de la solución actual y del desempeño obtenido en iteraciones previas, determinará la estrategia de mejora más prometedora.
 
-\section{Metaheurísticas del grasp}
-definir primero la monoobjetivo, cómo se comporta, y por qué en monoobjetivo es muy sencillo definir grasp
+En problemas monoobjetivo es mucho más sencillo definirlo, solo tienes que preocuparte de mejorar en base a una función objetivo, y nunca al realizar una búsqueda local se da el caso de que la empeores. El Multiobjetivo es más delicado,
+tienes que tener en cuenta que mejorar mucho en una de las funciones objetivo puede que no te ayude a a cercarte a ninguna solución, que necesites ir mejorando poco a poco cada una de ellas, y decidir qué búsqueda local hacer y en función de qué variables pasa
+a ser la parte crucial del algoritmo.
 
-definir la multiobjetivo, explicar las diferencias que hay con respecto a la búsqueda de soluciones, y los tipos de búsquedas locales que se pueden hacer (por pesos, mejorando las variables por separado ETC)
+\section{¿Por qué el GRASP?}
+Se ha elegido GRASP como base metodológica por varias razones que lo hacen especialmente adecuado para el Problema Multiobjetivo de Localización de k-Centros Balanceado:
+\begin{itemize}
+    \item \textbf{Flexibilidad de adaptación}: El GRASP es un método relativamente sencillo de codificar, pero con una ampla variedad de posibilidades
+    a la hora de ajustar tanto la fase de contstrucción como de mejora, para adaptarse a casi cualquier escenario posible. 
+    \item \textbf{Buen desempeño}: A diferencia de otros algoritmos como la Búsqueda Tabú o los Genéticos, que requieren de tiempos más prolongados de ejecución para encontrar buenas soluciones,
+    GRASP obtiene buenos resultados sin requerir de muchas iteraciones para llegar a ellos.
+    \item \textbf{Adecuación a problemas combinatorios}: El método resulta especialmente apropiado para problemas combinatorios, ya que la definición de movimientos de mejora en la búsqueda local es intuitiva y directa.
+    Esto permite explorar el espacio de soluciones de manera eficaz y con un coste computacional relativamente bajo.
+    \item \textbf{Madurez y respaldo en la literatura}: GRASP ha sido desarrollado y probado en una amplia gama de problemas, incluyendo problemas de optimización multiobjetivo. \color{red} aquí metería algunas citas sobre el GRASP\color{black}
+\end{itemize}
 
-\section{Implementación del grasp}
-Primera versión, grasp con inicialización greedy randomizada (con alpha fijo) y 2 búsquedas locales (aleatorizadas) en serie.
+\section{Estado del arte}
+Aquí meto en detalle las implementaciones de los 2 articulos previos
 
-Explicar por qué voy a utilizar aprendizaje reforzado para mejorar el algoritmo
+\section{Algoritmo Propuesto}
 
-Segunda y última versión, grasp con inicialización greedy randomizada (con alpha ranodom), búsquedas locales escogidas por aprendizaje reforzado.
+\subsection{Fase de Construcción: Algoritmo Greedy Randomizado}
+El proceso se inicia con la generación de una solución inicial que resulte aceptable en términos de calidad y que pueda construirse de manera rápida. Para fomentar la exploración de distintas regiones del espacio de soluciones, se introduce un componente aleatorio.  
 
-Utilizo softmax para ajustar los pesos
-$$
-\sigma(z)_i = \frac{e^{\frac{z_i - \max(z)}{\tau}}}{\sum_{j=1}^{K} e^{\frac{z_j - \max(z)}{\tau}}}
-$$
+El algoritmo Greedy Randomizado opera de la siguiente forma:  
+
+\begin{itemize}
+    \item \textbf{Inicialización:} Se selecciona de manera aleatoria un primer centro de suministro entre los $m$ disponibles.
+    \item \textbf{Construcción iterativa:} Mientras no se hayan elegido los $k$ centros necesarios:
+    \begin{itemize}
+        \item Se evalúan los centros candidatos no seleccionados, calculando el valor del objetivo $f_1$ \ref{eq:f1} suponiendo cada uno de ellos dentro de la solución.
+        \item \textbf{Lista Restringida de Candidatos (RCL):} En lugar de escoger siempre el mejor candidato, se construye una lista con aquellos que presentan valores cercanos al óptimo. El parámetro $\alpha$ controla el grado de aleatoriedad:
+        \begin{itemize}
+            \item Si $\alpha = 0$, la RCL contiene únicamente al mejor candidato (máxima voracidad).
+            \item Si $\alpha = 1$, la RCL incluye a todos los candidatos (máxima aleatoriedad).
+        \end{itemize}
+        \item \textbf{Selección aleatoria:} Se elige al azar un candidato de la RCL, incorporándolo a la solución.
+    \end{itemize}
+\end{itemize}
+
+Este procedimiento semi-aleatorio asegura que cada ejecución del GRASP trabaje con una variedad múcho más amplia de soluciones iniciales aleatorias (promoviendo exploración), pero manteniendo la calidad (promoviendo explotación).
+
+\subsection{Fase de Búsqueda Local}
+Una vez construida la solución inicial, el algoritmo intenta mejorarla mediante procesos de búsqueda local basados en intercambios.
+Se definen tres procedimientos de búsqueda local, cada uno enfocado en un objetivo específico:  
+
+\begin{itemize}
+    \item \textbf{Búsqueda local f1 \ref{eq:f1}:} Minimiza la máxima distancia entre el conjunto de centros seleccionados y cada uno de los elementos de la población.
+    \item \textbf{Búsqueda local f2 \ref{eq:f2}:} Reduce el número máximo de clientes asignados a los centros.
+    \item \textbf{Búsqueda local f3 \ref{eq:f3}:} Disminuye la diferencia entre el centro más sobrecargado y el menos utilizado.
+\end{itemize}
+
+Para realizar todas estas búsquedas locales, se escoge secuencialmente cada uno de los elementos de la solución, y se intercambia con el elemento que maximice la mejora de su respectiva función objetivo. Si ninguno mejora la solución (respecto a esa función objetivo), entonces se pasa al siguiente elemento. 
+Termina el proceso o bien cuando no se obtiene ninguna mejora tras evaluar intercambios en todos los elementos de la solución, o tras un límite fijado de mejoras en la búsqueda local.
+
+Tras cada proceso de búsqueda local, se evalua la solución obtenida respecto a sus 3 funciones objetivos comparándola con el frente de pareto actual. En caso de quedar dominada, se descarta. En caso contrario, se evalúa primero si domina a alguna de las existentes, descartándo las que queden dominadas,
+y posteriormente se introduce en el conjunto de soluciones.
+
+De esta manera, se conservan únicamente las soluciones que pertenezcan al frente de pareto actual.
+
+\subsection{Aprendizaje Reforzado: Multi-Armed Bandit (MAB)}
+¿Cómo se decide qué búsqueda local aplicar en cada momento?La esencia del algoritmo radica en la selección adaptativa de las búsquedas locales mediante un esquema de aprendizaje reforzado conocido como \textit{Multi-Armed Bandit} (MAB).
+Este mecanismo permite decidir dinámicamente qué búsqueda aplicar en cada situación, equilibrando exploración y explotación.  
+
+\begin{itemize}
+    \item \textbf{Brazos (arms):} Cada acción corresponde a una combinación de búsqueda local ($f_1$, $f_2$ o $f_3$) y el máximo de veces que se va a mejorar ($1, 2, \dots, k$).
+    \item \textbf{Contexto (context):} Describe el estado actual mediante la distancia de la solución al frente de Pareto, es decir, cuánto debería mejorar en cada objetivo para dejar de ser dominada.
+    Un contexto $(0,0,0)$ indicaría que la solución ya pertenece al frente. Un contexto de $(30,15,10)$ indicaría que la solución debería disminuir en 30 $f1$ para entrar en el frente de pareto, o disminuir 15 $f2$ o 10 $f3$ para hacerlo.
+    \item \textbf{Recompensa (reward):}
+    \begin{itemize}
+        \item Valor máximo ($=1$) si la acción genera una solución no dominada.
+        \item Proporcional a la mejora obtenida respecto a la cercanía al frente de Pareto en caso contrario.
+    \end{itemize}
+    \item \textbf{Selección de brazo:}
+    \begin{itemize}
+        \item Con probabilidad $\beta$, se selecciona una acción aleatoria (exploración).
+        \item En caso contrario, se escoge con probabilidad ponderada basada en la recompensa esperada a partir de la matriz de pesos (explotación). La acción con más recompensa esperada tendrá más probabilidad de salir, pero no es una garantía.
+        Para no ponderar demasiado brazos con una esperanza muy alta, ni depreciar brazos con esperanza baja, utilizo la función softmax para normalizar las esperanzas de los brazos:
+        Utilizo softmax para ajustar los pesos
+\begin{equation}
+    \sigma(z)_i = \frac{e^{\frac{z_i - \max(z)}{\tau}}}{\sum_{j=1}^{K} e^{\frac{z_j - \max(z)}{\tau}}}
+\end{equation}
+
+
+    \end{itemize}
+    \item \textbf{Aprendizaje:} Tras observar la recompensa, la matriz de pesos se actualiza, reforzando las acciones efectivas en contextos similares.
+\end{itemize}
+
+\subsection{Orquestación General: \texttt{multi\_GRASP\_Bandit}}
+La función principal integra todos los componentes descritos y organiza el proceso de resolución mediante los siguientes pasos:  
+
+\begin{enumerate}
+    \item Inicialización de los datos, archivo de soluciones y parámetros del MAB.
+    \item Construcción de una solución inicial mediante el algoritmo Greedy.
+    \item Ejecución de un bucle adaptativo que incluye:
+    \begin{enumerate}
+        \item Cálculo del contexto de la solución actual.
+        \item Selección de una acción mediante el MAB.
+        \item Ejecución de la búsqueda local seleccionada.
+        \item Evaluación de la nueva solución y actualización del frente de Pareto.
+        \item Cálculo de la recompensa obtenida.
+        \item Actualización de los pesos del MAB.
+    \end{enumerate}
+\end{enumerate}
+
+El procedimiento se repite mientras se obtengan mejoras significativas o hasta alcanzar el número máximo de iteraciones definido. 
+
+\section{Implementación}
 
 Explicar la paralelización, como afecta a los pesos del reforzado y a la generación de los frentes de pareto, y cómo mejora la velocidad del algoritmo
 
 \chapter{Experimentación y Resultados}
+
 facilitar instancias de ejemplo (la pequeña que he utilizado para diseñarlo, y luego probarlo en una más grande.)
-
-Ajuste de los parámetros del algoritmo (tanto la alpha del greedy como la betha, temperatura y learning rate de la parte de aprendizaje reforzado)
-
-Comparativa entre utilizar o no aprendizaje reforzado (resultados vs tiempos), ya que el reforzado irá mejor, pero será algo más lento (no mucho).
-Para la comparativa del caso pequeño tengo el frente de pareto exacto, calculado a lo bruto. Por el momento, el algoritmo reforzado en 25 min (50.000 iteraciones) saca casi todo el frente de pareto (le ha faltado 1 solución).
-
-Buscar la comparativa con el algoritmo del artículo (necesitaría tiempos de ejecución para poder compararlo)
-
-Si tengo tiempo, me gustaría implementar el algoritmo e inventar para un caso real. Si no, al caso de ejemplo de la ciudad de valencia introducido en el capítulo del modelo matemático.
 
 \section{Fine tuning}
 
@@ -762,6 +853,15 @@ Los resultados son los siguientes:
 \end{figure}
 
 \color{red} añadir explicación de qué beta se coge \color{black}
+
+\section{Experimentación con ligeros cambios en el algoritmo}
+
+\section{Reforzado si o no?}
+Comparativa entre utilizar o no aprendizaje reforzado (resultados vs tiempos), ya que el reforzado irá mejor, pero será algo más lento (no mucho).
+Para la comparativa del caso pequeño tengo el frente de pareto exacto, calculado a lo bruto. Por el momento, el algoritmo reforzado en 25 min (50.000 iteraciones) saca casi todo el frente de pareto (le ha faltado 1 solución).
+
+\section{comparativa con los resultados de los articulos}
+Buscar la comparativa con el algoritmo del artículo (necesitaría tiempos de ejecución para poder compararlo)
 
 \chapter{Conclusiones}
 
