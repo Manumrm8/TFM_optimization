@@ -130,26 +130,26 @@ Aquí va el contingut del teu resum en valencià. Explica breument l'objectiu, l
 
 \section{Introducción al TFM}
 En este Trabajo de Fin de Máster se va a estudiar, mediante un Procedimiento de Búsqueda Adaptativa Aleatoria Voraz (\textit{Greedy Randomized Adaptive Search Procedure}, GRASP) con técnicas de Aprendizaje Reforzado, la resolución del problema multiobjetivo de localización de k-centros balanceado.
-Hasta donde sabemos, sólo existen dos artículos previos en este problema. En el primero de ellos, \citet{k-balanced_1} propone el problema, actualizándo el clásico de k-centros introduciendo que se busque balancear las cargas de las instalaciones.
-y lo resuelve diseñando su propio algoritmo MOAkBCL (\textit{Multi-Objective Algorithm k-Balanced Center Location}), basado en un enfoque de escalada y compartiendo similitudes con algoritmos evolutivos.
+Se va a basar en dos artículos previos. En el primero de ellos, \citet{k-balanced_1}, se propone el problema, actualizándo el clásico de k-centros para que se busque balancear las cargas de las instalaciones,
+y se resuelve diseñando el algoritmo MOAkBCL (\textit{Multi-Objective Algorithm k-Balanced Center Location}), el cual comparte muchas similitudes con el evolutivo NSGA-II \cite{NSGA-II}.
 
-Posteriormente, en \cite{k-Balanced_2}, los autores desarrollaron un nuevo método de resolución basada en las metaheurísticas denominadas ``GRASP'' \cite{GRASP} (\textit{Greedy Randomized Adaptive Search Procedure}) con ``Strategic Oscillation'' \cite{oscillation} (explorando soluciones infactibles) y ``Path Relinking'' \cite{path_relinking} (combinando estas para obtener mejores soluciones factibles).
+Posteriormente, en \cite{k-Balanced_2}, los autores desarrollan un nuevo método de resolución basado en las metaheurísticas denominadas ``GRASP'' \cite{GRASP} (\textit{Greedy Randomized Adaptive Search Procedure}) con ``Strategic Oscillation'' \cite{oscillation} (explorando soluciones infactibles) y ``Path Relinking'' \cite{path_relinking} (combinando estas para obtener mejores soluciones factibles).
 
-Se han tomado las mismas consideraciones a la hora de definir el problema, y se han trabajado los mismos datos sintéticos.
-Se han realizado dos implementaciones del algoritmo propuesto GRASP con y sin aprendizaje reforzado, y se compararán contrastando los resultados con los de los artículos previos.
+Se han tomado las mismas consideraciones a la hora de definir el problema, utilizando los mismos datos sintéticos.
+Para resolver el problema se van a utilizar dos implementaciones del algoritmo propuesto GRASP, una sin y otra con Aprendizaje Reforzado, y se compararán contrastando los resultados con los de los artículos previos.
 
 El objetivo principal será evaluar si la implementación de modelos de aprendizaje no supervisado en algoritmos metaheurísticos puede mejorar significativamente su rendimiento.
 
-Esta introducción se centrará en contextualizar el área de la optimización, revisando brevemente su evolución histórica, las definiciones clave y los principales enfoques utilizados para descomponer y abordar problemas de esta naturaleza. También se añadirán los conceptos básicos para entender cómo funciona el Aprendizaje Reforzado.
+Esta introducción se centrará en contextualizar el área de la optimización, revisando brevemente su evolución histórica, definiciones clave y principales enfoques utilizados para descomponer y abordar problemas de esta naturaleza. También se añadirán los conceptos básicos para entender cómo funciona el Aprendizaje Reforzado.
 
 
 \section{Historia de la optimización}
 El origen de la optimizacaión se remonta a la antigua Grecia, donde matemáticos como Euclides o Arquímedes la utilizaban en busca de soluciones a problemas del área de la geometría.
 
-La versión que conocemos hoy en día no empezó a desarrollarse hasta el siglo XVII, con la aparición del cálculo diferencial, impulsado por los trabajos de Isaac Newton y Gottfried Wilhelm Leibniz \cite{Leibniz}. Con él se empezaron a estudiar las funciones y sus puntos extremos,
-en los cuales, bajo ciertas condiciones, pueden encontrarse los valores óptimos.
+La versión que conocemos hoy en día no empezó a desarrollarse hasta el siglo XVII, con la aparición del cálculo diferencial \cite{calculo_diferencial}, impulsado por los trabajos de Isaac Newton y Gottfried Wilhelm Leibniz \cite{Leibniz}. Con él se pudieron estudiar las funciones y sus puntos extremos,
+en los cuales, bajo ciertas condiciones, pueden encontrarse sus valores óptimos.
 
-No encontramos grandes avances hasta mediados del siglo XX cuando, fruto de la necesidad de resolver problemas logísticos durante la Segunda Guerra Mundial, el matemático George Bernard Dantzig \cite{Dantzig} desarrolló la programación lineal, la cual sentó las bases para el posterior surgimiento tanto de la programación no lineal, como de la entera y la dinámica.
+No aparecen grandes avances hasta mediados del siglo XX cuando, fruto de la necesidad de resolver problemas logísticos durante la Segunda Guerra Mundial, el matemático George Bernard Dantzig \cite{Dantzig} desarrolló la programación lineal, que sentó las bases para el posterior surgimiento tanto de la programación no lineal, como de la entera y la dinámica.
 
 A pesar de todo, la mayoría de problemas del mundo real, especialmente aquellos que dependen de un gran número de variables, con funciones objetivo complejas y restricciones no lineales, acaban siendo demasiado costosos computacionalmente. Esta inviabilidad de los métodos de obtención de soluciones exactas propició el surgimiento de los metaheurísticos.
 
@@ -159,17 +159,15 @@ son la alternativa realista para la búsqueda de soluciones aproximadas, pero ce
 Las metaheurísticas son fundamentales en Ciencia de Datos, ya que permiten abordar de manera eficiente problemas complejos presentes en:
 
 \begin{itemize}
-    \item \textbf{Clustering:} El algoritmo \textbf{k-means} particiona el espacio de observaciones en un número determinado de clústeres (grupos) y determina qué observaciones pertenecen a cada uno de ellos. 
-    Si intentásemos encontrar la solución exacta, sería computacionalmente muy costoso, y la naturaleza del algoritmo hace que la solución sea dependiente de los grupos iniciales (generados aleatoriamente), pudiendo caer en óptimos locales.
+    \item \textbf{Clustering:} El algoritmo \textbf{k-means} \cite{k-means} particiona el espacio de observaciones en un número determinado de clústeres (grupos) y determina qué observaciones pertenecen a cada uno de ellos. 
+    Si intentásemos encontrar la solución exacta, sería computacionalmente muy costoso, y la naturaleza del algoritmo hace que la solución sea dependiente de los grupos iniciales (generados aleatoriamente), pudiendo caer una y otra vez en los mismos óptimos locales (ver en \ref{def:optimo_local}).
     Las metaheurísticas ayudan a solventar estos problemas al proporcionar estrategias más robustas de exploración del espacio de soluciones.
     
     \item \textbf{Selección de variables:} En la construcción de modelos de predicción, solemos encontrarnos con un número elevado de variables, por lo que definir el modelo con base en todas ellas no es factible. Mediante metaheurísticos podemos 
     reducir significativamente la dimensión del espacio, utilizando un subespacio con las variables que mejor sirvan al modelo.
     
-    \item \textbf{Ajuste de hiperparámetros:} Modelos de inteligencia artificial como las redes neuronales necesitan ajustar sus hiperparámetros para ser eficaces (número de capas, tasa de aprendizaje, etc.). Este ajuste constituye también un problema de optimización en espacios de búsqueda de alta dimensión, frente a métodos tradicionales como la \textit{búsqueda en cuadrícula} (\textit{grid search}), los metaheurísticos ofrecen una alternativa más eficiente y flexible.
+    \item \textbf{Ajuste de hiperparámetros:} Modelos de inteligencia artificial como las redes neuronales necesitan ajustar sus hiperparámetros para ser eficaces (número de capas, tasa de aprendizaje, etc.). Este ajuste constituye también un problema de optimización en espacios de búsqueda de alta dimensión, frente a métodos tradicionales como la \textit{búsqueda en cuadrícula} (\textit{grid search}), los metaheurísticos ofrecen una alternativa más eficiente y flexible \cite{hyperparameters}.
 \end{itemize}
-
-
 
 En esencia, la optimización es el proceso de encontrar las mejores soluciones para un problema determinado, de la forma más eficiente y precisa posible.
 Cualquier reto que se enmarque en esta búsqueda de un resultado óptimo puede considerarse, por tanto, un problema de optimización.
@@ -181,7 +179,7 @@ Si bien esta idea es intuitiva, el rigor matemático exige una definición más 
 Para expresar un problema de optimización de forma matemática, definimos las tres partes en las que se puede descomponer:
 
 \begin{itemize}
-    \item \textbf{Variables de Decisión:} Son las incógnitas del problema, los valores que deberemos modificar para obtener la solución o soluciones óptimas. Se representan como un vector $\mathbf{x} = (x_1, x_2, \ldots, x_n)$, donde $n$ es el número de variables.
+    \item \textbf{Variables de Decisión:} Son las incógnitas del problema, os valores que deberemos modificar para obtener la solución o soluciones óptimas. Se representan como un vector $\mathbf{x} = (x_1, x_2, \ldots, x_n)$, donde $n$ es el número de variables.
 
     \item \textbf{Función Objetivo:} Función que se desea minimizar o maximizar.\\
     Se denota comúnmente como $f(\mathbf{x})$, donde $f$ es la función que establece la relación entre las variables ($\mathbf{x}$) y el objetivo que deseamos optimizar.
@@ -197,7 +195,7 @@ Para expresar un problema de optimización de forma matemática, definimos las t
     Donde $g_i(\mathbf{x})$ son las $m$ restricciones de desigualdad y $h_j(\mathbf{x})$ son las $p$ restricciones de igualdad.
     En caso de tener restricciones del tipo $g_k(\mathbf{x})\geq0$, se puede transformar a $\leq$ sabiendo que $-g_k(\mathbf{x}) \leq 0$.
     
-    Además de restricciones funcionales, también pueden existir restricciones sobre el dominio de las variables, como $x_k \ge 0$ (variables no negativas),  $x_k \in \{0,1\}$ (variables binarias) o $x_k \in \mathbb{Z}$ (variables enteras).
+    Además de restricciones funcionales, también pueden existir restricciones sobre el dominio (ver en \ref{def:dominio}) de sus variables, como $x_k \ge 0$ (variables no negativas),  $x_k \in \{0,1\}$ (variables binarias) o $x_k \in \mathbb{Z}$ (variables enteras).
 \end{itemize}
 
 Ahora sí, pasadas las definiciones previas, un problema completo de optimización se formula de la siguiente manera:
@@ -211,21 +209,21 @@ $$
 $$
 Donde $X$ representa el conjunto de factibilidad o dominio de las variables de decisión.
 
-Ahora vamos a clasificar los problemas de optimización según 2 características principales.
+Ahora vamos a clasificar los problemas de optimización según dos características principales.
 
 \subsection{Optimización Lineal vs. No Lineal}
 
 La primera distinción la haremos según la naturaleza de las funciones involucradas, tanto en la función objetivo como en las restricciones. En general, esto determinará si el problema puede ser resuelto fácilmente de manera exacta o si requerirá de métodos más complejos con soluciones aproximadas.
 
 \subsubsection{Optimización Lineal}
-Diremos que un problema es de \textbf{optimización lineal} cuando, tanto la función objetivo como todas las funciones de las restricciones, son lineales con respecto a las variables de decisión. 
+Diremos que un problema es de \textbf{optimización lineal} cuando, tanto la función objetivo como todas las funciones de las restricciones, son lineales (ver en \ref{def:f_lineal}) con respecto a las variables de decisión. 
 
 Características principales:
 \begin{itemize}
     \item La función objetivo tiene la forma $f(\mathbf{x})=c_1x_1+c_2x_2+...+c_nx_n$ donde los $c_i \in \mathbb{R} \quad \forall i \in 1,2,...,n$.
-    \item Todas las restricciones son lineales, con la forma $a_1x_1+a_2x_2+...+a_nx_n\leq b$ o $=b$, donde $a_i \in \mathbb{R} \quad \forall i \in 1,2,...,n$ y $b\in \mathbb{R}$.
-    \item Estas condiciones hacen que el conjunto de soluciones factibles ($X$) tenga la forma de un poliedro convexo, lo que simplifica la búsqueda de la solución óptima.
-    \item El algoritmo Simplex, propuesto en \cite{Dantzig1951}, es el más extendido para resolver este tipo de problemas y garantiza encontrar el óptimo global, si existe.
+    \item Todas las restricciones son lineales, y tienen el formato $a_1x_1+a_2x_2+...+a_nx_n\leq b$ o $=b$, donde $a_i \in \mathbb{R} \quad \forall i \in 1,2,...,n$ y $b\in \mathbb{R}$.
+    \item Estas condiciones hacen que el conjunto de soluciones factibles ($X$) sea semejante a un poliedro convexo (ver en \ref{def:convexo}), lo que simplifica la búsqueda de la solución óptima.
+    \item El algoritmo Simplex, propuesto en \cite{Dantzig1951}, es el más extendido para resolver este tipo de problemas y garantiza encontrar el óptimo global (ver en \ref{def:optimo_global}), si existe.
 \end{itemize}
 
 \subsubsection{Optimización No Lineal}
@@ -256,18 +254,18 @@ En la optimización continua, las variables de decisión pueden tomar cualquier 
 Características principales:
 \begin{itemize}
     \item Variables pertenecientes a un espacio continuo, típicamente $\mathbb{R}^n$.
-    \item Las funciones objetivo $f(\mathbf{x})$ y sus restricciones $g_i(\mathbf{x}), \;h_j(\mathbf{x})$ suelen ser continuas y diferenciables.
+    \item Las funciones objetivo $f(\mathbf{x})$ y sus restricciones $g_i(\mathbf{x}), \;h_j(\mathbf{x})$ suelen ser continuas y diferenciables (ver en \ref{def:fun_continua} y en \ref{def:fun_diferenciable}).
     \item Las técnicas de resolución a menudo involucran cálculo diferencial para encontrar el mejor camino de mejora de la solución.
 \end{itemize}
 
 \subsubsection{Optimización Discreta}
-En este caso, las variables de decisión están restringidas a tomar valores de un conjunto finito o, al menos, numerable. Los casos más comunes son variables restringidas a tomar valores enteros $(0,1,2,...)$, binarios $(0,1)$ o variables que representan la elección de elementos de un conjunto específico (por ejemplo, el ``trabajador 1'' o el ``trabajador 2'').
+En este caso, las variables de decisión están restringidas a tomar valores de un conjunto finito o, al menos, numerable {ver en \ref{def:conjunto_numerable}}. Los casos más comunes son variables restringidas a tomar valores enteros $(0,1,2,...)$, binarios $(0,1)$ o variables que representan la elección de elementos de un conjunto específico (por ejemplo, el ``trabajador 1'' o el ``trabajador 2'').
 
 Características principales:
 \begin{itemize}
     \item Las variables pertenecen al espacio discreto.
     \item No se pueden utilizar directamente las técnicas de cálculo diferencial que, en cambio, sí se podrían usar en el espacio continuo.
-    \item Los problemas suelen ser más complejos de resolver y computacionalmente más costosos, por lo que suelen requerir algoritmos específicos como la programación entera, la programación dinámica o métodos combinatorios para poder resolverlos.
+    \item Los problemas suelen ser más complejos de resolver y computacionalmente más costosos, por lo que suelen requerir algoritmos específicos como la programación entera \cite{int_programing}, la programación dinámica o métodos combinatorios para poder resolverlos.
 \end{itemize}
 
 Ejemplos:
@@ -278,36 +276,22 @@ Ejemplos:
 
 Para esta primera parte de caracterización de la optimización he tomado como referencia el libro \cite{Numerical_optimization_nocedal_wright} de Numerical Optimization de Jorge Nocedal y Stephen J. Wright.
 
-Para concluir la parte teórica de la optimización, voy a concretar tanto la rama a la que pertenece el problema de k-centros balanceado (la optimización \textbf{combinatoria}) como lo que significa que sea \textbf{multiobjetivo}
+Para concluir la parte teórica de la optimización, voy a concretar tanto la rama a la que pertenece el problema multiobjetivo de k-centros balanceado (la optimización \textbf{combinatoria}) como lo que significa que sea \textbf{multiobjetivo}
 
 \subsection{Optimización Combinatoria}
 La optimización combinatoria se centra en encontrar la solución óptima dentro de un conjunto de soluciones finito o numerable. Aunque la cantidad de soluciones posibles pueda ser finita, no significa que el problema sea sencillo.
-De hecho, la mayoría de estos problemas de optimización entran dentro de los denominados problemas \textbf{NP-difíciles}\cite{np_hard}.
+De hecho, la mayoría de estos problemas de optimización entran dentro de los denominados problemas \textbf{NP-difíciles} \cite{np_hard}.
 
 Que sean NP-difíciles implica que el tiempo necesario para encontrar la solución óptima crece exponencialmente a medida que aumenta el tamaño del problema. Esto hace que la búsqueda exhaustiva de la solución sea computacionalmente inviable para la mayoría de los casos de estudio en el mundo real.
 
 \textbf{Características principales:}
 \begin{itemize}
-    \item \textbf{Espacio de soluciones discreto:} Las variables de decisión están restringidas a un conjunto finito o numerable de valores, como la selección o no de un elemento, o la ordenación de un conjunto. Se puede decir que entran dentro de los casos de \textbf{optimización discreta}. 
+    \item \textbf{Espacio de soluciones discreto:} Las variables de decisión están restringidas a un conjunto finito o numerable de valores, como la selección o no de un elemento, o la ordenación de un conjunto. Entran dentro de los casos de \textbf{optimización discreta}. 
     \item \textbf{Complejidad computacional elevada:} A menudo, el número de soluciones posibles es astronómicamente grande, lo que requiere algoritmos especializados para explorar el espacio de búsqueda de manera eficiente.
     \item \textbf{Estructura del problema:} Las técnicas de resolución aprovechan la estructura combinatoria subyacente del problema, utilizando métodos como la programación entera, la teoría de grafos o los algoritmos metaheurísticos.
 \end{itemize}
 
-Sentada la base teórica, ahora podemos definir correctamente el problema.
-
-El problema de localización de k-centros balanceado consiste en seleccionar, de un conjunto de $m$ posibles centros, los $k$ que mejoren su función o funciones objetivo. El número total de posibles soluciones es finito, y viene dado por el coeficiente binomial 
-$$ \binom{m}{k} = \frac{m!}{(m-k)!k!}$$
-
-Para ilustrar la explosión combinatoria, consideremos el caso con $m=50$ y $k=5$. El número de combinaciones posibles sería:
-
-$$
-    \binom{50}{5} = \frac{50!}{(50-5)!5!} = 2,118,760.
-$$
-
-Pasando a problemas más realistas, si tenemos $m=1000$ posibles emplazamientos, y $k=50$ centros a construir, la cantidad de soluciones posibles se dispara a una cifra del orden de $2.28 \times 10^{120}$. 
-Evaluar cada una de estas soluciones para encontrar la óptima de forma exacta es una tarea imposible, incluso para los superordenadores más potentes, ya que requeriría tiempos de computación demasiado elevados.
-
-Otros ejemplos clásicos de optimización combinatoria incluyen el \textbf{Problema del Viajante de Comercio (TSP)}, 
+Algunos ejemplos clásicos de optimización combinatoria incluyen el \textbf{Problema del Viajante de Comercio (TSP)}, 
 que busca la ruta más corta que visita un conjunto de ciudades una sola vez;
 el \textbf{problema de la mochila}, que consiste en seleccionar los objetos más valiosos sin superar una capacidad de peso;
 o la \textbf{planificación de horarios}, donde se asignan recursos (como aulas o profesores) a franjas horarias para satisfacer un conjunto de restricciones.
@@ -334,6 +318,21 @@ Una solución se considera \textbf{no dominada} (u óptima en el sentido de Pare
     \label{fig:pareto}
 \end{figure}
 
+Sentada la base teórica, ahora podemos definir correctamente el problema.
+
+El \textbf{Problema de Localización Multiobjetivo de K-Centros Balanceado} consiste en seleccionar, de un conjunto de $m$ posibles centros, los $k$ que mejoren sus funciones objetivo \color{red} No se si enunciar aquí ya las funciones objetivo o dejarlas para el modelo.  \color{black}. El número total de posibles soluciones es finito, y viene dado por el coeficiente binomial 
+$$ \binom{m}{k} = \frac{m!}{(m-k)!k!}$$
+
+Para ilustrar la explosión combinatoria, consideremos el caso con $m=50$ y $k=5$. El número de combinaciones posibles sería:
+
+$$
+    \binom{50}{5} = \frac{50!}{(50-5)!5!} = 2,118,760.
+$$
+
+Pasando a problemas más realistas, si tenemos $m=1000$ posibles emplazamientos, y $k=50$ centros a construir, la cantidad de soluciones posibles se dispara a una cifra del orden de $2.28 \times 10^{120}$. 
+Evaluar cada una de estas soluciones para encontrar la óptima de forma exacta es una tarea imposible, incluso para los superordenadores más potentes, ya que requeriría tiempos de computación demasiado elevados.
+
+
 Una vez definidos los problemas de optimización, ahora viene la parte más importante, cómo resolverlos.
 
 \section{Resolución de Problemas de Optimización Multiobjetivo}
@@ -350,9 +349,9 @@ No obstante, para problemas sencillos, con pocas variables y reducido espacio de
     \item \textbf{Método de las Restricciones Épsilon ($\epsilon$-constraint):} Consiste en optimizar una de las funciones objetivo, convirtiendo el resto en restricciones que limitan su valor a un máximo $\epsilon$.\\
     Modificando los valores de $\epsilon$ para cada objetivo-restricción, se puede explorar y reconstruir el Frente de Pareto. A diferencia del método de ponderación, este sí puede encontrar soluciones en frentes no convexos.
 
-    \item \textbf{Algoritmos de Ramificación y Acotación (Branch and Bound) Multiobjetivo:} Estos algoritmos extienden el clásico \textit{Branch and Bound}. El proceso de ramificación es similar (se divide el problema en subproblemas más pequeños), pero la fase de acotación (o poda) es más compleja. En lugar de usar una única cota, se trabaja con conjuntos de cotas (un vector por cada objetivo). Una rama del árbol de búsqueda se poda solo si se puede demostrar que no puede contener ninguna solución no dominada en comparación con las soluciones ya encontradas.
+    \item \textbf{Algoritmos de Ramificación y Acotación (Branch and Bound) Multiobjetivo:} Estos algoritmos extienden el clásico \textit{Branch and Bound} \cite{bnb}. El proceso de ramificación es similar (se divide el problema en subproblemas más pequeños), pero la fase de acotación (o poda) es más compleja. En lugar de usar una única cota, se trabaja con conjuntos de cotas (un vector por cada objetivo). Una rama del árbol de búsqueda se poda solo si se puede demostrar que no puede contener ninguna solución no dominada en comparación con las soluciones ya encontradas.
 
-    \item \textbf{Algoritmos de Ramificación y Corte (Branch and Cut) Multiobjetivo:} De manera análoga, esta técnica extiende \textit{Branch and Cut}. Se añaden planos de corte (restricciones adicionales) no solo para mejorar la relajación del problema mono-objetivo, sino para refinar la aproximación del espacio de soluciones factibles en el dominio multiobjetivo, permitiendo podar ramas del árbol de búsqueda de forma más eficiente.
+    \item \textbf{Algoritmos de Ramificación y Corte (Branch and Cut) Multiobjetivo:} De manera análoga, esta técnica extiende \textit{Branch and Cut} \cite{bnc}. Se añaden planos de corte (restricciones adicionales) no solo para mejorar la relajación del problema mono-objetivo, sino para refinar la aproximación del espacio de soluciones factibles en el dominio multiobjetivo, permitiendo podar ramas del árbol de búsqueda de forma más eficiente.
 \end{itemize}
 
 \subsection{Metaheurísticas}
@@ -415,7 +414,7 @@ El proceso de aprendizaje se desarrollaría de la siguiente manera:
     \item El entorno recibe la acción $A_t$ y, como resultado, transita a un nuevo estado, $S_{t+1}$.
     \item El entorno emite una recompensa, $R_{t+1}$, al agente.
 \end{enumerate}
-Este ciclo iterativo genera una trayectoria de estados, acciones y recompensas que el agente utilizará para aprender una política que maximice su rendimiento a largo plazo.
+Este ciclo iterativo genera una trayectoria de estados, acciones y recompensas que el agente utilizará para aprender estrategia que maximice su rendimiento a largo plazo.
 
 El objetivo del agente no es maximizar la recompensa inmediata, sino el \textbf{retorno} (o recompensa acumulada), denotado como $G_t$.
 El retorno es la suma de todas las recompensas futuras a partir del instante $t$. 
@@ -486,10 +485,11 @@ El agente juega millones de partidas contra sí mismo, explorando el espacio de 
 
 \section{Resumen de los capítulos}
 El presente Trabajo de Fin de Máster se estructura en cuatro capítulos, además de un apartado de agradecimientos y un anexo con definiciones necesarias para entender el trabajo.
-En el capítulo 1 se presenta el Problema de Localización de k-Centros Balanceado, introduciendo el marco general de los problemas de localización, la motivación de este estudio y el modelo matemático para resolverlo.
-El capítulo 2 expone la justificación de la elección de la metaheurística GRASP para abordar el problema, describe su implementación y detalla la incorporación del Aprendizaje Reforzado, mediante Multi-Armed Bandits (MAB).
-El capítulo 3 recoge el diseño experimental y el análisis de los resultados obtenidos, comparando el rendimiento del algoritmo GRASP con y sin refuerzo frente a soluciones reportadas en estudios previos.
-Finalmente, el capítulo 4 presenta las conclusiones derivadas del trabajo, así como posibles líneas de investigación futura.
+
+En el capítulo 2 se presenta el Problema de Localización de k-Centros Balanceado, introduciendo el marco general de los problemas de localización, la motivación de este estudio y el modelo matemático para resolverlo.\\
+El capítulo 3 expone la justificación de la elección de la metaheurística GRASP para abordar el problema, describe su implementación y detalla la incorporación del Aprendizaje Reforzado, mediante Multi-Armed Bandits (MAB).\\
+El capítulo 4 recoge el diseño experimental y el análisis de los resultados obtenidos, comparando el rendimiento del algoritmo GRASP con y sin refuerzo frente a soluciones reportadas en estudios previos.\\
+Finalmente, el capítulo 5 presenta las conclusiones derivadas del trabajo, así como posibles líneas de investigación futura.
 
 \chapter{Problema Multiobjetivo de Localización de k-Centros Balanceado}
 
@@ -882,6 +882,7 @@ Profesores tanto de la carrera como del máster
 \chapter{Anexo}
 \section{Introducción}
 \begin{defi}[Dominio de una función]
+\label{def:dominio}
 Dada una función $f: X \to Y$, su \textbf{dominio} es el conjunto de todos los valores de entrada para los cuales la función está definida. En este caso, el dominio es $X$.
 \end{defi}
 
@@ -891,11 +892,13 @@ $$ f(X) = \{y \in Y \mid \exists x \in X, f(x) = y \} $$
 \end{defi}
 
 \begin{defi}[Conjunto convexo]
+\label{def:convexo}
 Un conjunto $C \subseteq \mathbb{R}^n$ es \textbf{convexo} si para cualquier par de puntos $x, y \in C$, el segmento de recta que los une está completamente contenido en $C$. Formalmente, para todo $x, y \in C$ y para todo $\lambda \in [0, 1]$:
 $$ \lambda x + (1-\lambda)y \in C $$
 \end{defi}
 
 \begin{defi}[Función lineal]
+\label{def:f_lineal}
 Una función $f: \mathbb{R}^n \to \mathbb{R}^m$ es \textbf{lineal} si satisface dos propiedades: aditividad y homogeneidad. Es decir, para cualesquiera vectores $\mathbf{x}, \mathbf{y} \in \mathbb{R}^n$ y cualquier escalar $\alpha \in \mathbb{R}$:
 \begin{enumerate}
     \item $f(\mathbf{x}+\mathbf{y}) = f(\mathbf{x}) + f(\mathbf{y})$ (Aditividad)
@@ -903,28 +906,37 @@ Una función $f: \mathbb{R}^n \to \mathbb{R}^m$ es \textbf{lineal} si satisface 
 \end{enumerate}
 \end{defi}
 
+\begin{defi}[Óptimo Local]
+\label{def:optimo_local}
+Un óptimo local es una solución que es la mejor (máxima o mínima) dentro de un vecindario o una región cercana de soluciones posibles,
+pero no necesariamente la mejor solución del problema.
+\end{defi}
+
+\begin{defi}[Óptimo Global]
+\label{def:optimo_global}
+Un óptimo global es la mejor solución posible de entre todas las soluciones factibles del problema.
+No hay ninguna otra solución en todo el conjunto que ofrezca un resultado mejor.
+
+\end{defi}
+
+
 \begin{defi}[Función continua]
+\label{def:fun_continua}
 Intuitivamente, una función $f$ es continua si cambios pequeños en la entrada provocan cambios pequeños en la salida (no hay saltos abruptos). Formalmente, una función $f: X \to Y$ es continua en un punto $c \in X$ si para todo $\epsilon > 0$, existe un $\delta > 0$ tal que si la distancia de $x$ a $c$ es menor que $\delta$, entonces la distancia de $f(x)$ a $f(c)$ es menor que $\epsilon$.
 $$ \forall \epsilon > 0, \exists \delta > 0 : |x-c| < \delta \implies |f(x)-f(c)| < \epsilon $$
 La función es continua en su dominio si es continua en todos sus puntos.
 \end{defi}
 
 \begin{defi}[Función diferenciable]
+    \label{def:fun_diferenciable}
 Una función real de una variable real $f: \mathbb{R} \to \mathbb{R}$ es \textbf{diferenciable} en un punto $x_0$ de su dominio si su derivada existe en ese punto. Esto significa que la función puede ser aproximada localmente por una función lineal (su recta tangente) en el entorno de $x_0$. Formalmente, si el siguiente límite existe:
 $$ f'(x_0) = \lim_{h \to 0} \frac{f(x_0+h) - f(x_0)}{h} $$
 Para funciones de varias variables, $f: \mathbb{R}^n \to \mathbb{R}^m$, la diferenciabilidad implica la existencia de una transformación lineal  que aproxima el comportamiento de la función en un punto.
 \end{defi}
 
 \begin{defi}[Conjunto numerable]
+\label{def:conjunto_numerable}
 Un conjunto es \textbf{numerable} (o contable) si existe una correspondencia uno a uno entre los elementos del conjunto y un subconjunto de los números naturales $\mathbb{N} = \{1, 2, 3, \dots\}$. Esto significa que se puede crear una lista (finita o infinita) que contenga todos los elementos del conjunto. El conjunto de los números enteros $\mathbb{Z}$ y el de los números racionales $\mathbb{Q}$ son numerables, mientras que el conjunto de los números reales $\mathbb{R}$ no lo es.
-\end{defi}
-
-\begin{defi}[Óptimo Local]
-
-\end{defi}
-
-\begin{defi}[Óptimo Global]
-
 \end{defi}
 
 \section{Modelo Matemático}
@@ -957,7 +969,14 @@ Si el conjunto de opciones es el total, el algoritmo es ``random''.
               bibliografia/Bre2017,
               bibliografia/intro_reforzado,
               bibliografia/MAB,
-              bibliografia/AlphaGo
+              bibliografia/AlphaGo, 
+              bibliografia/NSGA-II,
+              bibliografia/calculo_diferencial,
+              bibliografia/k-means,
+              bibliografia/hyperparameters,
+              bibliografia/int_programing,
+              bibliografia/bnb,
+              bibliografia/bnc
               }
 
 \end{document}
