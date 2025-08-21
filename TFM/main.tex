@@ -478,9 +478,6 @@ Finalmente, el capítulo 5 presenta las conclusiones derivadas del trabajo, así
 
 \chapter{Problema Multiobjetivo de Localización de k-Centros Balanceado}
 
-Ya se puede entrar a definir el problema a abordar. Se explicará brevemente en lo que consisten los problemas de localización, sectores claves que requieren de soluciones a 
-estos problemas, los principales modelos que se han realizado para resolverlos y la motivación junto al modelo propuesto para resolver el problema multiobjetivo de localización de k-centros balanceado.
-
 \section{Problemas de Localización de instalaciones}
 
 Los \textbf{problemas de localización de instalaciones} (\textit{Facility Location Problems} en su terminología en inglés) constituyen una de las clases más relevantes dentro de la optimización combinatoria. Su objetivo es determinar las \textbf{ubicaciones óptimas} donde instalar infraestructuras como almacenes, hospitales, escuelas o antenas de telecomunicaciones.
@@ -525,7 +522,12 @@ Es necesario para casos en los que se selecciona la ubicación de bibliotecas m�
 
 \end{itemize}
 
-\color{red} Aquí explicar brevemente el Problema Multiobjetivo de Localización de k-centros balanceado\color{black}
+El \textbf{problema de localización multiobjetivo de k-centros balanceado}: Consiste en seleccionar, de un conjunto de $m$ posibles centros, los $k$ que mejoren sus funciones objetivo:
+\begin{itemize}
+    \item Minimizar la distancia entre cliente más alejado y su centro más cercano.
+    \item Minimizar la carga de trabajo del centro más congestionado
+    \item Reducir la diferencia de cargas entre la instalación más utilizada con respecto a la que menos.
+\end{itemize}
 
 \section{Motivación}
 
@@ -545,7 +547,7 @@ Considera estos dos escenarios para una ciudad:
     \item Escenario 2: El tiempo medio de trayecto hasta el hospital más cercano es de 13 minutos, pero pasa a 1 h el tiempo que tendrá de recorrer la persona más alejada de su hospital más cercano.
 \end{itemize} 
 
-Términos globales, podríamos decir que el segundo sistema implementado es más eficiente, pero se dejan de lado los valores extremos.
+En términos globales, podríamos decir que el segundo sistema implementado es más eficiente, pero se dejan de lado los valores extremos.
 Una parte significativa de la población podría tener grandes dificultades para acceder a servicios esenciales.
 Por el contrario, aunque el primer caso tenga un tiempo medio mayor, mejora considerablemente la accesibilidad. Esto subraya que mejorar la media no implica necesariamente mejora el servicio.
 \newpage
@@ -570,9 +572,9 @@ Como se observa en la Figura~\ref{fig:casos_ejemplo}, la Figura~\ref{fig:centros
 A continuación, se presentan tres soluciones de ejemplo:
 
 \begin{itemize}
-    \item \textbf{Solución aleatoria (Figura~\ref{fig:solucion_aleatoria}):} Esta opción presenta dos problemas principales. Primero, algunos centros se ubican en la periferia, mientras que uno permanece en el centro, lo que genera sobrecarga en ciertas instalaciones y deja a varios puntos muy alejados de cualquier centro médico (hasta 3,13 km). En este caso, el centro más cargado atiende a 417 personas, mientras que el menos utilizado solo a 49.
+    \item \textbf{Solución aleatoria (Figura~\ref{fig:solucion_aleatoria}):} Esta opción presenta dos problemas principales. Primero, cuatro de los centros se ubican en la periferia, mientras el restante permanece en el centro, lo que genera sobrecarga en esta instalación y deja a varios puntos muy alejados de cualquier centro médico (hasta 3,13 km). En este caso, el centro más cargado atiende a 417 personas, mientras que el menos utilizado solo a 49.
     \item \textbf{Solución de cobertura poblacional (Figura~\ref{fig:min_distancias}):} Aquí se busca minimizar la distancia máxima de la población a los centros. La distancia máxima se reduce a 2,35 km, pero se genera un desequilibrio significativo en la carga de los centros, donde el más utilizado atiende a 281 personas y el menos a 69.
-    \item \textbf{Solución equilibrada (Figura~\ref{fig:equilibrada}):} Esta alternativa prioriza distribuir de manera equitativa la demanda entre los centros. El centro más utilizado atiende a 203 personas y el menos a 197. Sin embargo, la distancia máxima aumenta a 3 km, mostrando la compensación entre equilibrio y proximidad.
+    \item \textbf{Solución equilibrada (Figura~\ref{fig:equilibrada}):} Esta alternativa prioriza distribuir de manera equitativa la demanda entre los centros. El centro más utilizado atiende a 203 personas y el menos a 197. Sin embargo, la distancia máxima supera ligeramente los 3 km.
 \end{itemize}
 
 
@@ -609,8 +611,10 @@ A continuación, se presentan tres soluciones de ejemplo:
     \label{fig:casos_ejemplo}
 \end{figure}
 
-Como ya se mencionó al definir las características de la optimización combinatoria, el problema es NP-difícil, así
-que habrá que definir el modelo matemático y resolverlo de manera aproximada con alguna metaheurística.
+El objetivo será encontrar todas las solucones al frente de pareto, no únicamente las extremas tomando como referencia una única
+función objetivo. La manera de llevar esto a cabo será por medio de metaheurísticos, al ser un problema de combinatoria NP-difícil. Para ello, 
+primero vamos a definir el modelo matemático.
+
 \section{Modelo Matemático}
 Sean $N=\{1, 2, \dots, n\}$ el conjunto de \textbf{puntos de demanda} y $M=\{1, 2, \dots, m\}$ el conjunto de ubicaciones para las \textbf{potenciales instalaciones}.
 
@@ -658,14 +662,14 @@ Tomando en cuenta esto, se va a proponer el algoritmo metaheurístico para resol
 
 
 \chapter{Resolución del problema}
-Para resolver el \textbf{Problema Multiobjetivo de Localización de k-Centros Balanceado}, se va a utilizar el algoritmo GRASP (Greedy Randomized Adaptive Search Procedure) con Aprendizaje Reforzado.
+Para resolver el \textbf{Problema Multiobjetivo de Localización de k-Centros Balanceado}, se va a utilizar un algoritmo GRASP (Greedy Randomized Adaptive Search Procedure).
 El algoritmo constará de dos partes principales, una primera de generación de solución inicial y una segunda en la que se mejorará mediante búsqueda local aplicada a esta solución.
 
-El tipo de búsqueda local a ejecutar será seleccionado dinámicamente por un Multi-Armed Bandit (MAB), el cual, en función de la solución actual y del desempeño obtenido en iteraciones previas, determinará la estrategia de mejora más prometedora.
-
-En problemas monoobjetivo es mucho más sencillo definirlo, solo tienes que preocuparte de mejorar en base a una función objetivo, y nunca al realizar una búsqueda local se da el caso de que la empeores. El Multiobjetivo es más delicado,
-tienes que tener en cuenta que mejorar mucho en una de las funciones objetivo puede que no te ayude a a cercarte a ninguna solución, que necesites ir mejorando poco a poco cada una de ellas, y decidir qué búsqueda local hacer y en función de qué variables pasa
+El funcionamiento de la búsqueda local problemas monoobjetivo es mucho más sencillo de definir, principalmente se mejora en base a una única función objetivo, y nunca al realizar una búsqueda local se puede dar el caso de que la solución empeore. En Multiobjetivo es más delicado,
+se tiene que tener en cuenta que la mejora de una única de las funciones objetivo puede que no te ayude a aproximar ninguna solución, que necesites ir mejorando poco a poco cada una de ellas de manera selectiva, y decidir qué búsqueda local hacer y en función de qué variables pasa
 a ser la parte crucial del algoritmo.
+
+Para ello, el tipo de búsqueda local a ejecutar va a ser seleccionado dinámicamente por un Multi-Armed Bandit (MAB), el cual, en función de la solución actual y del desempeño obtenido en iteraciones previas, determinará la estrategia de mejora más prometedora.
 
 \section{¿Por qué el GRASP?}
 Se ha elegido GRASP como base metodológica por varias razones que lo hacen especialmente adecuado para el Problema Multiobjetivo de Localización de k-Centros Balanceado:
@@ -674,7 +678,7 @@ Se ha elegido GRASP como base metodológica por varias razones que lo hacen espe
     a la hora de ajustar tanto la fase de contstrucción como de mejora, para adaptarse a casi cualquier escenario posible. 
     \item \textbf{Buen desempeño}: A diferencia de otros algoritmos como la Búsqueda Tabú o los Genéticos, que requieren de tiempos más prolongados de ejecución para encontrar buenas soluciones,
     GRASP obtiene buenos resultados sin requerir de muchas iteraciones para llegar a ellos.
-    \item \textbf{Adecuación a problemas combinatorios}: El método resulta especialmente apropiado para problemas combinatorios, ya que la definición de movimientos de mejora en la búsqueda local es intuitiva y directa.
+    \item \textbf{Adecuación a problemas combinatorios}: El método resulta especialmente apropiado para resolver problemas combinatorios, ya que la definición de movimientos de mejora en la búsqueda local es intuitiva y directa.
     Esto permite explorar el espacio de soluciones de manera eficaz y con un coste computacional relativamente bajo.
     \item \textbf{Madurez y respaldo en la literatura}: GRASP ha sido desarrollado y probado en una amplia gama de problemas, incluyendo problemas de optimización multiobjetivo. \color{red} aquí metería algunas citas sobre el GRASP\color{black}
 \end{itemize}
@@ -691,28 +695,29 @@ El algoritmo Greedy Randomizado opera de la siguiente forma:
 
 \begin{itemize}
     \item \textbf{Inicialización:} Se selecciona de manera aleatoria un primer centro de suministro entre los $m$ disponibles.
-    \item \textbf{Construcción iterativa:} Mientras no se hayan elegido los $k$ centros necesarios:
+    \item \textbf{Construcción iterativa:} Mientras no se hayan elegido las $k$ instalaciones necesarias:
     \begin{itemize}
-        \item Se evalúan los centros candidatos no seleccionados, calculando el valor del objetivo $f_1$ \ref{eq:f1} suponiendo cada uno de ellos dentro de la solución.
-        \item \textbf{Lista Restringida de Candidatos (RCL):} En lugar de escoger siempre el mejor candidato, se construye una lista con aquellos que presentan valores cercanos al óptimo. El parámetro $\alpha$ controla el grado de aleatoriedad:
+        \item Se evalúan los centros candidatos no seleccionados, calculando el valor del objetivo $f_1$ \ref{eq:f1} suponiendo cada uno de ellos dentro de la solución. Se ha seleccionado $f1$ únicamente para no complicar
+        exageradamente la construcción, y porque es la función objetivo que más importancia tiene (en un caso real, se pueden dar diferentes capacidades a los centros en función de la demanda).
+        \item \textbf{Lista Restringida de Candidatos (RCL):} En lugar de escoger siempre el mejor candidato, se construye una lista con aquellos que presentan valores cercanos al óptimo. El parámetro $\alpha$ controlará el grado de aleatoriedad:
         \begin{itemize}
-            \item Si $\alpha = 0$, la RCL contiene únicamente al mejor candidato (máxima voracidad).
-            \item Si $\alpha = 1$, la RCL incluye a todos los candidatos (máxima aleatoriedad).
+            \item Si $\alpha = 0$, la RCL contendrá únicamente al mejor candidato (máxima voracidad).
+            \item Si $\alpha = 1$, la RCL incluirrá a todos los candidatos (máxima aleatoriedad).
         \end{itemize}
-        \item \textbf{Selección aleatoria:} Se elige al azar un candidato de la RCL, incorporándolo a la solución.
+        \item \textbf{Selección aleatoria:} Se elige al azar un centro de la RCL, incorporándolo a la solución.
     \end{itemize}
 \end{itemize}
 
-Este procedimiento semi-aleatorio asegura que cada ejecución del GRASP trabaje con una variedad múcho más amplia de soluciones iniciales aleatorias (promoviendo exploración), pero manteniendo la calidad (promoviendo explotación).
+Este procedimiento semi-aleatorio asegura que cada ejecución del GRASP trabaje con una variedad múcho más amplia de soluciones iniciales aleatorias (promoviendo exploración), pero manteniendo la calidad (promoviendo explotación). Posteriormente, en \ref{fig:alpha} se evaluará la eficacia de esta fase de construcción.
 
 \subsection{Fase de Búsqueda Local}
 Una vez construida la solución inicial, el algoritmo intenta mejorarla mediante procesos de búsqueda local basados en intercambios.
 Se definen tres procedimientos de búsqueda local, cada uno enfocado en un objetivo específico:  
 
 \begin{itemize}
-    \item \textbf{Búsqueda local f1 \ref{eq:f1}:} Minimiza la máxima distancia entre el conjunto de centros seleccionados y cada uno de los elementos de la población.
-    \item \textbf{Búsqueda local f2 \ref{eq:f2}:} Reduce el número máximo de clientes asignados a los centros.
-    \item \textbf{Búsqueda local f3 \ref{eq:f3}:} Disminuye la diferencia entre el centro más sobrecargado y el menos utilizado.
+    \item \textbf{Búsqueda local  de $f1$ \ref{eq:f1}:} Minimiza la máxima distancia entre el conjunto de centros seleccionados y cada uno de los elementos de la población.
+    \item \textbf{Búsqueda local de $f2$ \ref{eq:f2}:} Reduce el número máximo de clientes asignados a los centros.
+    \item \textbf{Búsqueda local de $f3$ \ref{eq:f3}:} Disminuye la diferencia entre el centro más sobrecargado y el menos utilizado.
 \end{itemize}
 
 Para realizar todas estas búsquedas locales, se escoge secuencialmente cada uno de los elementos de la solución, y se intercambia con el elemento que maximice la mejora de su respectiva función objetivo. Si ninguno mejora la solución (respecto a esa función objetivo), entonces se pasa al siguiente elemento. 
@@ -723,32 +728,46 @@ y posteriormente se introduce en el conjunto de soluciones.
 
 De esta manera, se conservan únicamente las soluciones que pertenezcan al frente de pareto actual.
 
+Se ha de considerar la posibilidad de empate tanto para la búsqueda local $f2$ como para la $f3$. Podría darse el caso de poder redistribuir los empates a emplazamientos seleccionados
+con menor demanda, con tal de mejorar estas funciones objetivo. No se ha implementado en este algoritmo al ralentizar en exceso al no darse este caso, pero se ha detectado casos en uno de los estudios previos en los que podrían haber
+soluciones empeoradas al redondear las distancias \color{red} aquí añadir referencia, y luego en experimentación y resultados hacerlo\color{black}
+
 \subsection{Aprendizaje Reforzado: Multi-Armed Bandit (MAB)}
-¿Cómo se decide qué búsqueda local aplicar en cada momento?La esencia del algoritmo radica en la selección adaptativa de las búsquedas locales mediante un esquema de aprendizaje reforzado conocido como \textit{Multi-Armed Bandit} (MAB).
-Este mecanismo permite decidir dinámicamente qué búsqueda aplicar en cada situación, equilibrando exploración y explotación.  
+Como se ha ido introduciendo, el algoritmo se requiere de un mecanismo para decididr qué función objetivo y cuántas veces mejorar la solución en esa dirección en cáda momento. 
+
+Las partes del MAB definido para este algoritmo serían las siguientes:
 
 \begin{itemize}
-    \item \textbf{Brazos (arms):} Cada acción corresponde a una combinación de búsqueda local ($f_1$, $f_2$ o $f_3$) y el máximo de veces que se va a mejorar ($1, 2, \dots, k$).
-    \item \textbf{Contexto (context):} Describe el estado actual mediante la distancia de la solución al frente de Pareto, es decir, cuánto debería mejorar en cada objetivo para dejar de ser dominada.
+    \item\textbf{Agente:} El propio algoritmo ``aprendiendo'' a encontrar las mejores soluciones.
+    \item \textbf{Entorno:} El espacio de soluciones factibles.
+    \item \textbf{Tiempo:} Cada una de las búsquedas locales que se realizan en el algoritmo.
+    \item \textbf{Estado ($S$):} En este caso, la información relevante que tenemos del entorno son tanto los valores de las funciones objetivo de la solución actual, como de las soluciones del frente de pareto.
+    
+    En base a esto se va a definir el \textbf{contexto ($C$)} de la solución como una tupla de tres elementos $(C^1, C^2, C^3)$, que representan las distancias entre la solución actual y el frente de pareto, es decir,
+    cuánto debería mejorar en cada objetivo para dejar de ser dominada.
+
     Un contexto $(0,0,0)$ indicaría que la solución ya pertenece al frente. Un contexto de $(30,15,10)$ indicaría que la solución debería disminuir en 30 $f1$ para entrar en el frente de pareto, o disminuir 15 $f2$ o 10 $f3$ para hacerlo.
-    \item \textbf{Recompensa (reward):}
-    \begin{itemize}
-        \item Valor máximo ($=1$) si la acción genera una solución no dominada.
-        \item Proporcional a la mejora obtenida respecto a la cercanía al frente de Pareto en caso contrario.
-    \end{itemize}
-    \item \textbf{Selección de brazo:}
-    \begin{itemize}
+    \item \textbf{Acción:} EL conjunto de acciones serán los ``brazos'' que componen el MAB. Cada brazo corresponde a una combinación de búsqueda local ($f_1$, $f_2$ o $f_3$) y el máximo de veces que se va a mejorar ($1, 2, \dots, k$).
+    
+    Para seleccionar el brazo:
+        \begin{itemize}
         \item Con probabilidad $\beta$, se selecciona una acción aleatoria (exploración).
         \item En caso contrario, se escoge con probabilidad ponderada basada en la recompensa esperada a partir de la matriz de pesos (explotación). La acción con más recompensa esperada tendrá más probabilidad de salir, pero no es una garantía.
-        Para no ponderar demasiado brazos con una esperanza muy alta, ni depreciar brazos con esperanza baja, utilizo la función softmax para normalizar las esperanzas de los brazos:
-        Utilizo softmax para ajustar los pesos
+        
+        Para no valorar demasiado brazos con una esperanza muy alta, ni depreciar brazos con esperanza baja, se utiliza la función softmax para normalizar sus valores esperados:
 \begin{equation}
     \sigma(z)_i = \frac{e^{\frac{z_i - \max(z)}{\tau}}}{\sum_{j=1}^{K} e^{\frac{z_j - \max(z)}{\tau}}}
 \end{equation}
-
-
     \end{itemize}
-    \item \textbf{Aprendizaje:} Tras observar la recompensa, la matriz de pesos se actualiza, reforzando las acciones efectivas en contextos similares.
+
+    \item \textbf{Recompensa:} Después de realizar cada acción, se evalua su impacto comparando el contexto antes y después de la búsqueda local. De aquí obtenemos dos posibles recompensas:
+        \begin{itemize}
+        \item \textbf{Caso 1:} Valor máximo ($1$) si la acción genera una solución nueva no dominada. Si la solución es nueva, se evalúa como en el segundo caso
+        \item \textbf{Caso 2:} Proporcional a diferencia entre el contexto nuevo y el anterior
+        $$R_{t+1}=\frac{1}{3}(C_{t+1}^1+C_{t+1}^2+C_{t+1}^3) \; - \; (\frac{1}{3}C_t^1+C_t^2+C_t^3)$$
+    \end{itemize}
+
+    Tras obtener la recompensa, la matriz de pesos se actualiza, reforzando las acciones efectivas en contextos similares.
 \end{itemize}
 
 \subsection{Orquestación General: \texttt{multi\_GRASP\_Bandit}}
@@ -796,7 +815,15 @@ En total, esto equivale a 220 ejecuciones simultáneas, lo que permite observar 
 
 Los resultados son los siguientes:
 
-\includegraphics[width=\linewidth]{images_finetuning/alpha}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{images_finetuning/alpha}
+    \caption{Boxplot que muestra las distribuciones de la cantidad de soluciones en el frente de pareto agrupadas por alpha y por número de ejecuciones}
+    \label{fig:alpha}
+\end{figure}
+
+
+
 
 Podemos ver como el alpha qu eparece tener mejores resultados es el 0.3, y por sus alrededores se encuentran los mejores resultados.
 También cómo elegir tanto alpha 1 (solucion puramente greedy) o 0 (solución aleatoria) son los que peores resultados dan.
@@ -938,17 +965,17 @@ $$ \binom{m}{k} = \frac{m!}{k!(m-k)!} $$
 donde $m$ y $k$ son números enteros no negativos con $m \ge k$.
 \end{defi}
 
-\begin{defi}
-Un algoritmo \textbf{``greedy''} (codicioso) es un método construcción de soluciones para un problema de optimización,
-de manera que en cada paso se escoge la mejor posible, aunque esto no lleve finalmente a un óptimo global.
-\end{defi}
+% \begin{defi}
+% Un algoritmo \textbf{``greedy''} (codicioso) es un método construcción de soluciones para un problema de optimización,
+% de manera que en cada paso se escoge la mejor posible, aunque esto no lleve finalmente a un óptimo global.
+% \end{defi}
 
-\bigskip
+% \bigskip
 
-\begin{defi}
-Un algoritmo \textbf{``greedy randomizado''} se basa en el ``greedy'', pero en cada paso se elige de forma aleatoria entre un conjunto de mejores opciones.
-Si el conjunto de opciones es el total, el algoritmo es ``random''.
-\end{defi}
+% \begin{defi}
+% Un algoritmo \textbf{``greedy randomizado''} se basa en el ``greedy'', pero en cada paso se elige de forma aleatoria entre un conjunto de mejores opciones.
+% Si el conjunto de opciones es el total, el algoritmo es ``random''.
+% \end{defi}
 
 \nocite{*}
 \bibliographystyle{plainnat}
