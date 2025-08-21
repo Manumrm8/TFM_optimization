@@ -318,21 +318,6 @@ Una solución se considera \textbf{no dominada} (u óptima en el sentido de Pare
     \label{fig:pareto}
 \end{figure}
 
-Sentada la base teórica, ahora podemos definir correctamente el problema.
-
-El \textbf{Problema de Localización Multiobjetivo de K-Centros Balanceado} consiste en seleccionar, de un conjunto de $m$ posibles centros, los $k$ que mejoren sus funciones objetivo \color{red} No se si enunciar aquí ya las funciones objetivo o dejarlas para el modelo.  \color{black}. El número total de posibles soluciones es finito, y viene dado por el coeficiente binomial 
-$$ \binom{m}{k} = \frac{m!}{(m-k)!k!}$$
-
-Para ilustrar la explosión combinatoria, consideremos el caso con $m=50$ y $k=5$. El número de combinaciones posibles sería:
-
-$$
-    \binom{50}{5} = \frac{50!}{(50-5)!5!} = 2,118,760.
-$$
-
-Pasando a problemas más realistas, si tenemos $m=1000$ posibles emplazamientos, y $k=50$ centros a construir, la cantidad de soluciones posibles se dispara a una cifra del orden de $2.28 \times 10^{120}$. 
-Evaluar cada una de estas soluciones para encontrar la óptima de forma exacta es una tarea imposible, incluso para los superordenadores más potentes, ya que requeriría tiempos de computación demasiado elevados.
-
-
 Una vez definidos los problemas de optimización, ahora viene la parte más importante, cómo resolverlos.
 
 \section{Resolución de Problemas de Optimización Multiobjetivo}
@@ -539,6 +524,9 @@ En este caso, el objetivo es \textbf{maximizar la demanda cubierta} con un núme
 Es necesario para casos en los que se selecciona la ubicación de bibliotecas móviles para dar servicio al mayor número posible de ciudadanos.
 
 \end{itemize}
+
+\color{red} Aquí explicar brevemente el Problema Multiobjetivo de Localización de k-centros balanceado\color{black}
+
 \section{Motivación}
 
 En un entorno cada vez más competitivo y dinámico, la localización estratégica de infraestructuras no solo debe considerar criterios tradicionales como la distancia o el coste, sino también otros factores clave como la cobertura del mercado, la accesibilidad o el equilibrio en la distribución de la demanda.
@@ -661,7 +649,7 @@ Recopilando lo visto hasta ahora, se deducen las siguientes características cla
     
     \item \textbf{Optimización discreta}: El dominio de la solución es discreto, pues se debe elegir un subconjunto de un conjunto finito de ubicaciones.
     
-    \item \textbf{Problema combinatorio (NP-difícil)}: El problema consiste en encontrar el mejor subconjunto de $k$ elementos de un total de $m$, lo cual es característico de los problemas NP-difíciles. El número de soluciones posibles es $\binom{m}{k}$.
+    \item \textbf{Problema combinatorio (NP-difícil)}: El problema consiste en encontrar el mejor subconjunto de $k$ elementos de un total de $m$, lo cual es característico de los problemas NP-difíciles. El número de soluciones posibles es $\binom{m}{k}$ (ver en \ref{def:combinatorio}).
     
     \item \textbf{Problema multiobjetivo}: Se desean optimizar simultáneamente tres funciones objetivo.
 \end{itemize}
@@ -940,6 +928,15 @@ Un conjunto es \textbf{numerable} (o contable) si existe una correspondencia uno
 \end{defi}
 
 \section{Modelo Matemático}
+
+\begin{defi}[Número combinatorio]
+\label{def:combinatorio}
+El \textbf{número combinatorio}, denotado como $\binom{m}{k}$, representa el número de maneras en que se puede escoger un subconjunto de $k$ elementos a partir de un conjunto con $m$ elementos distintos, sin tener en cuenta el orden de selección.
+
+La fórmula para calcularlo es:
+$$ \binom{m}{k} = \frac{m!}{k!(m-k)!} $$
+donde $m$ y $k$ son números enteros no negativos con $m \ge k$.
+\end{defi}
 
 \begin{defi}
 Un algoritmo \textbf{``greedy''} (codicioso) es un método construcción de soluciones para un problema de optimización,
