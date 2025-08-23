@@ -22,6 +22,9 @@
 \usepackage{subcaption}
 \usepackage{natbib}
 
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
 \renewcommand{\chaptername}{Capítulo}
 \renewcommand{\contentsname}{Índice}
 \renewcommand{\bibname}{Bibliografía}
@@ -680,7 +683,7 @@ Se ha elegido GRASP como base metodológica por varias razones que lo hacen espe
     GRASP obtiene buenos resultados sin requerir de muchas iteraciones para llegar a ellos.
     \item \textbf{Adecuación a problemas combinatorios}: El método resulta especialmente apropiado para resolver problemas combinatorios, ya que la definición de movimientos de mejora en la búsqueda local es intuitiva y directa.
     Esto permite explorar el espacio de soluciones de manera eficaz y con un coste computacional relativamente bajo.
-    \item \textbf{Madurez y respaldo en la literatura}: GRASP ha sido desarrollado y probado en una amplia gama de problemas, incluyendo problemas de optimización multiobjetivo. \color{red} aquí metería algunas citas sobre el GRASP\color{black}
+    \item \textbf{Madurez y respaldo en la literatura}: GRASP ha sido desarrollado y probado en una amplia gama de problemas, incluyendo problemas de optimización multiobjetivo \cite{grasp_1}, \cite{grasp_3}, \cite{grasp_2}. 
 \end{itemize}
 
 \section{Estado del arte}
@@ -697,7 +700,7 @@ El algoritmo Greedy Randomizado opera de la siguiente forma:
     \item \textbf{Inicialización:} Se selecciona de manera aleatoria un primer centro de suministro entre los $m$ disponibles.
     \item \textbf{Construcción iterativa:} Mientras no se hayan elegido las $k$ instalaciones necesarias:
     \begin{itemize}
-        \item Se evalúan los centros candidatos no seleccionados, calculando el valor del objetivo $f_1$ \ref{eq:f1} suponiendo cada uno de ellos dentro de la solución. Se ha seleccionado $f1$ únicamente para no complicar
+        \item Se evalúan los centros candidatos no seleccionados, calculando el valor del objetivo $f_1$ \ref{eq:f1} suponiendo cada uno de ellos dentro de la solución. Se ha seleccionado $f_1$ únicamente para no complicar
         exageradamente la construcción, y porque es la función objetivo que más importancia tiene (en un caso real, se pueden dar diferentes capacidades a los centros en función de la demanda).
         \item \textbf{Lista Restringida de Candidatos (RCL):} En lugar de escoger siempre el mejor candidato, se construye una lista con aquellos que presentan valores cercanos al óptimo. El parámetro $\alpha$ controlará el grado de aleatoriedad:
         \begin{itemize}
@@ -715,9 +718,9 @@ Una vez construida la solución inicial, el algoritmo intenta mejorarla mediante
 Se definen tres procedimientos de búsqueda local, cada uno enfocado en un objetivo específico:  
 
 \begin{itemize}
-    \item \textbf{Búsqueda local  de $f1$ \ref{eq:f1}:} Minimiza la máxima distancia entre el conjunto de centros seleccionados y cada uno de los elementos de la población.
-    \item \textbf{Búsqueda local de $f2$ \ref{eq:f2}:} Reduce el número máximo de clientes asignados a los centros.
-    \item \textbf{Búsqueda local de $f3$ \ref{eq:f3}:} Disminuye la diferencia entre el centro más sobrecargado y el menos utilizado.
+    \item \textbf{Búsqueda local  de $f_1$ \ref{eq:f1}:} Minimiza la máxima distancia entre el conjunto de centros seleccionados y cada uno de los elementos de la población.
+    \item \textbf{Búsqueda local de $f_2$ \ref{eq:f2}:} Reduce el número máximo de clientes asignados a los centros.
+    \item \textbf{Búsqueda local de $f_3$ \ref{eq:f3}:} Disminuye la diferencia entre el centro más sobrecargado y el menos utilizado.
 \end{itemize}
 
 Para realizar todas estas búsquedas locales, se escoge secuencialmente cada uno de los elementos de la solución, y se intercambia con el elemento que maximice la mejora de su respectiva función objetivo. Si ninguno mejora la solución (respecto a esa función objetivo), entonces se pasa al siguiente elemento. 
@@ -726,11 +729,12 @@ Termina el proceso o bien cuando no se obtiene ninguna mejora tras evaluar inter
 Tras cada proceso de búsqueda local, se evalua la solución obtenida respecto a sus 3 funciones objetivos comparándola con el frente de pareto actual. En caso de quedar dominada, se descarta. En caso contrario, se evalúa primero si domina a alguna de las existentes, descartándo las que queden dominadas,
 y posteriormente se introduce en el conjunto de soluciones.
 
-De esta manera, se conservan únicamente las soluciones que pertenezcan al frente de pareto actual.
+De esta manera, se conservan únicamente las soluciones que pertenezcan al frente de pareto actual. En caso de o haber obtenido una solución nueva del frente o una solución
+más cercana a la anterior al frente, se vuelve a realizar una nueva búsqueda local con esta nueva solución.
 
-Se ha de considerar la posibilidad de empate tanto para la búsqueda local $f2$ como para la $f3$. Podría darse el caso de poder redistribuir los empates a emplazamientos seleccionados
-con menor demanda, con tal de mejorar estas funciones objetivo. No se ha implementado en este algoritmo al ralentizar en exceso al no darse este caso, pero se ha detectado casos en uno de los estudios previos en los que podrían haber
-soluciones empeoradas al redondear las distancias \color{red} aquí añadir referencia, y luego en experimentación y resultados hacerlo\color{black}
+Se ha de considerar la posibilidad de empate tanto para la búsqueda local $f_2$ como para la $f_3$. Podría darse el caso de poder redistribuir los empates a emplazamientos seleccionados
+con menor demanda, con tal de mejorar estas funciones objetivo. No se ha implementado en este algoritmo al no darse el caso, pero se ha detectado en uno de los estudios previos situaciones en los que podrían haber
+soluciones empeoradas al redondear las distancias (ver en \ref{sec:articulo2}).
 
 \subsection{Aprendizaje Reforzado: Multi-Armed Bandit (MAB)}
 Como se ha ido introduciendo, el algoritmo se requiere de un mecanismo para decididr qué función objetivo y cuántas veces mejorar la solución en esa dirección en cáda momento. 
@@ -746,7 +750,7 @@ Las partes del MAB definido para este algoritmo serían las siguientes:
     En base a esto se va a definir el \textbf{contexto ($C$)} de la solución como una tupla de tres elementos $(C^1, C^2, C^3)$, que representan las distancias entre la solución actual y el frente de pareto, es decir,
     cuánto debería mejorar en cada objetivo para dejar de ser dominada.
 
-    Un contexto $(0,0,0)$ indicaría que la solución ya pertenece al frente. Un contexto de $(30,15,10)$ indicaría que la solución debería disminuir en 30 $f1$ para entrar en el frente de pareto, o disminuir 15 $f2$ o 10 $f3$ para hacerlo.
+    Un contexto $(0,0,0)$ indicaría que la solución ya pertenece al frente. Un contexto de $(30,15,10)$ indicaría que la solución debería disminuir en 30 $f_1$ para entrar en el frente de pareto, o disminuir 15 $f_2$ o 10 $f_3$ para hacerlo.
     \item \textbf{Acción:} EL conjunto de acciones serán los ``brazos'' que componen el MAB. Cada brazo corresponde a una combinación de búsqueda local ($f_1$, $f_2$ o $f_3$) y el máximo de veces que se va a mejorar ($1, 2, \dots, k$).
     
     Para seleccionar el brazo:
@@ -770,28 +774,67 @@ Las partes del MAB definido para este algoritmo serían las siguientes:
     Tras obtener la recompensa, la matriz de pesos se actualiza, reforzando las acciones efectivas en contextos similares.
 \end{itemize}
 
-\subsection{Orquestación General: \texttt{multi\_GRASP\_Bandit}}
-La función principal integra todos los componentes descritos y organiza el proceso de resolución mediante los siguientes pasos:  
+\newpage
 
-\begin{enumerate}
-    \item Inicialización de los datos, archivo de soluciones y parámetros del MAB.
-    \item Construcción de una solución inicial mediante el algoritmo Greedy.
-    \item Ejecución de un bucle adaptativo que incluye:
-    \begin{enumerate}
-        \item Cálculo del contexto de la solución actual.
-        \item Selección de una acción mediante el MAB.
-        \item Ejecución de la búsqueda local seleccionada.
-        \item Evaluación de la nueva solución y actualización del frente de Pareto.
-        \item Cálculo de la recompensa obtenida.
-        \item Actualización de los pesos del MAB.
-    \end{enumerate}
-\end{enumerate}
+\section{MAB GRASP}
 
-El procedimiento se repite mientras se obtengan mejoras significativas o hasta alcanzar el número máximo de iteraciones definido. 
+\begin{algorithm}[H]
+\caption*{Algoritmo MAB GRASP}
+\begin{algorithmic}[1]
+    \State \textbf{Definiciones:}
+    \State $MAX\_ITS$: Número de iteraciones
+    \State $W$: Pesos del MAB
+    \State $F$: Frente de soluciones
+    \State $X$: Solución actual
+    \State $X'$: Nueva solución candidata
+    \State $C$: Contexto extraído de la solución y el frente
+    \State $R$: Recompensa asociada a la mejora de la solución
+    
+    \Statex
+
+    \State Inicializar $W$, $F \gets \emptyset$
+    \While{$"ITS < MAX\_ITS$}
+        \State $X \gets \text{ConstruccionGreedyRandomizada}(\alpha)$
+
+        \State $\text{ActualizarFrente}(X, F)$
+        \State $mejora \gets \text{true}$
+
+        \While{$mejora$}
+            \State $C \gets \text{ExtraerContexto}(X, F)$
+            \State $Brazo \gets \text{SeleccionarBrazoMAB}(W, C)$
+            
+            \State $X' \gets \text{BusquedaLocal}(X, Brazo)$
+            
+            \State $R \gets \text{EvaluarSolucion}(X', X, F)$
+            \State $\text{ActualizarPesosMAB}(W, Brazo, R)$
+            
+            \If{$X'$ es una nueva solución del frente \textbf{o} mejora a $X$}
+                \State $X \gets X'$
+                \State $\text{ActualizarFrente}(X', F)$
+                \State $mejora \gets \text{true}$
+            \Else
+                \State $mejora \gets \text{false}$
+            \EndIf
+        \EndWhile
+    \EndWhile
+    \State \Return $F$
+\end{algorithmic}
+\end{algorithm}
+
 
 \section{Implementación}
 
-Explicar la paralelización, como afecta a los pesos del reforzado y a la generación de los frentes de pareto, y cómo mejora la velocidad del algoritmo
+El algoritmo se ha implementado en el lenguaje de programación Python. Está todo guardado en el repositorio de GitHub en \color{red}Cuando haga público el repo lo pongo aquí \color{black}
+
+Para agilizar el algoritmo, aparte de reducir los tiempos de ejecución todo lo posible simplificando código, se ha optado por utilizar la librería ``multiprocessing'' para paralelizarlo.
+Esto aumenta el rendimiento de unas 5 iteraciones por segundo hasta más de 50 (esto dependerá de los cores de la CPU del ordenador utilizado).
+
+Por haber utilizado esto, hay que tener en cuenta que no se puede, sin reducir en gran medida la velocidad del algoritmo, hacer que el conjunto de instancias paralelizadas compartan
+el mismo frente de pareto encontrado o los mismos pesos del MAB. Por tanto, cada instancia tendrá tanto su archivo de pesos como de soluciones. Al terminar las ejecuciones, se combinan los frentes de pareto de 
+todas las ejecuciones y se obtiene el frente de pareto común.
+
+Al final, comparando los resultados tanto de ejecutar las instancias en paralelo como en serie, no difieren significativamente en el rendimiento, que no en tiempo, con lo que paralelizar tanto soluciones como pesos no empeora 
+el algoritmo. \color{red} Aquí podría meter un gráfico de comparación cuando esté el algoritmo terminado \color{black}
 
 \chapter{Experimentación y Resultados}
 
@@ -875,9 +918,21 @@ Los resultados son los siguientes:
 Comparativa entre utilizar o no aprendizaje reforzado (resultados vs tiempos), ya que el reforzado irá mejor, pero será algo más lento (no mucho).
 Para la comparativa del caso pequeño tengo el frente de pareto exacto, calculado a lo bruto. Por el momento, el algoritmo reforzado en 25 min (50.000 iteraciones) saca casi todo el frente de pareto (le ha faltado 1 solución).
 
-\section{comparativa con los resultados de los articulos}
-Buscar la comparativa con el algoritmo del artículo (necesitaría tiempos de ejecución para poder compararlo)
+\section{Resultados de los articulos}
+\label{sec:articulo2}
+Tomando como referencia las soluciones reportadas en el artículo \cite{k-Balanced_2}, se realizó una comparación para verificar si el método GRASP desarrollado en este TFM alcanzaba los mismos resultados. De este análisis se observó que, en algunos casos, se obtuvieron soluciones superiores a las allí presentadas, mientras que en otros los resultados fueron menos favorables.
+Sin embargo, dado que en dicho artículo no se proporcionan los componentes exactos de cada solución, una evaluación directa no es posible. 
+Además, los valores de la función objetivo $f_1$ aparecen truncados a nivel decimal, lo que sugiere que las distancias fueron redondeadas.
 
+Si en este trabajo se aplican también redondeos sobre las soluciones, se constata que se alcanzan frentes de Pareto muy similares, aunque con ligeras diferencias en $f_2$ y $f_3$. Asumiendo que las premisas anteriores son correctas, cabe señalar que en algunos casos no se habría contemplado el efecto de los empates generados por el redondeo de las distancias. Para ilustrar esto, consideremos el siguiente ejemplo encontrado:
+
+Los posibles emplazamientos se numeran del 0 al 49, al igual que cada punto de demanda se numera desde el 0 al 999. Una de las soluciones reportadas en el artículo es (suponiendo que sea la misma que en una búsqueda exhaustiva del frente de pareto) $X_1 = [13, 20, 23, 29, 49]$, cuyos valores son $f_1(X_1) = 415$, $f_2(X_1) = 232$ y $f_3(X_1) = 128$. En cambio, al evaluar esta misma solución en el presente TFM se obtuvieron $f_1'(X_1) = 415$, $f_2'(X_1) = 233$ y $f_3'(X_1) = 129$.
+El análisis muestra que, tras redondear las distancias y revisar la saturación de las instalaciones, la instalación 20 recibió $233$ elementos. Al analizar los empates, se observó que los puntos de demanda 435 y 827 estaban equidistantes entre las instalaciones 20 y 13, la cual contaba con $228$ elementos asignados.
+
+Se puede entonces suponer que en los resultados del artículo se habría asignado uno de estos puntos de demanda a la instalación 20 y el otro a la 13, obteniendo así los valores publicados. Sin embargo, también podría plantearse que, bajo un redondeo estricto, la solución no sería óptima.
+De hecho, si ambos puntos de demanda se asignan a la instalación 13, se obtendría $f_2 = 231$ y $f_3 = 127$.
+
+En conclusión, este análisis evidencia que la manera de resolver los empates al asignar los puntos de demanda a las instalaciones más cercanas puede resultar determinante en la evaluación de las soluciones.
 \chapter{Conclusiones}
 
 
@@ -1000,7 +1055,10 @@ donde $m$ y $k$ son números enteros no negativos con $m \ge k$.
               bibliografia/hyperparameters,
               bibliografia/int_programing,
               bibliografia/bnb,
-              bibliografia/bnc
+              bibliografia/bnc,
+              bibliografia/grasp_1,
+              bibliografia/grasp_2,
+              bibliografia/grasp_3
               }
 
 \end{document}
