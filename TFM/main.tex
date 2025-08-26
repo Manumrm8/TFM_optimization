@@ -132,22 +132,14 @@ Aquí va el contingut del teu resum en valencià. Explica breument l'objectiu, l
 \chapter{Introducción}
 
 \section{Introducción al TFM}
-En este Trabajo de Fin de Máster se va a estudiar, mediante un Procedimiento de Búsqueda Adaptativa Aleatoria Voraz (\textit{Greedy Randomized Adaptive Search Procedure}, GRASP) con técnicas de Aprendizaje Reforzado, la resolución del problema multiobjetivo de localización de k-centros balanceado.
-Se va a basar en dos artículos previos. En el primero de ellos, \citet{k-balanced_1}, se propone el problema, actualizándo el clásico de k-centros para que se busque balancear las cargas de las instalaciones,
-y se resuelve diseñando el algoritmo MOAkBCL (\textit{Multi-Objective Algorithm k-Balanced Center Location}), el cual comparte muchas similitudes con el evolutivo NSGA-II \cite{NSGA-II}.
+En este Trabajo de Fin de Máster se aborda el problema de localización multiobjetivo de $k$-centros balanceados. Dicho problema surge como una extensión del clásico problema de localización de $k$-centros, en el que, además de minimizar las distancias entre usuarios e instalaciones, se introduce la necesidad de balancear la carga asignada a cada centro. Este equilibrio resulta de gran interés en aplicaciones reales, como la ubicación de hospitales, almacenes o centros de distribución, donde no solo importa la accesibilidad sino también una adecuada distribución de la demanda.
 
-Posteriormente, en \cite{k-Balanced_2}, los autores desarrollan un nuevo método de resolución basado en las metaheurísticas denominadas ``GRASP'' \cite{GRASP} (\textit{Greedy Randomized Adaptive Search Procedure}) con ``Strategic Oscillation'' \cite{oscillation} (explorando soluciones infactibles) y ``Path Relinking'' \cite{path_relinking} (combinando estas para obtener mejores soluciones factibles).
+El problema ha sido objeto de estudio reciente en la literatura. En \citet{k-balanced_1}, los autores formulan por primera vez el problema de $k$-centros balanceado y proponen un algoritmo evolutivo denominado MOAkBCL, inspirado en el conocido NSGA-II \cite{NSGA-II}. Posteriormente, en \citet{k-Balanced_2}, se desarrolla un nuevo enfoque basado en metaheurísticas de tipo GRASP \cite{GRASP}, enriquecido con técnicas de Oscilación Estratégica \cite{oscillation} y Path Relinking \cite{path_relinking}, con el fin de explorar de forma más eficiente el espacio de búsqueda y mejorar la calidad de las soluciones.
 
-Se han tomado las mismas consideraciones a la hora de definir el problema, utilizando los mismos datos sintéticos.
-Para resolver el problema se van a utilizar dos implementaciones del algoritmo propuesto GRASP, una sin y otra con Aprendizaje Reforzado, y se compararán contrastando los resultados con los de los artículos previos.
-
-El objetivo principal será evaluar si la implementación de modelos de aprendizaje no supervisado en algoritmos metaheurísticos puede mejorar significativamente su rendimiento.
-
-Esta introducción se centrará en contextualizar el área de la optimización, revisando brevemente su evolución histórica, definiciones clave y principales enfoques utilizados para descomponer y abordar problemas de esta naturaleza. También se añadirán los conceptos básicos para entender cómo funciona el Aprendizaje Reforzado.
-
+En este trabajo se propone una nueva aproximación al problema, combinando la metaheurística GRASP con técnicas de Aprendizaje Reforzado. El objetivo es aprovechar la capacidad adaptativa del aprendizaje automático para guiar el proceso de búsqueda y generar soluciones de mayor calidad, extendiendo así los trabajos previos y aportando un enfoque híbrido novedoso.
 
 \section{Historia de la optimización}
-El origen de la optimizacaión se remonta a la antigua Grecia, donde matemáticos como Euclides o Arquímedes la utilizaban en busca de soluciones a problemas del área de la geometría.
+El origen de la optimización se remonta a la antigua Grecia, donde matemáticos como Euclides o Arquímedes la utilizaban en busca de soluciones a problemas del área de la geometría.
 
 La versión que conocemos hoy en día no empezó a desarrollarse hasta el siglo XVII, con la aparición del cálculo diferencial \cite{calculo_diferencial}, impulsado por los trabajos de Isaac Newton y Gottfried Wilhelm Leibniz \cite{Leibniz}. Con él se pudieron estudiar las funciones y sus puntos extremos,
 en los cuales, bajo ciertas condiciones, pueden encontrarse sus valores óptimos.
@@ -692,8 +684,8 @@ Se ha elegido GRASP como base metodológica por varias razones que lo hacen espe
 \section{Estado del arte}
 
 \subsection{Artículo 1}
-En el artículo \cite{k-balanced_1}, como se mencionó en la introducción, se propone el problema de localización multiobjetivo de k-centros balanceado y 
-se resuelve con el algorimto MOAKBCL.
+El primer trabajo relevante en la literatura es el de \citet{k-balanced_1}, en el cual se propone formalmente el problema de localización multiobjetivo de $k$-centros balanceado y se presenta una primera estrategia de resolución mediante el algoritmo MOAkBCL.
+Este enfoque parte de la triangulación de Delaunay \cite{delaunay} para definir la vecindad entre instalaciones y construye soluciones mediante intercambios locales, siguiendo una lógica muy cercana al algoritmo evolutivo NSGA-II.
 
 El primer paso del algoritmo consiste en emplear la triangulación de Delaunay \cite{delaunay} para definir la ``vecindad'' entre instalaciones. Dos instalaciones se consideran vecinas de una tercera si, 
 dentro del área que delimita la circunferencia cincunscrita al triángulo formado por las tres, no se encuentra ninguna otra instalación. 
@@ -715,7 +707,7 @@ Aparte del nuevo método para resolver el problema, se demuestra que efectivamen
 solución del frente de Pareto es NP-Completo.
 
 \subsection{Artículo 2}
-En el trabajo presentado en \cite{k-Balanced_2}, se profundiza en el problema de localización multiobjetivo de $k$-centros balanceados, proponiendo un enfoque híbrido que combina GRASP, Oscilación Estratégica (SO, por sus siglas en inglés) y Path Relinking. El objetivo principal es mejorar la calidad de las soluciones y explorar de manera más efectiva el espacio de búsqueda, incluyendo tanto regiones factibles como no factibles.
+El segundo trabajo fundamental es el de \citet{k-Balanced_2}, en el que se plantea una alternativa al enfoque evolutivo anterior. En este caso, se propone un método híbrido basado en la metaheurística GRASP, complementado con Oscilación Estratégica y Path Relinking. El objetivo principal es mejorar la capacidad exploratoria del algoritmo, permitiendo visitar tanto soluciones factibles como no factibles para, posteriormente, transformarlas en configuraciones válidas de alta calidad.
 
 El procedimiento comienza con la generación de una población inicial de soluciones mediante un esquema greedy randomizado. Este mecanismo permite construir soluciones iniciales de buena calidad, cada una definida por la selección de $k$ centros. Posteriormente, se aplica una fase de búsqueda local propia del GRASP, basada en intercambiar elementos de la solución por otros que no forman parte de ella, siempre que el nuevo candidato no resulte dominado por el conjunto de soluciones actuales.
 
