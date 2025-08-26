@@ -182,7 +182,7 @@ Si bien esta idea es intuitiva, el rigor matemático exige una definición más 
 Para expresar un problema de optimización de forma matemática, definimos las tres partes en las que se puede descomponer:
 
 \begin{itemize}
-    \item \textbf{Variables de Decisión:} Son las incógnitas del problema, os valores que deberemos modificar para obtener la solución o soluciones óptimas. Se representan como un vector $\mathbf{x} = (x_1, x_2, \ldots, x_n)$, donde $n$ es el número de variables.
+    \item \textbf{Variables de Decisión:} Son las incógnitas del problema, los valores que deberemos modificar para obtener la solución o soluciones óptimas. Se representan como un vector $\mathbf{x} = (x_1, x_2, \ldots, x_n)$, donde $n$ es el número de variables.
 
     \item \textbf{Función Objetivo:} Función que se desea minimizar o maximizar.\\
     Se denota comúnmente como $f(\mathbf{x})$, donde $f$ es la función que establece la relación entre las variables ($\mathbf{x}$) y el objetivo que deseamos optimizar.
@@ -212,7 +212,7 @@ $$
 $$
 Donde $X$ representa el conjunto de factibilidad o dominio de las variables de decisión.
 
-Ahora vamos a clasificar los problemas de optimización según dos características principales.
+En el siguiente apartado se van a clasificar los problemas de optimización según dos características principales.
 
 \subsection{Optimización Lineal vs. No Lineal}
 
@@ -221,10 +221,10 @@ La primera distinción la haremos según la naturaleza de las funciones involucr
 \subsubsection{Optimización Lineal}
 Diremos que un problema es de \textbf{optimización lineal} cuando, tanto la función objetivo como todas las funciones de las restricciones, son lineales (ver en \ref{def:f_lineal}) con respecto a las variables de decisión. 
 
-Características principales:
+La optimización lineal se caracteriza por:
 \begin{itemize}
     \item La función objetivo tiene la forma $f(\mathbf{x})=c_1x_1+c_2x_2+...+c_nx_n$ donde los $c_i \in \mathbb{R} \quad \forall i \in 1,2,...,n$.
-    \item Todas las restricciones son lineales, y tienen el formato $a_1x_1+a_2x_2+...+a_nx_n\leq b$ o $=b$, donde $a_i \in \mathbb{R} \quad \forall i \in 1,2,...,n$ y $b\in \mathbb{R}$.
+    \item Todas las restricciones son lineales y tienen el formato $a_1x_1+a_2x_2+...+a_nx_n\leq b$ o $=b$, donde $a_i \in \mathbb{R} \quad \forall i \in 1,2,...,n$ y $b\in \mathbb{R}$.
     \item Estas condiciones hacen que el conjunto de soluciones factibles ($X$) sea semejante a un poliedro convexo (ver en \ref{def:convexo}), lo que simplifica la búsqueda de la solución óptima.
     \item El algoritmo Simplex, propuesto en \cite{Dantzig1951}, es el más extendido para resolver este tipo de problemas y garantiza encontrar el óptimo global (ver en \ref{def:optimo_global}), si existe.
 \end{itemize}
@@ -232,7 +232,7 @@ Características principales:
 \subsubsection{Optimización No Lineal}
 Diremos que un problema es de \textbf{optimización no lineal} cuando al menos una de sus funciones (objetivo o de restricción) es no lineal (con respecto a sus variables de decisión). 
 
-Características principales:
+Las características principales de la optimización no lineal son:
 \begin{itemize}
     \item La función objetivo $f(\mathbf{x})$ o alguna de sus restricciones $g_i(\mathbf{x})$ o $h_j(\mathbf{x})$ contiene términos no lineales. Por ejemplo:
     $$f(\mathbf{x})=2x_1^2+5x_2^7-\ln(x).$$
@@ -252,7 +252,7 @@ La segunda característica a estudiar será la naturaleza de sus variables de de
 limitará en gran medida el tipo de algoritmos que puedan utilizarse para resolverlos.
 
 \subsubsection{Optimización Continua}
-En la optimización continua, las variables de decisión pueden tomar cualquier valor real dentro de su dominio o rango permitido. Es decir, no están restringidas a tomar valores enteros, a un conjunto finito o a un conjunto numerable de posibles soluciones. Esto las hace adecuadas para modelar fenómenos que varían de forma suave, como el tiempo, el espacio, la temperatura, etcétera.
+En la optimización continua, las variables de decisión pueden tomar cualquier valor real dentro de su dominio o rango permitido. Es decir, no están restringidas a tomar valores enteros, a un conjunto finito o a un conjunto numerable de posibles soluciones. Esto las hace adecuadas para modelar fenómenos que varían de forma suave, como el tiempo, el espacio, la temperatura, etc.
 
 Características principales:
 \begin{itemize}
@@ -262,7 +262,7 @@ Características principales:
 \end{itemize}
 
 \subsubsection{Optimización Discreta}
-En este caso, las variables de decisión están restringidas a tomar valores de un conjunto finito o, al menos, numerable {ver en \ref{def:conjunto_numerable}}. Los casos más comunes son variables restringidas a tomar valores enteros $(0,1,2,...)$, binarios $(0,1)$ o variables que representan la elección de elementos de un conjunto específico (por ejemplo, el ``trabajador 1'' o el ``trabajador 2'').
+En este caso, las variables de decisión están restringidas a tomar valores de un conjunto finito o, al menos, numerable (ver en \ref{def:conjunto_numerable}). Los casos más comunes son variables restringidas a tomar valores enteros $(0,1,2,...)$, binarios $(0,1)$ o variables que representan la elección de elementos de un conjunto específico (por ejemplo, el ``trabajador 1'' o el ``trabajador 2'').
 
 Características principales:
 \begin{itemize}
@@ -273,13 +273,13 @@ Características principales:
 
 Ejemplos:
 \begin{itemize}
-    \item Como casos continuos, tenemos el diseño de la aerodinámica de un avión (modelado de los parámetros de las curvas de la superficie) o la velocidad óptima de un vehículo para reducir su consumo de combustible.
-    \item Como casos discretos, tenemos el problema de la mochila (escoger el mayor valor en elementos de un conjunto sin exceder una capacidad dada) o la planificación de rutas.
+    \item \textbf{Continuos:} El diseño de la aerodinámica de un avión (modelado de los parámetros de las curvas de la superficie) o la velocidad óptima de un vehículo para reducir su consumo de combustible.
+    \item \textbf{Discretos:} El problema de la mochila (escoger el mayor valor en elementos de un conjunto sin exceder una capacidad dada) o por qué luegares pasa un camión enla planificación de rutas.
 \end{itemize}
 
-Para esta primera parte de caracterización de la optimización he tomado como referencia el libro \cite{Numerical_optimization_nocedal_wright} de Numerical Optimization de Jorge Nocedal y Stephen J. Wright.
+Para esta primera parte de caracterización de la optimización se ha tomado como referencia el libro \cite{Numerical_optimization_nocedal_wright} de Numerical Optimization de Jorge Nocedal y Stephen J. Wright.
 
-Para concluir la parte teórica de la optimización, voy a concretar tanto la rama a la que pertenece el problema multiobjetivo de k-centros balanceado (la optimización \textbf{combinatoria}) como lo que significa que sea \textbf{multiobjetivo}
+Para concluir la parte teórica de la optimización, se va a concretar tanto la rama a la que pertenece el problema multiobjetivo de k-centros balanceado (la optimización \textbf{combinatoria}) como lo que significa que sea \textbf{multiobjetivo}.
 
 \subsection{Optimización Combinatoria}
 La optimización combinatoria se centra en encontrar la solución óptima dentro de un conjunto de soluciones finito o numerable. Aunque la cantidad de soluciones posibles pueda ser finita, no significa que el problema sea sencillo.
@@ -287,7 +287,7 @@ De hecho, la mayoría de estos problemas de optimización entran dentro de los d
 
 Que sean NP-difíciles implica que el tiempo necesario para encontrar la solución óptima crece exponencialmente a medida que aumenta el tamaño del problema. Esto hace que la búsqueda exhaustiva de la solución sea computacionalmente inviable para la mayoría de los casos de estudio en el mundo real.
 
-\textbf{Características principales:}
+Sus características principales son las siguientes:
 \begin{itemize}
     \item \textbf{Espacio de soluciones discreto:} Las variables de decisión están restringidas a un conjunto finito o numerable de valores, como la selección o no de un elemento, o la ordenación de un conjunto. Entran dentro de los casos de \textbf{optimización discreta}. 
     \item \textbf{Complejidad computacional elevada:} A menudo, el número de soluciones posibles es astronómicamente grande, lo que requiere algoritmos especializados para explorar el espacio de búsqueda de manera eficiente.
@@ -304,10 +304,10 @@ o la \textbf{planificación de horarios}, donde se asignan recursos (como aulas 
 Definir la cantidad de funciones objetivo que se van a utilizar para modelizar el problema consituye una de las características más relevantes y, a menudo, más complejas del mismo, debido a su naturaleza inherentemente subjetiva.
 ¿Debe considerarse únicamente una función objetivo? ¿O hay que tener en cuenta simultáneamente 
 dos o más funciones objetivo? Si bien enfocarse en una única función facilita el análisis y su resolución, rara vez refleja la complejidad de los problemas reales. La optimización multiobjetivo
-abordará los problemas mejorando simultáneamente dos o más funciones objetivo que, a menudo, estarán en conflicto entre sí. Mejorar una solerá implicar el empeoramiento de la otra.
+abordará los problemas mejorando simultáneamente dos o más funciones objetivo que, a menudo, estarán en conflicto entre sí. Mejorar una suele implicar el empeoramiento de la otra.
 Por ejemplo, en el diseño de un vehículo, minimizar el consumo de combustible (objetivo 1) estará en conflicto con maximizar la potencia del motor (objetivo 2).
 
-La optimización multiobjetivo permite abordar este tipo de situaciones analizando\\
+La optimización multiobjetivo permite abordar este tipo de situaciones analizando
 explícitamente las compensaciones o \textit{trade-offs} entre los diferentes objetivos. En lugar de proporcionar una única solución, esta técnica ofrece un conjunto de soluciones eficientes y equilibradas que permiten
 tomar decisiones evaluando distintas alternativas y elegir la que mejor se adapte a las necesidades del problema.
 
@@ -317,11 +317,12 @@ Una solución se considera \textbf{no dominada} (u óptima en el sentido de Pare
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{images/pareto_front.png}
-    \caption{\cite{Bre2017} Ilustración de un frente de pareto para un problema de minimización con dos objetivos ($f_1, f_2$). Las soluciones en verde son óptimas y pertenecen al Frente de Pareto, ya que no se puede mejorar un objetivo sin empeorar el otro. El punto ideal, que estaría en la parte inferior izquierda de la gráfica, sería la mejor solución imaginable combinando lo mejor de todas las soluciones. Las soluciones sin colorear están dominadas por alguna de las verdes.}
+    \caption{\cite{Bre2017} Ilustración de un frente de pareto para un problema de minimización con dos objetivos ($f_1, f_2$).}
     \label{fig:pareto}
 \end{figure}
+Las soluciones en verde son óptimas y pertenecen al Frente de Pareto, ya que no se puede mejorar un objetivo sin empeorar el otro. El punto ideal, que estaría en la parte inferior izquierda de la gráfica, sería la mejor solución imaginable combinando lo mejor de todas las soluciones. Las soluciones sin colorear están dominadas por alguna de las verdes.
 
-Una vez definidos los problemas de optimización, ahora viene la parte más importante, cómo resolverlos.
+Una vez definidos los problemas de optimización, se pueden enunciar las dos maneras que hay de resolverlos.
 
 \section{Resolución de Problemas de Optimización Multiobjetivo}
 
@@ -343,11 +344,10 @@ No obstante, para problemas sencillos, con pocas variables y reducido espacio de
 \end{itemize}
 
 \subsection{Metaheurísticas}
-Como se indicó al principio del capítulo, las metaheurísticas \cite{metaheuristicos} aparecen con el desarrollo de las ciencias de la computación como principal solución a los problemas de optimización complejos. Allí donde los métodos exactos no serían capaces de encontrar el óptimo,
+Como se indicó al principio del capítulo, las metaheurísticas \cite{metaheuristicos} aparecen con el desarrollo de las ciencias de la computación como principal solución a los problemas de optimización complejos. Allí donde los métodos exactos no son capaces de encontrar el óptimo,
 los algoritmos metaheurísticos buscan soluciones ``buenas'' en tiempos de ejecución razonables, sacrificando la garantía de optimalidad global que proporcionan los métodos exactos.
 
-Generalmente combinan heurísticas con aleatoriedad para explorar el espacio de soluciones y obtener resultados diversos, a la vez que se intensifica la búsqueda en las distintas regiones en busca de nuevos óptimos locales.\\
-Estos métodos combinan dos estrategias:
+Generalmente combinan heurísticas con aleatoriedad para explorar el espacio de soluciones y obtener resultados diversos, a la vez que se intensifica la búsqueda en las distintas regiones en busca de nuevos óptimos locales. Estos métodos combinan dos estrategias:
 \begin{itemize}
     \item \textbf{Exploración:} Capacidad de recorrer diversas áreas del espacio de búsqueda para encontrar nuevas soluciones, evitando quedar atrapado en óptimos locales.
     \item \textbf{Explotación:} Capacidad de intensificar la búsqueda en una región prometedora para encontrar los mejores óptimos locales dentro de ella.
@@ -355,21 +355,21 @@ Estos métodos combinan dos estrategias:
 
 Son algoritmos muy generales y se adaptan a casi cualquier problema de optimización. Algunos de los principales algoritmos metaheurísticos son:
 \begin{itemize}
-    \item \textbf{Algoritmos Genéticos (GA - Genetic Algorithms)}\\
+    \item \textbf{Algoritmos Genéticos (GA - Genetic Algorithms):}
     Inspirados en la selección natural y la genética, se basan en la generación aleatoria de soluciones y en el cruce de las más prometedoras entre sí, 
     mientras se añaden mutaciones (pequeñas modificaciones en las soluciones) para aportar diversidad.
     
-    \item \textbf{Recocido Simulado (SA - Simulated Annealing)}\\
+    \item \textbf{Recocido Simulado (SA - Simulated Annealing):}
     Basado en un proceso físico, simula el recocido de metales (calentarlos y enfriarlos para alterar su estructura). Explora soluciones aceptando movimientos de mejora, pero también aquellos que puedan empeorar la solución, 
     en función de una probabilidad dependiente de una variable ``temperatura'', que decrece con el paso de las iteraciones. En fases tempranas, una temperatura alta favorece la exploración, mientras que en fases finales una temperatura baja favorece la explotación.
     
-    \item \textbf{Búsqueda Tabú (TS - Tabu Search)}\\
+    \item \textbf{Búsqueda Tabú (TS - Tabu Search):}
     Genera una lista ``tabú'' que actúa como memoria a corto plazo del algoritmo, incluyendo los movimientos recientes con el objetivo de no repetir soluciones y así forzar la exploración de nuevas zonas, aunque eso conlleve aceptar movimientos que no sean los mejores posibles.
     
-    \item \textbf{Optimización por Colonia de Hormigas (ACO - Ant Colony Optimization)}\\
+    \item \textbf{Optimización por Colonia de Hormigas (ACO - Ant Colony Optimization):}
     Diseñado originalmente para problemas de rutas, construye soluciones iterativamente a través de un grafo, cuyas aristas se van ponderando a medida que se generan soluciones de calidad.
     
-    \item \textbf{GRASP (Greedy Randomized Adaptive Search Procedure)}\\
+    \item \textbf{GRASP (Greedy Randomized Adaptive Search Procedure):}
     Algoritmo fundamentado en dos fases. Una primera de construcción, en la que se genera una solución mediante un proceso aleatorizado, y una segunda de búsqueda local, en la que se intenta mejorar la solución generada.
 \end{itemize}
 
@@ -474,9 +474,12 @@ El agente juega millones de partidas contra sí mismo, explorando el espacio de 
 \section{Resumen de los capítulos}
 El presente Trabajo de Fin de Máster se estructura en cuatro capítulos, además de un apartado de agradecimientos y un anexo con definiciones necesarias para entender el trabajo.
 
-En el capítulo 2 se presenta el Problema de Localización de k-Centros Balanceado, introduciendo el marco general de los problemas de localización, la motivación de este estudio y el modelo matemático para resolverlo.\\
-El capítulo 3 expone la justificación de la elección de la metaheurística GRASP para abordar el problema, describe su implementación y detalla la incorporación del Aprendizaje Reforzado, mediante Multi-Armed Bandits (MAB).\\
-El capítulo 4 recoge el diseño experimental y el análisis de los resultados obtenidos, comparando el rendimiento del algoritmo GRASP con y sin refuerzo frente a soluciones reportadas en estudios previos.\\
+En el capítulo 2 se presenta el Problema de Localización de k-Centros Balanceado, introduciendo el marco general de los problemas de localización, la motivación de este estudio y el modelo matemático para resolverlo.
+
+El capítulo 3 expone la justificación de la elección de la metaheurística GRASP para abordar el problema, describe su implementación y detalla la incorporación del Aprendizaje Reforzado, mediante Multi-Armed Bandits (MAB).
+
+El capítulo 4 recoge el diseño experimental y el análisis de los resultados obtenidos, comparando el rendimiento del algoritmo GRASP con y sin refuerzo frente a soluciones reportadas en estudios previos.
+
 Finalmente, el capítulo 5 presenta las conclusiones derivadas del trabajo, así como posibles líneas de investigación futura.
 
 \chapter{Problema Multiobjetivo de Localización de k-Centros Balanceado}
@@ -485,7 +488,7 @@ Finalmente, el capítulo 5 presenta las conclusiones derivadas del trabajo, así
 
 Los \textbf{problemas de localización de instalaciones} (\textit{Facility Location Problems} en su terminología en inglés) constituyen una de las clases más relevantes dentro de la optimización combinatoria. Su objetivo es determinar las \textbf{ubicaciones óptimas} donde instalar infraestructuras como almacenes, hospitales, escuelas o antenas de telecomunicaciones.
 
-Estos problemas suelen centrarse en
+Suelen centrarse en:
 \begin{itemize}
     \item \textbf{Minimizar los costes} o las distancias (ya sea la distancia total o la máxima entre instalaciones y clientes).
     \item \textbf{Maximizar beneficios} o el área de cobertura alcanzada.
@@ -493,7 +496,7 @@ Estos problemas suelen centrarse en
     \item \textbf{Equilibrar el uso} entre las distintas instalaciones.
 \end{itemize}
 
-Para encontrar la solución óptima, en elos problemas de localización también se deben considerar \textbf{restricciones} prácticas, como la capacidad de cada centro, los límites presupuestarios o la necesidad de cubrir un mínimo de demanda.
+Para encontrar la solución óptima, en estos problemas de localización también se deben considerar \textbf{restricciones} prácticas, como la capacidad de cada centro, los límites presupuestarios o la necesidad de cubrir un mínimo de demanda.
 
 Encontrar la solución óptima es vital en \textbf{logística y cadena de suministro}, donde ubicar estratégicamente almacenes y centros
 de distribución reduce drásticamente los costes de transporte y mejora la eficiencia de entregas, en el \textbf{sector sanitario}, para el cual ubicar hospitales y centros de atención primaria es crítico para
@@ -503,7 +506,7 @@ Algunas de las soluciones propuestas en la literatura se basan en los siguientes
 
 \subsubsection{P-Mediana (p-median)}
 El objetivo de este modelo es seleccionar $p$ ubicaciones de manera que se \textbf{minimice la suma total de las distancias} entre cada cliente y la instalación que se le asigna. Su enfoque está orientado a optimizar la \textbf{eficiencia global del sistema}, lo que lo convierte en una herramienta idónea para reducir los costes totales de transporte.
-Se utiliza para determinar la ubicación de almacenes minimizando los costes de distribución, o para ubicar los centros de reciclaje reduciendod la distancia total recorrida por los vehículos de recogida.
+Se utiliza para determinar la ubicación de almacenes minimizando los costes de distribución, o para ubicar los centros de reciclaje reduciendo la distancia total recorrida por los vehículos de recogida.
 
 \subsubsection{K-Centro (k-center)}
 En este modelo, el objetivo es seleccionar $k$ ubicaciones para \textbf{minimizar la máxima distancia} que cualquier cliente debe recorrer hasta la instalación más cercana. Se trata de un enfoque centrado en la \textbf{equidad}, ya que busca optimizar el ``peor caso''. Es especialmente relevante en el diseño de servicios de respuesta rápida o de carácter crítico.
@@ -543,14 +546,14 @@ El equilibrio entre amplitud de cobertura y uso equilibrado de los recursos disp
 Al abordar el problema es importante considerar que la distancia total o el tiempo medio de viaje no es el factor más crítico. 
 Tomemos como ejemplo la construcción de un hospital en una ciudad: el objetivo no es que la población viva lo más cerca posible, sino que todos los residentes se encuentren a una distancia razonable para poder acceder al servicio.
 
-Considera estos dos escenarios para una ciudad:
+Considerando estos dos escenarios para una ciudad:
 
 \begin{itemize}
     \item Escenario 1: El tiempo medio de trayecto hasta el hospital más cercano es de 15 minutos, y el tiempo máximo que ha de recorrer un individuo de 30 minutos.
     \item Escenario 2: El tiempo medio de trayecto hasta el hospital más cercano es de 13 minutos, pero pasa a 1 h el tiempo que tendrá de recorrer la persona más alejada de su hospital más cercano.
 \end{itemize} 
 
-En términos globales, podríamos decir que el segundo sistema implementado es más eficiente, pero se dejan de lado los valores extremos.
+En términos globales, se podría decir que el segundo sistema implementado es más eficiente, pero se dejan de lado los valores extremos.
 Una parte significativa de la población podría tener grandes dificultades para acceder a servicios esenciales.
 Por el contrario, aunque el primer caso tenga un tiempo medio mayor, mejora considerablemente la accesibilidad. Esto subraya que mejorar la media no implica necesariamente mejora el servicio.
 \newpage
@@ -570,12 +573,12 @@ El objetivo será encontrar qué $5$ centros, de ese total de $50$ posibles, hab
 
 % Con respecto a la imagen, mas o menos hay una tasa de 6.25,  1 unidad equivaldrá a 6 metros.
 
-Como se observa en la Figura~\ref{fig:casos_ejemplo}, la Figura~\ref{fig:centros_medicos} muestra la distribución inicial, donde 1000 puntos azules representan a la población y 50 estrellas rojas indican las posibles ubicaciones de los centros médicos.
+En la Figura~\ref{fig:centros_medicos} se muestra la distribución inicial, donde 1000 puntos azules representan a la población y 50 estrellas rojas indican las posibles ubicaciones de los centros médicos.
 
 A continuación, se presentan tres soluciones de ejemplo:
 
 \begin{itemize}
-    \item \textbf{Solución aleatoria (Figura~\ref{fig:solucion_aleatoria}):} Esta opción presenta dos problemas principales. Primero, cuatro de los centros se ubican en la periferia, mientras el restante permanece en el centro, lo que genera sobrecarga en esta instalación y deja a varios puntos muy alejados de cualquier centro médico (hasta 3,13 km). En este caso, el centro más cargado atiende a 417 personas, mientras que el menos utilizado solo a 49.
+    \item \textbf{Solución aleatoria (Figura~\ref{fig:solucion_aleatoria}):} En esta solución cuatro de los centros se ubican en la periferia, mientras el restante permanece en el centro, lo que genera sobrecarga en esta instalación y deja a varios puntos muy alejados de cualquier centro médico (hasta 3,13 km). En este caso, el centro más cargado atiende a 417 personas, mientras que el menos utilizado solo a 49.
     \item \textbf{Solución de cobertura poblacional (Figura~\ref{fig:min_distancias}):} Aquí se busca minimizar la distancia máxima de la población a los centros. La distancia máxima se reduce a 2,35 km, pero se genera un desequilibrio significativo en la carga de los centros, donde el más utilizado atiende a 281 personas y el menos a 69.
     \item \textbf{Solución equilibrada (Figura~\ref{fig:equilibrada}):} Esta alternativa prioriza distribuir de manera equitativa la demanda entre los centros. El centro más utilizado atiende a 203 personas y el menos a 197. Sin embargo, la distancia máxima supera ligeramente los 3 km.
 \end{itemize}
@@ -614,9 +617,9 @@ A continuación, se presentan tres soluciones de ejemplo:
     \label{fig:casos_ejemplo}
 \end{figure}
 
-El objetivo será encontrar todas las solucones al frente de pareto, no únicamente las extremas tomando como referencia una única
-función objetivo. La manera de llevar esto a cabo será por medio de metaheurísticos, al ser un problema de combinatoria NP-difícil. Para ello, 
-primero vamos a definir el modelo matemático.
+El objetivo será encontrar todas las soluciones al frente de pareto, no únicamente las extremas tomando como referencia una única
+función objetivo. La manera de llevar esto a cabo será por medio de metaheurísticos, al ser un problema de combinatoria NP-difícil (demostrado en \cite{k-balanced_1} que el problema es NP-completo). Para ello, 
+primero se va a definir el modelo matemático.
 
 \section{Modelo Matemático}
 Sean $N=\{1, 2, \dots, n\}$ el conjunto de \textbf{puntos de demanda} y $M=\{1, 2, \dots, m\}$ el conjunto de ubicaciones para las \textbf{potenciales instalaciones}.
@@ -656,7 +659,7 @@ Recopilando lo visto hasta ahora, se deducen las siguientes características cla
     
     \item \textbf{Optimización discreta}: El dominio de la solución es discreto, pues se debe elegir un subconjunto de un conjunto finito de ubicaciones.
     
-    \item \textbf{Problema combinatorio (NP-difícil)}: El problema consiste en encontrar el mejor subconjunto de $k$ elementos de un total de $m$, lo cual es característico de los problemas NP-difíciles. El número de soluciones posibles es $\binom{m}{k}$ (ver en \ref{def:combinatorio}).
+    \item \textbf{Problema combinatorio (NP-difícil)}: El problema consiste en encontrar el mejor subconjunto de $k$ elementos de un total de $m$. El número de soluciones posibles es $\binom{m}{k}$ (ver en \ref{def:combinatorio}).
     
     \item \textbf{Problema multiobjetivo}: Se desean optimizar simultáneamente tres funciones objetivo.
 \end{itemize}
@@ -669,7 +672,7 @@ Para resolver el \textbf{Problema Multiobjetivo de Localización de k-Centros Ba
 El algoritmo constará de dos partes principales, una primera de generación de solución inicial y una segunda en la que se mejorará mediante búsqueda local aplicada a esta solución.
 
 El funcionamiento de la búsqueda local problemas monoobjetivo es mucho más sencillo de definir, principalmente se mejora en base a una única función objetivo, y nunca al realizar una búsqueda local se puede dar el caso de que la solución empeore. En Multiobjetivo es más delicado,
-se tiene que tener en cuenta que la mejora de una única de las funciones objetivo puede que no te ayude a aproximar ninguna solución, que necesites ir mejorando poco a poco cada una de ellas de manera selectiva, y decidir qué búsqueda local hacer y en función de qué variables pasa
+se tiene que tener en cuenta que la mejora de una única de las funciones objetivo puede que no ayude a aproximar ninguna solución, que se necesite ir mejorando poco a poco cada una de ellas de manera selectiva, y decidir qué búsqueda local hacer y en función de qué variables pasa
 a ser la parte crucial del algoritmo.
 
 Para ello, el tipo de búsqueda local a ejecutar va a ser seleccionado dinámicamente por un Multi-Armed Bandit (MAB), el cual, en función de la solución actual y del desempeño obtenido en iteraciones previas, determinará la estrategia de mejora más prometedora.
@@ -687,7 +690,41 @@ Se ha elegido GRASP como base metodológica por varias razones que lo hacen espe
 \end{itemize}
 
 \section{Estado del arte}
-Aquí meto en detalle las implementaciones de los 2 articulos previos
+
+\subsection{Artículo 1}
+En el artículo \cite{k-balanced_1}, como se mencionó en la introducción, se propone el problema de localización multiobjetivo de k-centros balanceado y 
+se resuelve con el algorimto MOAKBCL.
+
+El primer paso del algoritmo consiste en emplear la triangulación de Delaunay \cite{delaunay} para definir la ``vecindad'' entre instalaciones. Dos instalaciones se consideran vecinas de una tercera si, 
+dentro del área que delimita la circunferencia cincunscrita al triángulo formado por las tres, no se encuentra ninguna otra instalación. 
+
+Una vez obtenida una solución inicial, la manera de encontrar nuevas soluciones es intercambiar centros seleccionados por alguno de sus vecinos. El procedimiento general del algoritmo es el siguiente:
+
+\begin{enumerate}
+    \item Se inicializan los parámetros principales, incluyendo el tamaño de la población y el número máximo de iteraciones. A continuación, se genera una población inicial de soluciones aleatorias.
+    \item Cada solución es evaluada de acuerdo con las tres funciones objetivo.
+    \item A partir de la población actual de soluciones, se generan nuevas mediante intercambios de centros seleccionados por otros que pertenezcan a su vecindad. Entre las soluciones originales y las nuevas se construyen frentes
+    de Pareto: el primero con las soluciones no dominadas, el segundo con aquellas dominadas únicamente por el frente 1, y así sucesivamente hasta clasificar todas. 
+    \item Para filtrar las soluciones, se tiene en cuenta tanto que pertenezcan al frente más bajo posible como a que estén lo más alejadas entre sí, con el fin de preservar la diversidad. 
+    \item Este procedimiento se repite hasta alcanzar el número máximo de iteraciones,  extrayéndose finalmente el frente de pareto en la última iteración.
+\end{enumerate}
+Gracias a esta forma de buscar nuevas soluciones aprovechando la geometría de las instalaciones, el algoritmo se demuestra más eficiente que el NSGA-II, el algoritmo que se tomó 
+como referencia para comparar. 
+
+Aparte del nuevo método para resolver el problema, se demuestra que efectivamente el problema es NP\-completo (si es NP-completo, es NP-difícil), incluso encontrar una única
+solución del frente de Pareto es NP-Completo.
+
+\subsection{Artículo 2}
+En el trabajo presentado en \cite{k-Balanced_2}, se profundiza en el problema de localización multiobjetivo de $k$-centros balanceados, proponiendo un enfoque híbrido que combina GRASP, Oscilación Estratégica (SO, por sus siglas en inglés) y Path Relinking. El objetivo principal es mejorar la calidad de las soluciones y explorar de manera más efectiva el espacio de búsqueda, incluyendo tanto regiones factibles como no factibles.
+
+El procedimiento comienza con la generación de una población inicial de soluciones mediante un esquema greedy randomizado. Este mecanismo permite construir soluciones iniciales de buena calidad, cada una definida por la selección de $k$ centros. Posteriormente, se aplica una fase de búsqueda local propia del GRASP, basada en intercambiar elementos de la solución por otros que no forman parte de ella, siempre que el nuevo candidato no resulte dominado por el conjunto de soluciones actuales.
+
+A partir de esta población inicial, se incorpora la estrategia de Oscilación Estratégica, cuyo propósito es diversificar la búsqueda explorando regiones más amplias del espacio de soluciones. Para ello, el algoritmo altera temporalmente la factibilidad de las soluciones: primero añadiendo elementos hasta generar configuraciones sobredimensionadas, que posteriormente son ajustadas mediante eliminaciones sucesivas; luego, en una segunda fase, reduciendo el número de elementos por debajo del umbral permitido y restaurando después la factibilidad.
+Este proceso iterativo favorece la identificación de regiones prometedoras que, de otro modo, permanecerían inexploradas.
+
+Finalmente, el enfoque introduce el uso innovador de \emph{Path Relinking} como mecanismo de reparación. A partir de soluciones no factibles —ya sea con exceso o con déficit de elementos—, se construyen trayectorias que exploran soluciones intermedias, priorizando aquellas que comparten características comunes con ambas configuraciones iniciales. De este modo, se obtienen nuevas soluciones factibles de alta calidad.
+
+Cabe resaltar que este es el primer algoritmo en utilizar \emph{Path Relinking} para la reparación de soluciones generadas por Oscilación Estratégica, lo cual constituye una aportación metodológica relevante. Los resultados experimentales demuestran que el enfoque propuesto supera a algoritmos de referencia ampliamente utilizados, como NSGA-II, MOEA/D y SPEA2, tanto en eficiencia como en calidad de las soluciones obtenidas.
 
 \section{Algoritmo Propuesto}
 
@@ -1058,7 +1095,8 @@ donde $m$ y $k$ son números enteros no negativos con $m \ge k$.
               bibliografia/bnc,
               bibliografia/grasp_1,
               bibliografia/grasp_2,
-              bibliografia/grasp_3
+              bibliografia/grasp_3,
+              bibliografia/delaunay
               }
 
 \end{document}
