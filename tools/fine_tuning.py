@@ -151,7 +151,7 @@ def graficar_boxplots(vector_de_conteos: list, archive: str):
     plt.ylabel("Número de Soluciones en el Frente", fontsize=12)
 
     # ---> MODIFICACIÓN: Establecer los límites del eje Y <---
-    plt.ylim(0, 17)
+    plt.ylim(0, 18)
 
     plt.tight_layout()  # Ajusta el gráfico para que todo encaje bien
 
@@ -238,7 +238,7 @@ def graficar_boxplots_comparativo(
     plt.ylabel("Número de Soluciones en el Frente", fontsize=14)
     
     # Establecer el límite del eje Y como en la función anterior
-    plt.ylim(0, 17)
+    plt.ylim(0, 18)
     
     # Mejorar la leyenda
     plt.legend(title="Número de iteraciones", fontsize=12)

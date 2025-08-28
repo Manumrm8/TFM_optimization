@@ -115,7 +115,7 @@ def select_arm(context, betha, n_arms, weights, temperature=1.0):
 
         context_np = context_np / np.sum(context_np)  # Normalización del contexto
 
-        expected_rewards = np.dot(context_np, weights).flatten()
+        expected_rewards = np.dot(weights, context_np.T).flatten()
 
         # Aplicar softmax
         exp_rewards = np.exp(
@@ -183,7 +183,7 @@ def contexto(f1, f2, f3, df_solutions):
     return (min_delta_f1, min_delta_f2, min_delta_f3)
 
 
-def update_weights(weights, chosen_arm, reward, context, learning_rate):
+def update(chosen_arm, context, reward, weights, route_weights, learning_rate):
     """
     Actualiza los pesos del brazo elegido basándose en la recompensa y el contexto.
     
@@ -199,7 +199,8 @@ def update_weights(weights, chosen_arm, reward, context, learning_rate):
     # La actualización clave: simple, sin normalización.
     # Los pesos de la columna (brazo) elegida se actualizan.
     # Esto permite que los pesos crezcan o decrezcan sin límite, acumulando el aprendizaje.
-    weights[:, chosen_arm] += learning_rate * reward * context_np
+    weights[chosen_arm] += learning_rate * reward * context_np
+    np.save(route_weights, weights)
     
     return weights
 
