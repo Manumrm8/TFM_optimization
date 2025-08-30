@@ -218,14 +218,13 @@ def multi_GRASP_Bandit(
     k,
     m,
     context_size,
-    max_iterations=5,
     alpha=1.0,
     betha=0.2,
     learning_rate=1,
     i=0,
 ):
 
-    n_arms = context_size * max_iterations
+    n_arms = context_size * k
 
     folder_distances = "./data/distances/demand/"
     route_distances = folder_distances + archive + ".csv"
