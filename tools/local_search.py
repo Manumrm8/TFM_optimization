@@ -158,7 +158,7 @@ def local_search_f1_optimized(supply_selected, df_distances_demand, k, m, n_vece
         if not improvement_found_in_pass:
             break
 
-    return current_solution, current_objective
+    return current_solution
 
 
 def local_search_f2_optimized(supply_selected, df_distances_demand, k, m, n_veces):
@@ -232,7 +232,7 @@ def local_search_f2_optimized(supply_selected, df_distances_demand, k, m, n_vece
         if not improvement_found_in_pass:
             break
 
-    return current_solution, current_objective
+    return current_solution
 
 
 def local_search_f3_optimized(supply_selected, df_distances_demand, k, m, n_veces):
@@ -311,7 +311,7 @@ def local_search_f3_optimized(supply_selected, df_distances_demand, k, m, n_vece
         if not improvement_found_in_pass:
             break
 
-    return current_solution, current_objective
+    return current_solution
 
 
 

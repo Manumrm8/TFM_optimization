@@ -42,7 +42,7 @@ def f3(supply_selected, df_distances_demand):
 # Añadir soluciones#------------------------------------------------------------------------------------------
 ####
 
-def add_solutions_optimized(supply_selected, f1_value, f2_value, f3_value, route_solutions, df_solutions):
+def add_solutions_optimized(supply_selected, f1_value, f2_value, f3_value, route_solutions):
     """
     - supply_selected: Lista con los indices de los puntos de suministro seleccionados.
     - f1_value: Valor de la función objetivo f1 del supply_selected.
@@ -50,8 +50,16 @@ def add_solutions_optimized(supply_selected, f1_value, f2_value, f3_value, route
     - f3_value: Valor de la función objetivo f3 del supply_selected.
     - route_solutions: Ruta donde se encuentra el archivo csv de las soluciones.
     - df_solutions: DataFrame que contiene las soluciones del frente de pareto actual.
+
+    - return: True si la solución se ha añadido, False si no se ha añadido.
     """
     supply_selected = str(sorted(supply_selected))
+
+    if os.path.exists(route_solutions):
+        df_solutions = pd.read_csv(route_solutions)
+    else:
+        columnas = ["solution", "f1", "f2", "f3"]
+        df_solutions = pd.DataFrame(columns=columnas)
 
     # --- CASO BASE: Si el DataFrame está vacío, añadir y salir ---
     if df_solutions.empty:
@@ -111,6 +119,15 @@ def add_solutions_optimized(supply_selected, f1_value, f2_value, f3_value, route
 
 
 def select_arm(context, betha, n_arms, weights, temperature=1.0):
+    """
+    - context: Cantidad que habría que mejorar para cada uno de los valores de cada una de las funciones objetivo para que la solución entrara en el frente de pareto.
+    - betha: Probabilidad de escoger una acción al azar.
+    - n_arms: Cantidad de posibles acciones que hay para escoger.
+    - weights: Pesos para cada acción en función del contexto.
+    - temperature: Importancia que se le da a las acciones mejor valoradas.
+
+    - return: Eleccion de la acción escogida
+    """
     if np.random.rand() < betha:  # Exploración: acción aleatoria
         return np.random.randint(0, n_arms)
     else:  # Explotación: probabilidad de realizar la acción según el modelo
@@ -144,26 +161,30 @@ def decode_action(chosen_arm, parameters=["f1", "f2", "f3"], k_values=[1, 2, 3, 
     return parameters[param_idx], k_values[k_idx]
 
 
-def contexto(f1, f2, f3, df_solutions):
+def contexto(f1_value, f2_value, f3_value, route_solutions):
     """
     Calcula la mínima reducción necesaria en f1, f2 o f3 para que la
     combinación no sea dominada por ninguna solución existente en df_solutions.
 
     Args:
-        f1 (float): Valor del primer objetivo.
-        f2 (float): Valor del segundo objetivo.
-        f3 (float): Valor del tercer objetivo.
+        f1_value (float): Valor del primer objetivo.
+        f2_value (float): Valor del segundo objetivo.
+        f3_value (float): Valor del tercer objetivo.
         df_solutions (pd.DataFrame): DataFrame con las soluciones existentes.
 
     Returns:
         tuple: Una tupla (d1, d2, d3) con la reducción  necesaria en cada dimensión.
     """
+
+
+    df_solutions = pd.read_csv(route_solutions)
+
     # 1. Identificar las soluciones que dominan la combinación actual.
     # Una solución 's' domina a la actual 'c' si s_f1 <= c_f1, s_f2 <= c_f2, Y s_f3 <= c_f3.
     dominating_solutions = df_solutions[
-        (df_solutions["f1"] <= f1)
-        & (df_solutions["f2"] <= f2)
-        & (df_solutions["f3"] <= f3)
+        (df_solutions["f1"] <= f1_value)
+        & (df_solutions["f2"] <= f2_value)
+        & (df_solutions["f3"] <= f3_value)
     ]
 
     # Aquí entra cuando es una solución existente
@@ -172,16 +193,15 @@ def contexto(f1, f2, f3, df_solutions):
 
     # 3. Si hay soluciones dominantes, calcular las diferencias.
     # Estas son las "distancias" que necesitamos superar en cada dimensión.
-    delta_f1 = f1 - dominating_solutions["f1"]
-    delta_f2 = f2 - dominating_solutions["f2"]
-    delta_f3 = f3 - dominating_solutions["f3"]
+    delta_f1 = f1_value - dominating_solutions["f1"]
+    delta_f2 = f2_value - dominating_solutions["f2"]
+    delta_f3 = f3_value - dominating_solutions["f3"]
 
-    # 4. Encontrar la mínima diferencia GLOBAL.
-    # Esto representa la reducción más "barata" que podemos hacer para
-    # que nuestra combinación deje de ser dominada por al menos una de las soluciones.
-    min_delta_f1 = delta_f1.min()
-    min_delta_f2 = delta_f2.min()
-    min_delta_f3 = delta_f3.min()
+    # 4. Encontrar la maxima diferencia GLOBAL.
+    # Para que la solución no pueda quedar dominada por ninguna otra.
+    min_delta_f1 = delta_f1.max()
+    min_delta_f2 = delta_f2.max()
+    min_delta_f3 = delta_f3.max()
 
     return (min_delta_f1, min_delta_f2, min_delta_f3)
 
@@ -196,6 +216,9 @@ def update(chosen_arm, context, reward, weights, route_weights, learning_rate):
         reward (int): Recompensa recibida (+5 o -1).
         context (list or np.array): Vector de contexto de 3 elementos.
         learning_rate (float): Tasa de aprendizaje.
+
+    Returns:
+        weights np.array: Matriz de pesos actualizada.
     """
     context_np = np.array(context)
     
@@ -217,7 +240,7 @@ def multi_GRASP_Bandit(
     archive,
     k,
     m,
-    context_size,
+    context_size=3,
     alpha=1.0,
     betha=0.2,
     learning_rate=1,
@@ -240,25 +263,19 @@ def multi_GRASP_Bandit(
     os.makedirs(w_dir, exist_ok=True)
     route_weights = w_dir + archive + f"_#{i}" + ".npy"
 
-    if os.path.exists(route_solutions):
-        df_solutions = pd.read_csv(route_solutions)
-    else:
-        columnas = ["solution", "f1", "f2", "f3"]
-        df_solutions = pd.DataFrame(columns=columnas)
-
     if os.path.exists(route_weights):
         weights = np.load(route_weights)
     else:
         weights = np.zeros((n_arms, context_size))
-        print(f"No había pesos")
 
     greedy_algorithm = Greedy(df_distances_demand, k, m, alpha)
-    """
-    Algoritmo GRASP con dos búsquedas locales elegidas aleatoriamente (sin repetición).
-    Se mide y muestra el tiempo de ejecución de cada búsqueda local.
-    """
+
     # Etapa Greedy inicial
     solution, f1_value = greedy_algorithm.run()
+
+    # Búsqueda local
+    print(solution, k, m)
+    print( df_distances_demand.size)
 
     solution=local_search_optimized(solution, df_distances_demand, k, m)
 
@@ -267,45 +284,41 @@ def multi_GRASP_Bandit(
     f3_value = f3(solution, df_distances_demand)
 
     solucion_encontrada = add_solutions_optimized(
-        solution, f1_value, f2_value, f3_value, route_solutions, df_solutions
+        solution, f1_value, f2_value, f3_value, route_solutions
     )
 
     if solucion_encontrada:
-        print(f"hay nueva solucion: {solution}")
         return solution
     else:
         context = contexto(
-            f1_value, f2_value, f3_value, df_solutions
+            f1_value, f2_value, f3_value, route_solutions
         )
 
     # Empiezo bucle
     reward = 1
     count = 0
-    acciones_escogidas = []
     while (
         reward > 0 and count <= m * k
     ):  # Limito a que la recompensa deje de mejorar, o haga m*k iteraciones
-        # Necesito el context nuevo, pesos nuevos,
 
         chosen_arm = select_arm(context, betha, n_arms, weights)
         funcion, n_veces = decode_action(
-            chosen_arm, parameters=["f1", "f2", "f3"], k_values=[1, 2, 3, 4, 5]
+            chosen_arm, parameters=["f1", "f2", "f3"], k_values = [i for i in range(1, k + 1)]
         )
-        acciones_escogidas.append(f"mejorar{funcion} {n_veces} veces")
 
-        # Ejecutar primera búsqueda local
+        # Ejecutar una búsqueda local direccional para hacer un salto a una nueva zona de posibles soluciones
         if funcion == "f1":
-            solution, f1_value = local_search_f1_optimized(
+            solution = local_search_f1_optimized(
                 solution, df_distances_demand, k, m, n_veces
             )
 
         elif funcion == "f2":
-            solution, f2_value = local_search_f2_optimized(
+            solution = local_search_f2_optimized(
                 solution, df_distances_demand, k, m, n_veces
             )
         
         elif funcion == "f3":
-            solution, f3_value = local_search_f3_optimized(
+            solution = local_search_f3_optimized(
                 solution, df_distances_demand, k, m, n_veces
             )
             
@@ -316,11 +329,10 @@ def multi_GRASP_Bandit(
         f3_value = f3(solution, df_distances_demand)
 
         solucion_encontrada = add_solutions_optimized(
-            solution, f1_value, f2_value, f3_value, route_solutions, df_solutions
+            solution, f1_value, f2_value, f3_value, route_solutions
         )
 
         if solucion_encontrada:
-            print(f"hay nueva solucion: {solution}")
             reward = 5
             weights = update(
                 chosen_arm, context, reward, weights, route_weights, learning_rate
@@ -328,7 +340,7 @@ def multi_GRASP_Bandit(
             break
         else:
             context = contexto(
-                f1_value, f2_value, f3_value, df_solutions
+                f1_value, f2_value, f3_value, route_solutions
             )
             reward = -1
 
