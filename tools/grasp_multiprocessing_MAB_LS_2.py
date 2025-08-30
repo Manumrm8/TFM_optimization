@@ -8,23 +8,22 @@ from tools.local_search import local_search_optimized, local_search_f1_optimized
 
 
 ####
-# F#------------------------------------------------------------------------------------------
+# Fs#------------------------------------------------------------------------------------------
 ####
 
 
 def f1(supply_selected, df_distances_demand):
     """
-    - df_distances_demand: DataFrame con las distancias entre los puntos de suministro y los puntos de demanda.
     - supply_selected: Lista con los indices de los puntos de suministro seleccionados.
+    - df_distances_demand: DataFrame con las distancias entre los puntos de suministro y los puntos de demanda.
     """
-
     value = df_distances_demand.iloc[:, supply_selected].min(axis=1).max()
     return value
 
 def f2(supply_selected, df_distances_demand):
     """
-    - df_distances_demand: DataFrame con las distancias entre los puntos de suministro y los puntos de demanda.
     - supply_selected: Lista con los indices de los puntos de suministro seleccionados.
+    - df_distances_demand: DataFrame con las distancias entre los puntos de suministro y los puntos de demanda.
     """
     asignacion = df_distances_demand.iloc[:, supply_selected].idxmin(axis=1)
     maximum = asignacion.value_counts().max()
@@ -32,8 +31,8 @@ def f2(supply_selected, df_distances_demand):
 
 def f3(supply_selected, df_distances_demand):
     """
-    Calcula la diferencia entre el número máximo y mínimo de demandas asignadas a los puntos de suministro seleccionados,
-    de forma más eficiente.
+    - supply_selected: Lista con los indices de los puntos de suministro seleccionados.
+    - df_distances_demand: DataFrame con las distancias entre los puntos de suministro y los puntos de demanda.
     """
     asignacion = df_distances_demand.iloc[:, supply_selected].idxmin(axis=1)
     counts = asignacion.value_counts()
@@ -43,30 +42,34 @@ def f3(supply_selected, df_distances_demand):
 # Añadir soluciones#------------------------------------------------------------------------------------------
 ####
 
-def add_solutions_optimized(solution, f1, f2, f3, route_solutions, df_solutions):
+def add_solutions_optimized(supply_selected, f1_value, f2_value, f3_value, route_solutions, df_solutions):
     """
-    Versión optimizada que utiliza NumPy para comprobaciones de dominancia
-    y un set para verificar duplicados rápidamente.
+    - supply_selected: Lista con los indices de los puntos de suministro seleccionados.
+    - f1_value: Valor de la función objetivo f1 del supply_selected.
+    - f2_value: Valor de la función objetivo f2 del supply_selected.
+    - f3_value: Valor de la función objetivo f3 del supply_selected.
+    - route_solutions: Ruta donde se encuentra el archivo csv de las soluciones.
+    - df_solutions: DataFrame que contiene las soluciones del frente de pareto actual.
     """
-    solution = str(sorted(solution))
+    supply_selected = str(sorted(supply_selected))
 
     # --- CASO BASE: Si el DataFrame está vacío, añadir y salir ---
     if df_solutions.empty:
         df_solutions = pd.DataFrame(
-            [{"solution": solution, "f1": f1, "f2": f2, "f3": f3}]
+            [{"solution": supply_selected, "f1": f1_value, "f2": f2_value, "f3": f3_value}]
         )
         df_solutions.to_csv(route_solutions, index=False)
         return True
 
     # Usar un set para comprobar existencia (O(1) en promedio) ---
     existing_solutions = set(df_solutions["solution"])
-    if solution in existing_solutions:
+    if supply_selected in existing_solutions:
         return False # La solución ya existe
 
 
     # Extraer los valores numéricos a un array de NumPy para cálculos rápidos
     vals = df_solutions[["f1", "f2", "f3"]].values
-    new_vals = np.array([f1, f2, f3])
+    new_vals = np.array([f1_value, f2_value, f3_value])
 
 
     if np.any(np.all(vals <= new_vals, axis=1)):
@@ -92,7 +95,7 @@ def add_solutions_optimized(solution, f1, f2, f3, route_solutions, df_solutions)
 
     # 3. Añadir la nueva solución no dominada
     new_solution_df = pd.DataFrame(
-        [{"solution": solution, "f1": f1, "f2": f2, "f3": f3}]
+        [{"solution": supply_selected, "f1": f1_value, "f2": f2_value, "f3": f3_value}]
     )
     df_solutions = pd.concat([df_solutions, new_solution_df], ignore_index=True)
     
