@@ -132,6 +132,9 @@ def select_arm(context, betha, n_arms, weights, temperature=1.0):
         return np.random.randint(0, n_arms)
     else:  # Explotación: probabilidad de realizar la acción según el modelo
         context_np = np.array(context).reshape(1, -1)  # Convertir a fila vector
+        
+        if np.sum(context_np)==0:
+            return np.random.choice(n_arms) #La solución ya está en el frente de pareto
 
         context_np = context_np / np.sum(context_np)  # Normalización del contexto
 
@@ -274,10 +277,12 @@ def multi_GRASP_Bandit(
     solution, f1_value = greedy_algorithm.run()
 
     # Búsqueda local
-    print(solution, k, m)
-    print( df_distances_demand.size)
 
-    solution=local_search_optimized(solution, df_distances_demand, k, m)
+    try:
+        solution=local_search_optimized(solution, df_distances_demand, k, m)
+    except:
+        print("me cago en la madre que me parió")
+        return (solution, df_distances_demand, k, m)
 
     f1_value = f1(solution, df_distances_demand)
     f2_value = f2(solution, df_distances_demand)
@@ -321,6 +326,8 @@ def multi_GRASP_Bandit(
             solution = local_search_f3_optimized(
                 solution, df_distances_demand, k, m, n_veces
             )
+        
+        print(solution)
             
         solution=local_search_optimized(solution, df_distances_demand, k, m)
         

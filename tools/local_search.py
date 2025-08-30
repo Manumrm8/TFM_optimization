@@ -146,7 +146,7 @@ def local_search_f1_optimized(supply_selected, df_distances_demand, k, m, n_vece
                     
                     # Condición de parada por número de mejoras
                     if improvements_count == n_veces:
-                        return current_solution, current_objective
+                        return current_solution
                     
                     # Romper los bucles para reiniciar la búsqueda con la nueva solución
                     break  # Salir del bucle de 'j'
@@ -220,7 +220,7 @@ def local_search_f2_optimized(supply_selected, df_distances_demand, k, m, n_vece
                     
                     # Condición de parada por número de mejoras
                     if improvements_count == n_veces:
-                        return current_solution, current_objective
+                        return current_solution
                     
                     # Romper los bucles para reiniciar la búsqueda
                     break  # Salir del bucle de 'j'
@@ -300,7 +300,7 @@ def local_search_f3_optimized(supply_selected, df_distances_demand, k, m, n_vece
                     improvements_count += 1
                     
                     if improvements_count == n_veces:
-                        return current_solution, current_objective
+                        return current_solution
                     
                     break  # Salir del bucle de 'j'
             
