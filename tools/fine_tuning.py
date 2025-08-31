@@ -147,7 +147,7 @@ def graficar_boxplots(vector_de_conteos: list, archive: str):
         f"Distribución de Soluciones Encontradas en el Frente de Pareto\n(Instancia: {archive})",
         fontsize=16,
     )
-    plt.xlabel("Valor de Beta", fontsize=12)
+    plt.xlabel("Valor de Alpha", fontsize=12)
     plt.ylabel("Número de Soluciones en el Frente", fontsize=12)
 
     # ---> MODIFICACIÓN: Establecer los límites del eje Y <---

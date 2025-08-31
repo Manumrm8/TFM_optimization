@@ -247,6 +247,7 @@ def multi_GRASP_Bandit(
     alpha=1.0,
     betha=0.2,
     learning_rate=1,
+    temperature=1,
     i=0,
 ):
 
@@ -306,7 +307,7 @@ def multi_GRASP_Bandit(
         reward > 0 and count <= m * k
     ):  # Limito a que la recompensa deje de mejorar, o haga m*k iteraciones
 
-        chosen_arm = select_arm(context, betha, n_arms, weights)
+        chosen_arm = select_arm(context, betha, n_arms, weights, temperature)
         funcion, n_veces = decode_action(
             chosen_arm, parameters=["f1", "f2", "f3"], k_values = [i for i in range(1, k + 1)]
         )
