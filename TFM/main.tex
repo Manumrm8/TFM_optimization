@@ -720,145 +720,155 @@ Cabe resaltar que este es el primer algoritmo en utilizar \emph{Path Relinking} 
 
 \section{Algoritmo Propuesto}
 
-\subsection{Fase de Construcción: Algoritmo Greedy Randomizado}
-El proceso se inicia con la generación de una solución inicial que resulte aceptable en términos de calidad y que pueda construirse de manera rápida. Para fomentar la exploración de distintas regiones del espacio de soluciones, se introduce un componente aleatorio.  
+\subsection{Consideraciones Previas}
 
-El algoritmo Greedy Randomizado opera de la siguiente forma:  
+Es importante tener en cuenta la posibilidad de empates tanto en la búsqueda local asociada a $f_2$ como en la correspondiente a $f_3$. En tales casos, podría ser factible redistribuir los empates hacia emplazamientos seleccionados con menor carga de demanda, con el fin de obtener mejoras adicionales en dichas funciones objetivo.  
+
+No obstante, esta estrategia no se ha implementado en el algoritmo actual, ya que en el presente estudio no se han observado instancias en las que resultase necesaria. Sin embargo, en uno de los trabajos previos revisados se identificaron situaciones en las que el redondeo de distancias podía generar soluciones degradadas (véase \ref{sec:articulo2}).  
+
+\subsection{Fase de Construcción: Algoritmo Greedy Randomizado}
+La construcción de la solución inicial constituye el primer paso del procedimiento. El objetivo es generar una solución de calidad aceptable en un tiempo reducido, incorporando además un componente de aleatoriedad que favorezca la exploración de distintas regiones del espacio de búsqueda.  
+
+El algoritmo Greedy Randomizado sigue la siguiente secuencia:  
 
 \begin{itemize}
-    \item \textbf{Inicialización:} Se selecciona de manera aleatoria un primer centro de suministro entre los $m$ disponibles.
-    \item \textbf{Construcción iterativa:} Mientras no se hayan elegido las $k$ instalaciones necesarias:
+    \item \textbf{Inicialización:} Se selecciona de manera aleatoria un centro de suministro inicial entre los $m$ disponibles.
+    \item \textbf{Construcción iterativa:} Mientras no se hayan seleccionado las $k$ instalaciones requeridas:
     \begin{itemize}
-        \item Se evalúan los centros candidatos no seleccionados, calculando el valor del objetivo $f_1$ \ref{eq:f1} suponiendo cada uno de ellos dentro de la solución. Se ha seleccionado $f_1$ únicamente para no complicar
-        exageradamente la construcción, y porque es la función objetivo que más importancia tiene (en un caso real, se pueden dar diferentes capacidades a los centros en función de la demanda).
-        \item \textbf{Lista Restringida de Candidatos (RCL):} En lugar de escoger siempre el mejor candidato, se construye una lista con aquellos que presentan valores cercanos al óptimo. El parámetro $\alpha$ controlará el grado de aleatoriedad:
+        \item Se evalúan los centros candidatos no seleccionados, calculando el valor de la función objetivo $f_1$ (véase \ref{eq:f1}) suponiendo la incorporación de cada uno de ellos. Se utiliza exclusivamente $f_1$ con el fin de evitar una complejidad excesiva en esta fase y porque es la función objetivo que spuede generar soluciones más realistas y balanceadas.
+        \item \textbf{Lista Restringida de Candidatos (RCL):} En lugar de escoger siempre el mejor candidato, se construye una lista con aquellos cuyos valores se encuentran próximos dicho candidato. El parámetro $\alpha$ regula el nivel de aleatoriedad:
         \begin{itemize}
-            \item Si $\alpha = 0$, la RCL contendrá únicamente al mejor candidato (máxima voracidad).
-            \item Si $\alpha = 1$, la RCL incluirrá a todos los candidatos (máxima aleatoriedad).
+            \item Si $\alpha = 0$, la RCL contiene únicamente el mejor candidato (máxima voracidad).
+            \item Si $\alpha = 1$, la RCL incluye a todos los candidatos (máxima aleatoriedad).
         \end{itemize}
-        \item \textbf{Selección aleatoria:} Se elige al azar un centro de la RCL, incorporándolo a la solución.
+        Por último se escoge al azar uno de los centros de la RCL y se incorpora a la solución.
     \end{itemize}
 \end{itemize}
 
-Este procedimiento semi-aleatorio asegura que cada ejecución del GRASP trabaje con una variedad múcho más amplia de soluciones iniciales aleatorias (promoviendo exploración), pero manteniendo la calidad (promoviendo explotación). Posteriormente, en \ref{fig:alpha} se evaluará la eficacia de esta fase de construcción.
+Este procedimiento semi-aleatorio garantiza que cada ejecución del GRASP explore una variedad más amplia de soluciones iniciales, equilibrando exploración y explotación: se preserva la diversidad sin sacrificar la calidad de las soluciones generadas. La influencia del parámetro $\alpha$ en la eficacia de esta fase se analizará más adelante en la Figura~\ref{fig:alpha}.
 
 \subsection{Fase de Búsqueda Local}
-Una vez construida la solución inicial, el algoritmo intenta mejorarla mediante procesos de búsqueda local basados en intercambios.
-Se definen tres procedimientos de búsqueda local, cada uno enfocado en un objetivo específico:  
+Una vez construida la solución inicial, se procede a su mejora mediante un proceso de búsqueda local basado en intercambios. El procedimiento consiste en seleccionar un elemento de la solución e intercambiarlo por uno de los que no pertenecen a ella. Para cada intercambio se evalúan las tres funciones objetivo; si la nueva solución domina a la anterior, se adopta el cambio. No se busca el intercambio globalmente óptimo, sino el primero que cumpla el criterio de dominancia. El proceso se repite hasta recorrer los $k$ elementos de la solución sin obtener obtener una mejora.
+
+Tras cada búsqueda local, la solución resultante se compara con el frente de Pareto actual. Si la solución está dominada, se descarta. En caso contrario, se eliminan las soluciones del frente que resulten dominadas por la nueva, y finalmente esta se incorpora al conjunto de soluciones. De este modo, únicamente se conservan las soluciones pertenecientes al frente de Pareto vigente.
+
+Posteriormente, se ejecuta una búsqueda local direccional con el propósito de diversificar el proceso hacia regiones menos exploradas del espacio de soluciones, en las que es posible identificar nuevos óptimos.  
+
+Las búsquedas direccionales consideradas son:  
 
 \begin{itemize}
-    \item \textbf{Búsqueda local  de $f_1$ \ref{eq:f1}:} Minimiza la máxima distancia entre el conjunto de centros seleccionados y cada uno de los elementos de la población.
-    \item \textbf{Búsqueda local de $f_2$ \ref{eq:f2}:} Reduce el número máximo de clientes asignados a los centros.
-    \item \textbf{Búsqueda local de $f_3$ \ref{eq:f3}:} Disminuye la diferencia entre el centro más sobrecargado y el menos utilizado.
+    \item \textbf{Búsqueda local respecto a $f_1$ \ref{eq:f1}:} Minimiza la distancia máxima entre los centros seleccionados y los elementos de la población.
+    \item \textbf{Búsqueda local respecto a $f_2$ \ref{eq:f2}:} Reduce la carga máxima de clientes asignados a un centro.
+    \item \textbf{Búsqueda local respecto a $f_3$ \ref{eq:f3}:} Disminuye la diferencia de cargas entre el centro más demandado y el menos utilizado.
 \end{itemize}
 
-Para realizar todas estas búsquedas locales, se escoge secuencialmente cada uno de los elementos de la solución, y se intercambia con el elemento que maximice la mejora de su respectiva función objetivo. Si ninguno mejora la solución (respecto a esa función objetivo), entonces se pasa al siguiente elemento. 
-Termina el proceso o bien cuando no se obtiene ninguna mejora tras evaluar intercambios en todos los elementos de la solución, o tras un límite fijado de mejoras en la búsqueda local.
-
-Tras cada proceso de búsqueda local, se evalua la solución obtenida respecto a sus 3 funciones objetivos comparándola con el frente de pareto actual. En caso de quedar dominada, se descarta. En caso contrario, se evalúa primero si domina a alguna de las existentes, descartándo las que queden dominadas,
-y posteriormente se introduce en el conjunto de soluciones.
-
-De esta manera, se conservan únicamente las soluciones que pertenezcan al frente de pareto actual. En caso de o haber obtenido una solución nueva del frente o una solución
-más cercana a la anterior al frente, se vuelve a realizar una nueva búsqueda local con esta nueva solución.
-
-Se ha de considerar la posibilidad de empate tanto para la búsqueda local $f_2$ como para la $f_3$. Podría darse el caso de poder redistribuir los empates a emplazamientos seleccionados
-con menor demanda, con tal de mejorar estas funciones objetivo. No se ha implementado en este algoritmo al no darse el caso, pero se ha detectado en uno de los estudios previos situaciones en los que podrían haber
-soluciones empeoradas al redondear las distancias (ver en \ref{sec:articulo2}).
+Estas búsquedas se implementan de manera análoga a la búsqueda local general, pero considerando únicamente la función objetivo correspondiente a la dirección elegida. En la siguiente subsección se detallará el mecanismo empleado para seleccionar qué búsqueda aplicar y el número máximo de iteraciones permitidas para cada una.
 
 \subsection{Aprendizaje Reforzado: Multi-Armed Bandit (MAB)}
-Como se ha ido introduciendo, el algoritmo se requiere de un mecanismo para decididr qué función objetivo y cuántas veces mejorar la solución en esa dirección en cáda momento. 
+Como se ha mencionado previamente, el algoritmo necesita un mecanismo para decidir en qué dirección y con qué intensidad debe desplazarse tras obtener la primera solución mediante búsqueda local. El modelo de \textit{Multi-Armed Bandit} (MAB) se utilizará con esta función, determinando tanto la dirección de la búsqueda local como la magnitud del esfuerzo de mejora.
 
-Las partes del MAB definido para este algoritmo serían las siguientes:
+El MAB utilizado está compuesto por los siguientes elementos:
 
 \begin{itemize}
-    \item\textbf{Agente:} El propio algoritmo ``aprendiendo'' a encontrar las mejores soluciones.
+    \item \textbf{Agente:} El propio algoritmo, que ``aprende'' progresivamente a seleccionar las mejores direcciones en las que buscar las nuevas soluciones.
+    
     \item \textbf{Entorno:} El espacio de soluciones factibles.
-    \item \textbf{Tiempo:} Cada una de las búsquedas locales que se realizan en el algoritmo.
-    \item \textbf{Estado ($S$):} En este caso, la información relevante que tenemos del entorno son tanto los valores de las funciones objetivo de la solución actual, como de las soluciones del frente de pareto.
     
-    En base a esto se va a definir el \textbf{contexto ($C$)} de la solución como una tupla de tres elementos $(C^1, C^2, C^3)$, que representan las distancias entre la solución actual y el frente de pareto, es decir,
-    cuánto debería mejorar en cada objetivo para dejar de ser dominada.
+    \item \textbf{Tiempo:} Cada una de las búsquedas locales direccionales realizadas durante la ejecución del algoritmo.
+    
+    \item \textbf{Estado ($S$):} Se define a partir de la información disponible sobre la solución actual y las soluciones del frente de Pareto. Concretamente, se extrae un \textbf{contexto ($C$)} representado como una tupla de tres componentes $(C^1, C^2, C^3)$, donde cada componente indica la distancia necesaria para que la solución actual deje de ser dominada, es decir, cuánto debería mejorar en cada uno de los objetivos.
+    
+    Por ejemplo, un contexto $(0, 0, 0)$ indica que la solución ya pertenece al frente de Pareto. En cambio, un contexto $(30, 15, 10)$ sugiere que la solución debería mejorar 30 unidades en $f_1$, o 15 en $f_2$, o 10 en $f_3$ para ser no dominada.
 
-    Un contexto $(0,0,0)$ indicaría que la solución ya pertenece al frente. Un contexto de $(30,15,10)$ indicaría que la solución debería disminuir en 30 $f_1$ para entrar en el frente de pareto, o disminuir 15 $f_2$ o 10 $f_3$ para hacerlo.
-    \item \textbf{Acción:} EL conjunto de acciones serán los ``brazos'' que componen el MAB. Cada brazo corresponde a una combinación de búsqueda local ($f_1$, $f_2$ o $f_3$) y el máximo de veces que se va a mejorar ($1, 2, \dots, k$).
-    
-    Para seleccionar el brazo:
-        \begin{itemize}
-        \item Con probabilidad $\beta$, se selecciona una acción aleatoria (exploración).
-        \item En caso contrario, se escoge con probabilidad ponderada basada en la recompensa esperada a partir de la matriz de pesos (explotación). La acción con más recompensa esperada tendrá más probabilidad de salir, pero no es una garantía.
-        
-        Para no valorar demasiado brazos con una esperanza muy alta, ni depreciar brazos con esperanza baja, se utiliza la función softmax para normalizar sus valores esperados:
-\begin{equation}
-    \sigma(z)_i = \frac{e^{\frac{z_i - \max(z)}{\tau}}}{\sum_{j=1}^{K} e^{\frac{z_j - \max(z)}{\tau}}}
-\end{equation}
+    \item \textbf{Acción:} Las acciones posibles corresponden a los ``brazos'' del MAB. Cada brazo representa una combinación entre:
+    \begin{itemize}
+        \item La dirección de la búsqueda local ($f_1$, $f_2$ o $f_3$).
+        \item El número máximo de mejoras consecutivas permitidas ($1, 2, \dots, k$).
     \end{itemize}
 
-    \item \textbf{Recompensa:} Después de realizar cada acción, se evalua su impacto comparando el contexto antes y después de la búsqueda local. De aquí obtenemos dos posibles recompensas:
-        \begin{itemize}
-        \item \textbf{Caso 1:} Valor máximo ($1$) si la acción genera una solución nueva no dominada. Si la solución es nueva, se evalúa como en el segundo caso
-        \item \textbf{Caso 2:} Proporcional a diferencia entre el contexto nuevo y el anterior
-        $$R_{t+1}=\frac{1}{3}(C_{t+1}^1+C_{t+1}^2+C_{t+1}^3) \; - \; (\frac{1}{3}C_t^1+C_t^2+C_t^3)$$
+    La selección de la acción se realiza mediante una política $\epsilon$-soft \color{red} Definir epsilon soft\color{black}, con los siguientes criterios:
+    \begin{itemize}
+        \item Con probabilidad $\beta$, se elige una acción aleatoria (exploración).
+        \item Con probabilidad $1 - \beta$, se selecciona una acción de forma probabilística, ponderada según su recompensa esperada (explotación). Aunque las acciones con mayor recompensa esperada tienen más probabilidad de ser elegidas, no se garantiza su selección determinista.
     \end{itemize}
 
-    Tras obtener la recompensa, la matriz de pesos se actualiza, reforzando las acciones efectivas en contextos similares.
+    Para evitar que acciones con recompensas extremas dominen completamente la selección o sean injustamente descartadas, se aplica la función \textit{softmax} para normalizar los valores esperados:
+    \begin{equation}
+        \sigma(z)_i = \frac{e^{\frac{z_i - \max(z)}{\tau}}}{\sum_{j=1}^{K} e^{\frac{z_j - \max(z)}{\tau}}}
+    \end{equation}
+    donde $\tau$ es un parámetro de temperatura que regula el grado de aleatoriedad de la selección.
+
+    \item \textbf{Recompensa:} Tras ejecutar una acción, se mide su efectividad evaluando el contexto antes y después de la búsqueda local. La recompensa se define de la siguiente forma:
+    \begin{itemize}
+        \item \textbf{Caso 1:} Se asigna una recompensa de $5$ si la acción genera una solución nueva no dominada (es decir, una mejora real en el frente).
+        \item \textbf{Caso 2:} Se asigna una recompensa de $-1$ si no se obtiene ninguna solución nueva no dominada.
+    \end{itemize}
+
+    Finalmente, la matriz de pesos del MAB se actualiza en función de la recompensa obtenida, reforzando las acciones que han resultado efectivas en contextos similares.
 \end{itemize}
 
 \newpage
 
-\section{MAB GRASP}
+\section{GRASP-MAB}
 
 \begin{algorithm}[H]
-\caption*{Algoritmo MAB GRASP}
+\caption{Algoritmo GRASP-MAB}
 \begin{algorithmic}[1]
-    \State \textbf{Definiciones:}
-    \State $MAX\_ITS$: Número de iteraciones
-    \State $W$: Pesos del MAB
-    \State $F$: Frente de soluciones
-    \State $X$: Solución actual
-    \State $X'$: Nueva solución candidata
-    \State $C$: Contexto extraído de la solución y el frente
-    \State $R$: Recompensa asociada a la mejora de la solución
-    
+    \Statex \textbf{Definiciones:}
+    \Statex \hspace{1em} \texttt{MAX\_ITS}: número máximo de iteraciones
+    \Statex \hspace{1em} \texttt{W}: pesos del MAB
+    \Statex \hspace{1em} \texttt{F}: frente de soluciones
+    \Statex \hspace{1em} \texttt{X}: solución actual
+    \Statex \hspace{1em} \texttt{X'}: nueva solución candidata
+    \Statex \hspace{1em} \texttt{C}: contexto extraído de la solución y el frente
+    \Statex \hspace{1em} \texttt{R}: recompensa asociada a la mejora de la solución
+
     \Statex
 
-    \State Inicializar $W$, $F \gets \emptyset$
-    \While{$"ITS < MAX\_ITS$}
-        \State $X \gets \text{ConstruccionGreedyRandomizada}(\alpha)$
-
-        \State $\text{ActualizarFrente}(X, F)$
-        \State $mejora \gets \text{true}$
-
-        \While{$mejora$}
-            \State $C \gets \text{ExtraerContexto}(X, F)$
-            \State $Brazo \gets \text{SeleccionarBrazoMAB}(W, C)$
+    \State Inicializar \texttt{W}, \texttt{F} $\gets \emptyset$
+    \For{$\texttt{its} = 1$ \textbf{hasta} \texttt{MAX\_ITS}}
+        \Statex \textbf{// Construcción y búsqueda local inicial}
+        \State \texttt{X} $\gets$ \texttt{ConstruccionGreedyRandomizada}($\alpha$)
+        \State \texttt{X'} $\gets$ \texttt{BusquedaLocal}(X)
+        \State \texttt{ActualizarFrente}(X', F)
+        \State \texttt{mejora} $\gets$ \texttt{true}
+        
+        \While{\texttt{mejora}}
+            \Statex \textbf{// Extracción de contexto y selección de brazo}
+            \State \texttt{C} $\gets$ \texttt{ExtraerContexto}(X, F)
+            \State \texttt{brazo} $\gets$ \texttt{SeleccionarBrazoMAB}(W, C)
             
-            \State $X' \gets \text{BusquedaLocal}(X, Brazo)$
+            \Statex \textbf{// Búsqueda local dirigida}
+            \State \texttt{X''} $\gets$ \texttt{BusquedaLocalDireccional}(X', brazo)
+            \State \texttt{X'''} $\gets$ \texttt{BusquedaLocal}(X'')
             
-            \State $R \gets \text{EvaluarSolucion}(X', X, F)$
-            \State $\text{ActualizarPesosMAB}(W, Brazo, R)$
-            
-            \If{$X'$ es una nueva solución del frente \textbf{o} mejora a $X$}
-                \State $X \gets X'$
-                \State $\text{ActualizarFrente}(X', F)$
-                \State $mejora \gets \text{true}$
+            \If{\texttt{X'''} mejora el frente}
+                \State \texttt{X} $\gets$ \texttt{X'''}
+                \State \texttt{ActualizarFrente}(X''', F)
+                \State \texttt{mejora} $\gets$ \texttt{true}
+                \State \texttt{R} $\gets 5$
             \Else
-                \State $mejora \gets \text{false}$
+                \State \texttt{mejora} $\gets$ \texttt{false}
+                \State \texttt{R} $\gets -1$
             \EndIf
+
+            \State \texttt{ActualizarPesosMAB}(W, brazo, R)
         \EndWhile
-    \EndWhile
-    \State \Return $F$
+    \EndFor
+    \State \Return \texttt{F}
 \end{algorithmic}
 \end{algorithm}
 
+\newpage
 
 \section{Implementación}
 
 El algoritmo se ha implementado en el lenguaje de programación Python. Está todo guardado en el repositorio de GitHub en \color{red}Cuando haga público el repo lo pongo aquí \color{black}
 
 Para agilizar el algoritmo, aparte de reducir los tiempos de ejecución todo lo posible simplificando código, se ha optado por utilizar la librería ``multiprocessing'' para paralelizarlo.
-Esto aumenta el rendimiento de unas 5 iteraciones por segundo hasta más de 50 (esto dependerá de los cores de la CPU del ordenador utilizado).
+El aumento de rendimiento dependerá del procesador utilizado para ejecutar el código. A más núcleos mayor mejora.
 
-Por haber utilizado esto, hay que tener en cuenta que no se puede, sin reducir en gran medida la velocidad del algoritmo, hacer que el conjunto de instancias paralelizadas compartan
+Al haberse utilizado esto, se ha de tener en cuenta que no se puede, sin reducir en gran medida la velocidad del algoritmo, hacer que el conjunto de instancias paralelizadas compartan
 el mismo frente de pareto encontrado o los mismos pesos del MAB. Por tanto, cada instancia tendrá tanto su archivo de pesos como de soluciones. Al terminar las ejecuciones, se combinan los frentes de pareto de 
 todas las ejecuciones y se obtiene el frente de pareto común.
 
