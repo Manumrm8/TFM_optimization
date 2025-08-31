@@ -786,7 +786,7 @@ El MAB utilizado está compuesto por los siguientes elementos:
         \item El número máximo de mejoras consecutivas permitidas ($1, 2, \dots, k$).
     \end{itemize}
 
-    La selección de la acción se realiza mediante una política $\epsilon$-soft \color{red} Definir epsilon soft\color{black}, con los siguientes criterios:
+    La selección de la acción se realiza con el siguiente criterio:
     \begin{itemize}
         \item Con probabilidad $\beta$, se elige una acción aleatoria (exploración).
         \item Con probabilidad $1 - \beta$, se selecciona una acción de forma probabilística, ponderada según su recompensa esperada (explotación). Aunque las acciones con mayor recompensa esperada tienen más probabilidad de ser elegidas, no se garantiza su selección determinista.
@@ -794,9 +794,8 @@ El MAB utilizado está compuesto por los siguientes elementos:
 
     Para evitar que acciones con recompensas extremas dominen completamente la selección o sean injustamente descartadas, se aplica la función \textit{softmax} para normalizar los valores esperados:
     \begin{equation}
-        \sigma(z)_i = \frac{e^{\frac{z_i - \max(z)}{\tau}}}{\sum_{j=1}^{K} e^{\frac{z_j - \max(z)}{\tau}}}
+        \sigma(z)_i = \frac{e^{z_i - \max(z)}}{\sum_{j=1}^{K} e^{z_j - \max(z)}}
     \end{equation}
-    donde $\tau$ es un parámetro de temperatura que regula el grado de aleatoriedad de la selección.
 
     \item \textbf{Recompensa:} Tras ejecutar una acción, se mide su efectividad evaluando el contexto antes y después de la búsqueda local. La recompensa se define de la siguiente forma:
     \begin{itemize}
@@ -891,73 +890,42 @@ Si $\beta = 0$, la selección es siempre probabilística y ponderada; si $\beta 
 Un valor pequeño de \textit{lr} produce actualizaciones más suaves y estables, mientras que un valor grande genera cambios más rápidos y pronunciados.
 \end{itemize}
 
-Se comienza variando el parámetro $\alpha$ en el rango $[0,1]$, dividido en 11 valores equiespaciados: $0, 0.1, 0.2, \dots, 0.9, 1$.  
-Para cada valor de $\alpha$, el algoritmo se ejecuta en paralelo en 20 instancias independientes, cada una de ellas corriendo con una duración total de 6000 iteraciones. Los resultados se registran adicionalmente en las iteraciones 2000 y 4000 con el fin de analizar la evolución del desempeño a lo largo de la ejecución.
-En total, esto equivale a 220 ejecuciones simultáneas, lo que permite observar la evolución del algoritmo y disponer de un espacio muestral suficiente para comparar su desempeño bajo distintos valores de $\alpha$.
+Primero se ajusta el parámetro lr del MAB, ya que es necesario para que el aprendizaje reforzado sea efectivo. Un lr muy bajo hace que los pesos no se modifiquen, y todas las acciones tengan probabilidades parecidas, y un lr alto hace que las acciones estén muy descompensadas con saltos muy grandes, que no tienen por qué reflejar la realidad del valor esperado de la acción.
+
+El valor final escogido ha sido $lr=0.1$, utilizando como posibles candidatos valores entre $1$ y $0.00001$.
+
+Una vez ajustado el learning rate, se buscará el $\beta$, tomando candidatos en el rango $[0,1]$ con los valores $0, 0.1, 0.2, \dots, 0.9, 1$.  
+Para cada valor de $\beta$, el algoritmo se ejecuta en paralelo en 20 instancias independientes, cada una de ellas corriendo con una duración total de 100 iteraciones. 
+En total, esto equivale a 220 ejecuciones simultáneas, lo que permite observar la evolución del algoritmo y disponer de un espacio muestral suficiente para comparar su desempeño bajo distintos valores de $\beta$.
 
 Los resultados son los siguientes:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\linewidth]{images_finetuning/alpha}
-    \caption{Boxplot que muestra las distribuciones de la cantidad de soluciones en el frente de pareto agrupadas por alpha y por número de ejecuciones}
+    \includegraphics[width=\linewidth]{images_finetuning/beta_20_100.png}
+    \caption{Boxplot que muestra las distribuciones de la cantidad de soluciones en el frente de pareto agrupadas por beta }
+    \label{fig:beta}
+\end{figure}
+
+Se puede ver que utilizar aprendizaje reforzado llega a aumentar en hasta un 20 \% el rendimiento del algoritmo. Con $\beta$ $1$ los resultados rondan en torno a una mediana de $10$ soluciones mientras que valores cercanos a $0$ rondan las $12$ soluciones. Se ha decidido tomar el $\beta=0.1$
+
+Para terminar, se ajusta el parámetro $\alpha$ en el rango $[0,1]$, dividido en 11 valores equiespaciados: $0, 0.1, 0.2, \dots, 0.9, 1$.  
+Para cada valor de $\alpha$, el algoritmo también se ejecuta en paralelo en 20 instancias independientes, cada una de ellas corriendo con una duración total de 100 iteraciones.
+
+Los resultados son los siguientes:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{images_finetuning/alpha_20_100}
+    \caption{Boxplot que muestra las distribuciones de la cantidad de soluciones en el frente de pareto agrupadas por alpha}
     \label{fig:alpha}
 \end{figure}
 
-
-
-
-Podemos ver como el alpha qu eparece tener mejores resultados es el 0.3, y por sus alrededores se encuentran los mejores resultados.
-También cómo elegir tanto alpha 1 (solucion puramente greedy) o 0 (solución aleatoria) son los que peores resultados dan.
-
-El siguiente será el $\beta$, igualmente en el rango $[0,1]$ con los mismos valores $0, 0.1, 0.2, \dots, 0.9, 1$.  
-Para cada valor de $\beta$, el algoritmo se ejecuta en paralelo en 20 instancias independientes, cada una de ellas corriendo con una duración total de 6000 iteraciones. Los resultados se registran adicionalmente en las iteraciones 2000 y 4000 con el fin de analizar la evolución del desempeño a lo largo de la ejecución.
-En total, esto equivale a 220 ejecuciones simultáneas, lo que permite observar la evolución del algoritmo y disponer de un espacio muestral suficiente para comparar su desempeño bajo distintos valores de $\alpha$.
-
-Los resultados son los siguientes:
-
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images_finetuning/alpha_2000}
-        \caption{Resultados con 2000 iteraciones}
-        \label{fig:beta_2000}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images_finetuning/alpha_4000}
-        \caption{Resultados con 4000 iteraciones}
-        \label{fig:beta_4000}
-    \end{subfigure}
-    \vskip\baselineskip
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images_finetuning/alpha_6000}
-        \caption{Resultados con 6000 iteraciones}
-        \label{fig:beta_6000}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.45\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{images_finetuning/alphas}
-        \caption{Comparativa general de $\alpha$}
-        \label{fig:betas}
-    \end{subfigure}
-    \caption{Resultados del algoritmo para distintos valores de $\alpha$ y diferentes números de iteraciones.}
-    \label{fig:resultados_beta}
-\end{figure}
-
-\color{red} añadir explicación de qué beta se coge \color{black}
-
-\section{Experimentación con ligeros cambios en el algoritmo}
-
-\section{Reforzado si o no?}
-Comparativa entre utilizar o no aprendizaje reforzado (resultados vs tiempos), ya que el reforzado irá mejor, pero será algo más lento (no mucho).
-Para la comparativa del caso pequeño tengo el frente de pareto exacto, calculado a lo bruto. Por el momento, el algoritmo reforzado en 25 min (50.000 iteraciones) saca casi todo el frente de pareto (le ha faltado 1 solución).
+Se puede ver que lo ideal es tomar valores entre $0.2$ y $0.8$, sin una diferencia clara entre los mismos.
 
 \section{Resultados de los articulos}
+
+\subsection{Vista a los resultados previos}
 \label{sec:articulo2}
 Tomando como referencia las soluciones reportadas en el artículo \cite{k-Balanced_2}, se realizó una comparación para verificar si el método GRASP desarrollado en este TFM alcanzaba los mismos resultados. De este análisis se observó que, en algunos casos, se obtuvieron soluciones superiores a las allí presentadas, mientras que en otros los resultados fueron menos favorables.
 Sin embargo, dado que en dicho artículo no se proporcionan los componentes exactos de cada solución, una evaluación directa no es posible. 
@@ -972,6 +940,13 @@ Se puede entonces suponer que en los resultados del artículo se habría asignad
 De hecho, si ambos puntos de demanda se asignan a la instalación 13, se obtendría $f_2 = 231$ y $f_3 = 127$.
 
 En conclusión, este análisis evidencia que la manera de resolver los empates al asignar los puntos de demanda a las instalaciones más cercanas puede resultar determinante en la evaluación de las soluciones.
+
+\subsection{Comparativa}
+
+Aquí meter la comparativa con el MOABKBLC, con el que sí que se pueden comparar resultados en ejecuciones/tiempos
+
+Después como el SO-PR no tiene los resultados para instancias separadas, hacer una estimación del comportamiento y compparar
+
 \chapter{Conclusiones}
 
 
