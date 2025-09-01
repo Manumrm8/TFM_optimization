@@ -192,7 +192,7 @@ def contexto(f1_value, f2_value, f3_value, route_solutions):
 
     # Aquí entra cuando es una solución existente
     if dominating_solutions.empty:
-        return (0, 0, 0), 1
+        return (0, 0, 0)
 
     # 3. Si hay soluciones dominantes, calcular las diferencias.
     # Estas son las "distancias" que necesitamos superar en cada dimensión.
