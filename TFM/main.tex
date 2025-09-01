@@ -115,8 +115,16 @@
 \newpage
 
 \section*{Resumen}
-Aquí va el contenido de tu resumen en español. Explica brevemente el objetivo, la metodología, los resultados y las conclusiones de tu TFM.
+En este Trabajo de Fin de Máster se aborda el problema de localización multiobjetivo de $k$-centros balanceados. Dicho problema surge como una extensión del clásico problema de localización de $k$-centros, en el que, además de minimizar las distancias entre usuarios e instalaciones, se introduce la necesidad de balancear la carga asignada a cada centro. Este equilibrio resulta de gran interés en aplicaciones reales, como la ubicación de hospitales, almacenes o centros de distribución, donde no solo importa la accesibilidad sino también una adecuada distribución de la demanda.
 
+El problema ha sido objeto de estudio reciente en la literatura. En \cite{k-balanced_1}, los autores formulan por primera vez el problema de $k$-centros balanceado y proponen un algoritmo evolutivo denominado MOAkBCL, inspirado en el conocido NSGA-II \cite{NSGA-II}. Posteriormente, en \cite{k-Balanced_2}, se desarrolla un nuevo enfoque basado en metaheurísticas de tipo GRASP \cite{GRASP}, enriquecido con técnicas de Oscilación Estratégica \cite{oscillation} y Path Relinking \cite{path_relinking}, con el fin de explorar de forma más eficiente el espacio de búsqueda y mejorar la calidad de las soluciones.
+
+En este trabajo se propone una nueva aproximación al problema, combinando la metaheurística GRASP con técnicas de Aprendizaje Reforzado. El objetivo es aprovechar la capacidad adaptativa del aprendizaje automático para guiar el proceso de búsqueda y generar soluciones de mayor calidad, extendiendo así los trabajos previos con un enfoque distinto. 
+
+Para validar los resultados del algoritmo, se realizarán experimentos en un número similar de iteraciones y tiempos parecidos a los realizados en ambos artículos. Se tiene que tener en cuenta que el lenguaje de programación en el que se ha desarrollado el trabajo
+es Python, considerablemente más lento que el lenguaje del primer artículo, C++, o el del segundo, Java. También que se han corrido en un ordenador con especificaciones mejores a los 2 artículos previos. Por tanto, las iteraciones del algoritmo propuesto podrían ser bastante
+más rápidas que las de algoritmos previos (en los cuales en cada iteración se trabaja con 40 soluciones simultaneas, mientras que en este no), pero no se ha podido cuantificar.
+ 
 \newpage
 
 \section*{Abstract}
@@ -130,13 +138,6 @@ Aquí va el contingut del teu resum en valencià. Explica breument l'objectiu, l
 \newpage
  
 \chapter{Introducción}
-
-\section{Introducción al TFM}
-En este Trabajo de Fin de Máster se aborda el problema de localización multiobjetivo de $k$-centros balanceados. Dicho problema surge como una extensión del clásico problema de localización de $k$-centros, en el que, además de minimizar las distancias entre usuarios e instalaciones, se introduce la necesidad de balancear la carga asignada a cada centro. Este equilibrio resulta de gran interés en aplicaciones reales, como la ubicación de hospitales, almacenes o centros de distribución, donde no solo importa la accesibilidad sino también una adecuada distribución de la demanda.
-
-El problema ha sido objeto de estudio reciente en la literatura. En \citet{k-balanced_1}, los autores formulan por primera vez el problema de $k$-centros balanceado y proponen un algoritmo evolutivo denominado MOAkBCL, inspirado en el conocido NSGA-II \cite{NSGA-II}. Posteriormente, en \citet{k-Balanced_2}, se desarrolla un nuevo enfoque basado en metaheurísticas de tipo GRASP \cite{GRASP}, enriquecido con técnicas de Oscilación Estratégica \cite{oscillation} y Path Relinking \cite{path_relinking}, con el fin de explorar de forma más eficiente el espacio de búsqueda y mejorar la calidad de las soluciones.
-
-En este trabajo se propone una nueva aproximación al problema, combinando la metaheurística GRASP con técnicas de Aprendizaje Reforzado. El objetivo es aprovechar la capacidad adaptativa del aprendizaje automático para guiar el proceso de búsqueda y generar soluciones de mayor calidad, extendiendo así los trabajos previos y aportando un enfoque híbrido novedoso.
 
 \section{Historia de la optimización}
 El origen de la optimización se remonta a la antigua Grecia, donde matemáticos como Euclides o Arquímedes la utilizaban en busca de soluciones a problemas del área de la geometría.
@@ -684,7 +685,7 @@ Se ha elegido GRASP como base metodológica por varias razones que lo hacen espe
 \section{Estado del arte}
 
 \subsection{Artículo 1}
-El primer trabajo relevante en la literatura es el de \citet{k-balanced_1}, en el cual se propone formalmente el problema de localización multiobjetivo de $k$-centros balanceado y se presenta una primera estrategia de resolución mediante el algoritmo MOAkBCL.
+El primer trabajo relevante en la literatura es el de \cite{k-balanced_1}, en el cual se propone formalmente el problema de localización multiobjetivo de $k$-centros balanceado y se presenta una primera estrategia de resolución mediante el algoritmo MOAkBCL.
 Este enfoque parte de la triangulación de Delaunay \cite{delaunay} para definir la vecindad entre instalaciones y construye soluciones mediante intercambios locales, siguiendo una lógica muy cercana al algoritmo evolutivo NSGA-II.
 
 El primer paso del algoritmo consiste en emplear la triangulación de Delaunay \cite{delaunay} para definir la ``vecindad'' entre instalaciones. Dos instalaciones se consideran vecinas de una tercera si, 
@@ -707,7 +708,7 @@ Aparte del nuevo método para resolver el problema, se demuestra que efectivamen
 solución del frente de Pareto es NP-Completo.
 
 \subsection{Artículo 2}
-El segundo trabajo fundamental es el de \citet{k-Balanced_2}, en el que se plantea una alternativa al enfoque evolutivo anterior. En este caso, se propone un método híbrido basado en la metaheurística GRASP, complementado con Oscilación Estratégica y Path Relinking. El objetivo principal es mejorar la capacidad exploratoria del algoritmo, permitiendo visitar tanto soluciones factibles como no factibles para, posteriormente, transformarlas en configuraciones válidas de alta calidad.
+El segundo trabajo fundamental es el de \cite{k-Balanced_2}, en el que se plantea una alternativa al enfoque evolutivo anterior. En este caso, se propone un método híbrido basado en la metaheurística GRASP, complementado con Oscilación Estratégica y Path Relinking. El objetivo principal es mejorar la capacidad exploratoria del algoritmo, permitiendo visitar tanto soluciones factibles como no factibles para, posteriormente, transformarlas en configuraciones válidas de alta calidad.
 
 El procedimiento comienza con la generación de una población inicial de soluciones mediante un esquema greedy randomizado. Este mecanismo permite construir soluciones iniciales de buena calidad, cada una definida por la selección de $k$ centros. Posteriormente, se aplica una fase de búsqueda local propia del GRASP, basada en intercambiar elementos de la solución por otros que no forman parte de ella, siempre que el nuevo candidato no resulte dominado por el conjunto de soluciones actuales.
 
@@ -950,18 +951,18 @@ Después como el SO-PR no tiene los resultados para instancias separadas, hacer 
 \chapter{Conclusiones}
 
 
-\chapter{Agradecimientos}
-Valgrai
+% \chapter{Agradecimientos}
+% Valgrai
 
-compañeros del máster
+% compañeros del máster
 
-amigos
+% amigos
 
-familia
+% familia
 
-Tutora del TFM
+% Tutora del TFM
 
-Profesores tanto de la carrera como del máster 
+% Profesores tanto de la carrera como del máster 
 
 \chapter{Anexo}
 \section{Introducción}
