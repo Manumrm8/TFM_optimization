@@ -16,14 +16,15 @@
 \usepackage{graphicx}
 \usepackage{tikz}
 \usepackage{tkz-graph}
-\usepackage{hyperref}
 \usepackage[parfill]{parskip}
 \usepackage{float}
 \usepackage{subcaption}
-\usepackage{natbib}
 
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
+
+\usepackage[natbibapa]{apacite}
+\usepackage{hyperref}
 
 \renewcommand{\chaptername}{Capítulo}
 \renewcommand{\contentsname}{Índice}
@@ -117,7 +118,7 @@
 \section*{Resumen}
 En este Trabajo de Fin de Máster se aborda el problema de localización multiobjetivo de $k$-centros balanceados. Dicho problema surge como una extensión del clásico problema de localización de $k$-centros, en el que, además de minimizar las distancias entre usuarios e instalaciones, se introduce la necesidad de balancear la carga asignada a cada centro. Este equilibrio resulta de gran interés en aplicaciones reales, como la ubicación de hospitales, almacenes o centros de distribución, donde no solo importa la accesibilidad sino también una adecuada distribución de la demanda.
 
-El problema ha sido objeto de estudio reciente en la literatura. En \cite{k-balanced_1}, los autores formulan por primera vez el problema de $k$-centros balanceado y proponen un algoritmo evolutivo denominado MOAkBCL, inspirado en el conocido NSGA-II \cite{NSGA-II}. Posteriormente, en \cite{k-Balanced_2}, se desarrolla un nuevo enfoque basado en metaheurísticas de tipo GRASP \cite{GRASP}, enriquecido con técnicas de Oscilación Estratégica \cite{oscillation} y Path Relinking \cite{path_relinking}, con el fin de explorar de forma más eficiente el espacio de búsqueda y mejorar la calidad de las soluciones.
+El problema ha sido objeto de estudio reciente en la literatura. En \cite{k-balanced_1}, los autores formulan por primera vez el problema de $k$-centros balanceado y proponen un algoritmo evolutivo denominado MOAkBCL, inspirado en el conocido NSGA-II \citep{NSGA-II}. Posteriormente, en \cite{k-Balanced_2}, se desarrolla un nuevo enfoque basado en metaheurísticas de tipo GRASP \citep{GRASP}, enriquecido con técnicas de Oscilación Estratégica \citep{oscillation} y Path Relinking \citep{path_relinking}, con el fin de explorar de forma más eficiente el espacio de búsqueda y mejorar la calidad de las soluciones.
 
 En este trabajo se propone una nueva aproximación al problema, combinando la metaheurística GRASP con técnicas de Aprendizaje Reforzado. El objetivo es aprovechar la capacidad adaptativa del aprendizaje automático para guiar el proceso de búsqueda y generar soluciones de mayor calidad, extendiendo así los trabajos previos con un enfoque distinto. 
 
@@ -128,7 +129,7 @@ más rápidas, pero no se ha podido cuantificar.
 \section*{Abstract}
 In this Master's Thesis, we address the multi-objective balanced $k$-center location problem. This problem arises as an extension of the classical $k$-center location problem, where, in addition to minimizing the distances between users and facilities, it is also necessary to balance the load assigned to each center. Such balance is of great interest in real-world applications, such as the location of hospitals, warehouses, or distribution centers, where accessibility matters but an adequate distribution of demand is also crucial.
 
-The problem has been the subject of recent studies in the literature. In \cite{k-balanced_1}, the authors first formulate the balanced $k$-center problem and propose an evolutionary algorithm called MOAkBCL, inspired by the well-known NSGA-II \cite{NSGA-II}. Later, in \cite{k-Balanced_2}, a new approach is developed based on GRASP-type metaheuristics \cite{GRASP}, enriched with Strategic Oscillation \cite{oscillation} and Path Relinking \cite{path_relinking} techniques, in order to explore the search space more efficiently and improve solution quality.
+The problem has been the subject of recent studies in the literature. In \cite{k-balanced_1}, the authors first formulate the balanced $k$-center problem and propose an evolutionary algorithm called MOAkBCL, inspired by the well-known NSGA-II \citep{NSGA-II}. Later, in \cite{k-Balanced_2}, a new approach is developed based on GRASP-type metaheuristics \citep{GRASP}, enriched with Strategic Oscillation \citep{oscillation} and Path Relinking \citep{path_relinking} techniques, in order to explore the search space more efficiently and improve solution quality.
 
 In this work, we propose a new approach to the problem by combining the GRASP metaheuristic with Reinforcement Learning techniques. The objective is to exploit the adaptive capacity of machine learning to guide the search process and generate higher-quality solutions, thus extending previous works with a different perspective.
 
@@ -139,7 +140,7 @@ To validate the results of the algorithm, experiments will be carried out with a
 \section*{Resum}
 En aquest Treball de Fi de Màster s'aborda el problema de localització multiobjectiu de $k$-centres balancejats. Aquest problema sorgeix com una extensió del clàssic problema de localització de $k$-centres, en el qual, a més de minimitzar les distàncies entre usuaris i instal·lacions, s'introdueix la necessitat de balancejar la càrrega assignada a cada centre. Aquest equilibri resulta de gran interés en aplicacions reals, com la ubicació d'hospitals, magatzems o centres de distribució, on no sols importa l'accessibilitat sinó també una adequada distribució de la demanda.
 
-El problema ha sigut objecte d'estudi recent en la literatura. En \cite{k-balanced_1}, els autors formulen per primera vegada el problema de $k$-centres balancejat i proposen un algorisme evolutiu denominat MOAkBCL, inspirat en el conegut NSGA-II \cite{NSGA-II}. Posteriorment, en \cite{k-Balanced_2}, es desenvolupa un nou enfocament basat en metaheurístiques de tipus GRASP \cite{GRASP}, enriquit amb tècniques d'Oscil·lació Estratègica \cite{oscillation} i Path Relinking \cite{path_relinking}, amb la finalitat d'explorar de forma més eficient l'espai de cerca i millorar la qualitat de les solucions.
+El problema ha sigut objecte d'estudi recent en la literatura. En \cite{k-balanced_1}, els autors formulen per primera vegada el problema de $k$-centres balancejat i proposen un algorisme evolutiu denominat MOAkBCL, inspirat en el conegut NSGA-II \citep{NSGA-II}. Posteriorment, en \cite{k-Balanced_2}, es desenvolupa un nou enfocament basat en metaheurístiques de tipus GRASP \citep{GRASP}, enriquit amb tècniques d'Oscil·lació Estratègica \citep{oscillation} i Path Relinking \citep{path_relinking}, amb la finalitat d'explorar de forma més eficient l'espai de cerca i millorar la qualitat de les solucions.
 
 En aquest treball es proposa una nova aproximació al problema, combinant la metaheurística GRASP amb tècniques d'Aprenentatge Reforçat. L'objectiu és aprofitar la capacitat adaptativa de l'aprenentatge automàtic per a guiar el procés de cerca i generar solucions de major qualitat, estenent així els treballs previs amb un enfocament distint.
 
@@ -151,27 +152,27 @@ Per a validar els resultats de l'algorisme, es realitzaran experiments en un nom
 \section{Historia de la optimización}
 El origen de la optimización se remonta a la antigua Grecia, donde matemáticos como Euclides o Arquímedes la utilizaban en busca de soluciones a problemas del área de la geometría.
 
-La versión que conocemos hoy en día no empezó a desarrollarse hasta el siglo XVII, con la aparición del cálculo diferencial \cite{calculo_diferencial}, impulsado por los trabajos de Isaac Newton y Gottfried Wilhelm Leibniz \cite{Leibniz}. Con él se pudieron estudiar las funciones y sus puntos extremos,
+La versión que conocemos hoy en día no empezó a desarrollarse hasta el siglo XVII, con la aparición del cálculo diferencial \citep{calculo_diferencial}, impulsado por los trabajos de Isaac Newton y Gottfried Wilhelm Leibniz \citep{Leibniz}. Con él se pudieron estudiar las funciones y sus puntos extremos,
 en los cuales, bajo ciertas condiciones, pueden encontrarse sus valores óptimos.
 
-No aparecen grandes avances hasta mediados del siglo XX cuando, fruto de la necesidad de resolver problemas logísticos durante la Segunda Guerra Mundial, el matemático George Bernard Dantzig \cite{Dantzig} desarrolló la programación lineal, que sentó las bases para el posterior surgimiento tanto de la programación no lineal, como de la entera y la dinámica.
+No aparecen grandes avances hasta mediados del siglo XX cuando, fruto de la necesidad de resolver problemas logísticos durante la Segunda Guerra Mundial, el matemático George Bernard Dantzig \citep{Dantzig} desarrolló la programación lineal, que sentó las bases para el posterior surgimiento tanto de la programación no lineal, como de la entera y la dinámica.
 
 A pesar de todo, la mayoría de problemas del mundo real, especialmente aquellos que dependen de un gran número de variables, con funciones objetivo complejas y restricciones no lineales, acaban siendo demasiado costosos computacionalmente. Esta inviabilidad de los métodos de obtención de soluciones exactas propició el surgimiento de los metaheurísticos.
 
-Los algoritmos metaheurísticos \cite{metaheuristicos}, acuñados por el especialista en ciencias de la computación Fred Glover,
+Los algoritmos metaheurísticos \citep{metaheuristicos}, acuñados por el especialista en ciencias de la computación Fred Glover,
 son la alternativa realista para la búsqueda de soluciones aproximadas, pero cercanas al óptimo, en un tiempo aceptable.
 
 Las metaheurísticas son fundamentales en Ciencia de Datos, ya que permiten abordar de manera eficiente problemas complejos presentes en:
 
 \begin{itemize}
-    \item \textbf{Clustering:} El algoritmo \textbf{k-means} \cite{k-means} particiona el espacio de observaciones en un número determinado de clústeres (grupos) y determina qué observaciones pertenecen a cada uno de ellos. 
+    \item \textbf{Clustering:} El algoritmo \textbf{k-means} \citep{k-means} particiona el espacio de observaciones en un número determinado de clústeres (grupos) y determina qué observaciones pertenecen a cada uno de ellos. 
     Si intentásemos encontrar la solución exacta, sería computacionalmente muy costoso, y la naturaleza del algoritmo hace que la solución sea dependiente de los grupos iniciales (generados aleatoriamente), pudiendo caer una y otra vez en los mismos óptimos locales (ver en \ref{def:optimo_local}).
     Las metaheurísticas ayudan a solventar estos problemas al proporcionar estrategias más robustas de exploración del espacio de soluciones.
     
     \item \textbf{Selección de variables:} En la construcción de modelos de predicción, solemos encontrarnos con un número elevado de variables, por lo que definir el modelo con base en todas ellas no es factible. Mediante metaheurísticos podemos 
     reducir significativamente la dimensión del espacio, utilizando un subespacio con las variables que mejor sirvan al modelo.
     
-    \item \textbf{Ajuste de hiperparámetros:} Modelos de inteligencia artificial como las redes neuronales necesitan ajustar sus hiperparámetros para ser eficaces (número de capas, tasa de aprendizaje, etc.). Este ajuste constituye también un problema de optimización en espacios de búsqueda de alta dimensión, frente a métodos tradicionales como la \textit{búsqueda en cuadrícula} (\textit{grid search}), los metaheurísticos ofrecen una alternativa más eficiente y flexible \cite{hyperparameters}.
+    \item \textbf{Ajuste de hiperparámetros:} Modelos de inteligencia artificial como las redes neuronales necesitan ajustar sus hiperparámetros para ser eficaces (número de capas, tasa de aprendizaje, etc.). Este ajuste constituye también un problema de optimización en espacios de búsqueda de alta dimensión, frente a métodos tradicionales como la \textit{búsqueda en cuadrícula} (\textit{grid search}), los metaheurísticos ofrecen una alternativa más eficiente y flexible. En el artículo \cite{hyperparameters} se puede ver el ejemplo de uso.
 \end{itemize}
 
 En esencia, la optimización es el proceso de encontrar las mejores soluciones para un problema determinado, de la forma más eficiente y precisa posible.
@@ -189,7 +190,7 @@ Para expresar un problema de optimización de forma matemática, definimos las t
     \item \textbf{Función Objetivo:} Función que se desea minimizar o maximizar.\\
     Se denota comúnmente como $f(\mathbf{x})$, donde $f$ es la función que establece la relación entre las variables ($\mathbf{x}$) y el objetivo que deseamos optimizar.
     Por ejemplo:
-    $$ \min_{\mathbf{x}} f(\mathbf{x}) \quad \text{o} \quad \max_{\mathbf{x}} f(\mathbf{x}) $$
+    $$ \min_{\mathbf{x}} f(\mathbf{x}) \quad \text{o} \quad \max_{\mathbf{x}} f(\mathbf{x}) .$$
     La función $f: \mathbb{R}^n \to \mathbb{R}$ mapea el vector de variables a un valor escalar, el cual buscaremos mejorar.
 
     \item \textbf{Restricciones:} Son las condiciones o limitaciones que deben satisfacer las variables de decisión. Pueden ser de igualdad o de desigualdad. Se expresan generalmente como:
@@ -212,13 +213,13 @@ $$
 & \mathbf{x} \in X
 \end{array}
 $$
-Donde $X$ representa el conjunto de factibilidad o dominio de las variables de decisión.
+donde $X$ representa el conjunto de factibilidad o dominio de las variables de decisión.
 
 En el siguiente apartado se van a clasificar los problemas de optimización según dos características principales.
 
 \subsection{Optimización Lineal vs. No Lineal}
 
-La primera distinción la haremos según la naturaleza de las funciones involucradas, tanto en la función objetivo como en las restricciones. En general, esto determinará si el problema puede ser resuelto fácilmente de manera exacta o si requerirá de métodos más complejos con soluciones aproximadas.
+La primera distinción la haremos según la naturaleza de las funciones involucradas, tanto en la función objetivo como en las restricciones.
 
 \subsubsection{Optimización Lineal}
 Diremos que un problema es de \textbf{optimización lineal} cuando, tanto la función objetivo como todas las funciones de las restricciones, son lineales (ver en \ref{def:f_lineal}) con respecto a las variables de decisión. 
@@ -270,7 +271,7 @@ Características principales:
 \begin{itemize}
     \item Las variables pertenecen al espacio discreto.
     \item No se pueden utilizar directamente las técnicas de cálculo diferencial que, en cambio, sí se podrían usar en el espacio continuo.
-    \item Los problemas suelen ser más complejos de resolver y computacionalmente más costosos, por lo que suelen requerir algoritmos específicos como la programación entera \cite{int_programing}, la programación dinámica o métodos combinatorios para poder resolverlos.
+    \item Los problemas suelen ser más complejos de resolver y computacionalmente más costosos, por lo que suelen requerir algoritmos específicos como la programación entera \citep{int_programing}, la programación dinámica o métodos combinatorios para poder resolverlos.
 \end{itemize}
 
 Ejemplos:
@@ -285,7 +286,7 @@ Para concluir la parte teórica de la optimización, se va a concretar tanto la 
 
 \subsection{Optimización Combinatoria}
 La optimización combinatoria se centra en encontrar la solución óptima dentro de un conjunto de soluciones finito o numerable. Aunque la cantidad de soluciones posibles pueda ser finita, no significa que el problema sea sencillo.
-De hecho, la mayoría de estos problemas de optimización entran dentro de los denominados problemas \textbf{NP-difíciles} \cite{np_hard}.
+De hecho, la mayoría de estos problemas de optimización entran dentro de los denominados problemas \textbf{NP-difíciles} \citep{np_hard}.
 
 Que sean NP-difíciles implica que el tiempo necesario para encontrar la solución óptima crece exponencialmente a medida que aumenta el tamaño del problema. Esto hace que la búsqueda exhaustiva de la solución sea computacionalmente inviable para la mayoría de los casos de estudio en el mundo real.
 
@@ -319,7 +320,7 @@ Una solución se considera \textbf{no dominada} (u óptima en el sentido de Pare
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.6\textwidth]{images/pareto_front.png}
-    \caption{\cite{Bre2017} Ilustración de un frente de pareto para un problema de minimización con dos objetivos ($f_1, f_2$).}
+    \caption{\citep{Bre2017} Ilustración de un frente de pareto para un problema de minimización con dos objetivos ($f_1, f_2$).}
     \label{fig:pareto}
 \end{figure}
 Las soluciones en verde son óptimas y pertenecen al Frente de Pareto, ya que no se puede mejorar un objetivo sin empeorar el otro. El punto ideal, que estaría en la parte inferior izquierda de la gráfica, sería la mejor solución imaginable combinando lo mejor de todas las soluciones. Las soluciones sin colorear están dominadas por alguna de las verdes.
@@ -340,13 +341,13 @@ No obstante, para problemas sencillos, con pocas variables y reducido espacio de
     \item \textbf{Método de las Restricciones Épsilon ($\epsilon$-constraint):} Consiste en optimizar una de las funciones objetivo, convirtiendo el resto en restricciones que limitan su valor a un máximo $\epsilon$.\\
     Modificando los valores de $\epsilon$ para cada objetivo-restricción, se puede explorar y reconstruir el Frente de Pareto. A diferencia del método de ponderación, este sí puede encontrar soluciones en frentes no convexos.
 
-    \item \textbf{Algoritmos de Ramificación y Acotación (Branch and Bound) Multiobjetivo:} Estos algoritmos extienden el clásico \textit{Branch and Bound} \cite{bnb}. El proceso de ramificación es similar (se divide el problema en subproblemas más pequeños), pero la fase de acotación (o poda) es más compleja. En lugar de usar una única cota, se trabaja con conjuntos de cotas (un vector por cada objetivo). Una rama del árbol de búsqueda se poda solo si se puede demostrar que no puede contener ninguna solución no dominada en comparación con las soluciones ya encontradas.
+    \item \textbf{Algoritmos de Ramificación y Acotación (Branch and Bound) Multiobjetivo:} Estos algoritmos extienden el clásico \textit{Branch and Bound} \citep{bnb}. El proceso de ramificación es similar (se divide el problema en subproblemas más pequeños), pero la fase de acotación (o poda) es más compleja. En lugar de usar una única cota, se trabaja con conjuntos de cotas (un vector por cada objetivo). Una rama del árbol de búsqueda se poda solo si se puede demostrar que no puede contener ninguna solución no dominada en comparación con las soluciones ya encontradas.
 
-    \item \textbf{Algoritmos de Ramificación y Corte (Branch and Cut) Multiobjetivo:} De manera análoga, esta técnica extiende \textit{Branch and Cut} \cite{bnc}. Se añaden planos de corte (restricciones adicionales) no solo para mejorar la relajación del problema mono-objetivo, sino para refinar la aproximación del espacio de soluciones factibles en el dominio multiobjetivo, permitiendo podar ramas del árbol de búsqueda de forma más eficiente.
+    \item \textbf{Algoritmos de Ramificación y Corte (Branch and Cut) Multiobjetivo:} De manera análoga, esta técnica extiende \textit{Branch and Cut} \citep{bnc}. Se añaden planos de corte (restricciones adicionales) no solo para mejorar la relajación del problema mono-objetivo, sino para refinar la aproximación del espacio de soluciones factibles en el dominio multiobjetivo, permitiendo podar ramas del árbol de búsqueda de forma más eficiente.
 \end{itemize}
 
 \subsection{Metaheurísticas}
-Como se indicó al principio del capítulo, las metaheurísticas \cite{metaheuristicos} aparecen con el desarrollo de las ciencias de la computación como principal solución a los problemas de optimización complejos. Allí donde los métodos exactos no son capaces de encontrar el óptimo,
+Como se indicó al principio del capítulo, las metaheurísticas \citep{metaheuristicos} aparecen con el desarrollo de las ciencias de la computación como principal solución a los problemas de optimización complejos. Allí donde los métodos exactos no son capaces de encontrar el óptimo,
 los algoritmos metaheurísticos buscan soluciones ``buenas'' en tiempos de ejecución razonables, sacrificando la garantía de optimalidad global que proporcionan los métodos exactos.
 
 Generalmente combinan heurísticas con aleatoriedad para explorar el espacio de soluciones y obtener resultados diversos, a la vez que se intensifica la búsqueda en las distintas regiones en busca de nuevos óptimos locales. Estos métodos combinan dos estrategias:
@@ -377,7 +378,7 @@ Son algoritmos muy generales y se adaptan a casi cualquier problema de optimizac
 
 \section{Aprendizaje Reforzado}
 
-El Aprendizaje Reforzado \cite{intro_reforzado} (del inglés, \textit{Reinforcement Learning} o RL) es un área del aprendizaje automático inspirada en la psicología conductista. Se utiliza en problemas donde un agente debe tomar acciones en un entorno dinámico con el objetivo de maximizar una cierta recompensa.\\
+El Aprendizaje Reforzado \citep{intro_reforzado} (del inglés, \textit{Reinforcement Learning} o RL) es un área del aprendizaje automático inspirada en la psicología conductista. Se utiliza en problemas donde un agente debe tomar acciones en un entorno dinámico con el objetivo de maximizar una cierta recompensa.\\
 A diferencia de otros paradigmas de la ciencia de datos como el aprendizaje supervisado, donde los algoritmos aprenden de un conjunto de datos etiquetado, en RL el agente aprende por sí mismo a través de la experiencia directa, en un proceso de prueba y error. 
 
 El objetivo del RL no es encontrar la respuesta correcta, sino descubrir una estrategia de actuación óptima que maximice la recompensa a largo plazo. Por esta razón, el RL se considera un problema de optimización secuencial de decisiones.
@@ -437,7 +438,7 @@ El dilema se suele solventar siguiendo una estrategia \textbf{$\epsilon$-greedy 
 
 \subsubsection{El Problema del Multi-Armed Bandit (Bandido de múltiples brazos)}
 
-El problema del Multi-Armed Bandit (MAB) \cite{MAB} es un ejemplo clásico que ilustra perfectamente el dilema de exploración vs. explotación. Imaginemos a un jugador en un casino frente a $k$ máquinas tragaperras (los ``bandidos'').
+El problema del Multi-Armed Bandit (MAB) \citep{MAB} es un ejemplo clásico que ilustra perfectamente el dilema de exploración vs. explotación. Imaginemos a un jugador en un casino frente a $k$ máquinas tragaperras (los ``bandidos'').
 Cada máquina $i$ tiene una probabilidad desconocida $p_i$ de dar una recompensa. El objetivo del jugador es maximizar su ganancia total en un número limitado de jugadas.
 
 \begin{itemize}
@@ -469,7 +470,7 @@ Se utiliza incluso en juegos de estrategia complejos como el ajedrez, Go o video
     \item \textbf{Recompensa}: +1 por ganar la partida, -1 por perder y 0 por cada movimiento que no termine la partida.
 \end{itemize}
 
-Sistemas como AlphaGo \cite{AlphaGo} de DeepMind utilizaron RL para aprender a jugar a Go a un nivel sobrehumano.
+Sistemas como AlphaGo (en el artículo \cite{AlphaGo} puede verse el ejemplo) de DeepMind utilizaron RL para aprender a jugar a Go a un nivel sobrehumano.
 El agente juega millones de partidas contra sí mismo, explorando el espacio de estrategias y entrenando una función de valor que le permita evaluar la calidad de cualquier posición del tablero.
 
 
@@ -688,16 +689,16 @@ Se ha elegido GRASP como base metodológica por varias razones que lo hacen espe
     GRASP obtiene buenos resultados sin requerir de muchas iteraciones para llegar a ellos.
     \item \textbf{Adecuación a problemas combinatorios}: El método resulta especialmente apropiado para resolver problemas combinatorios, ya que la definición de movimientos de mejora en la búsqueda local es intuitiva y directa.
     Esto permite explorar el espacio de soluciones de manera eficaz y con un coste computacional relativamente bajo.
-    \item \textbf{Madurez y respaldo en la literatura}: GRASP ha sido desarrollado y probado en una amplia gama de problemas, incluyendo problemas de optimización multiobjetivo \cite{grasp_1}, \cite{grasp_3}, \cite{grasp_2}. 
+    \item \textbf{Madurez y respaldo en la literatura}: GRASP ha sido desarrollado y probado en una amplia gama de problemas, incluyendo problemas de optimización multiobjetivo. Algunos ejemplos son \cite{grasp_1}, \cite{grasp_3} y \cite{grasp_2}. 
 \end{itemize}
 
 \section{Estado del arte}
 
 \subsection{Artículo 1}
 El primer trabajo relevante en la literatura es el de \cite{k-balanced_1}, en el cual se propone formalmente el problema de localización multiobjetivo de $k$-centros balanceado y se presenta una primera estrategia de resolución mediante el algoritmo MOAkBCL.
-Este enfoque parte de la triangulación de Delaunay \cite{delaunay} para definir la vecindad entre instalaciones y construye soluciones mediante intercambios locales, siguiendo una lógica muy cercana al algoritmo evolutivo NSGA-II.
+Este enfoque parte de la triangulación de Delaunay \citep{delaunay} y construye soluciones mediante intercambios locales, siguiendo una lógica muy cercana al algoritmo evolutivo NSGA-II.
 
-El primer paso del algoritmo consiste en emplear la triangulación de Delaunay \cite{delaunay} para definir la ``vecindad'' entre instalaciones. Dos instalaciones se consideran vecinas de una tercera si, 
+El primer paso del algoritmo consiste en emplear esta triangulación para definir la ``vecindad'' entre instalaciones. Dos instalaciones se consideran vecinas de una tercera si, 
 dentro del área que delimita la circunferencia cincunscrita al triángulo formado por las tres, no se encuentra ninguna otra instalación. 
 
 Una vez obtenida una solución inicial, la manera de encontrar nuevas soluciones es intercambiar centros seleccionados por alguno de sus vecinos. El procedimiento general del algoritmo es el siguiente:
@@ -729,10 +730,41 @@ Finalmente, el enfoque introduce el uso innovador de \emph{Path Relinking} como 
 Cabe resaltar que este es el primer algoritmo en utilizar \emph{Path Relinking} para la reparación de soluciones generadas por Oscilación Estratégica, lo cual constituye una aportación metodológica relevante. Los resultados experimentales demuestran que el enfoque propuesto supera a algoritmos de referencia ampliamente utilizados, como NSGA-II, MOEA/D y SPEA2, tanto en eficiencia como en calidad de las soluciones obtenidas.
 
 \section{Algoritmo Propuesto}
+El funcionamiento general de implementación de un algoritmo GRASP es el siguiente:
 
-\subsection{Consideraciones Previas}
+\begin{algorithm}[H]
+\caption{Algoritmo GRASP}
+\begin{algorithmic}[1]
+\Statex \textbf{Definiciones:}
+\Statex \hspace{1em} \texttt{MAX\_ITS}: número máximo de iteraciones
+\Statex \hspace{1em} \texttt{SolMejor}: mejor solución encontrada
+\Statex \hspace{1em} \texttt{ValorMejor}: valor de la mejor solución
 
-Es importante tener en cuenta la posibilidad de empates tanto en la búsqueda local asociada a $f_2$ como en la correspondiente a $f_3$. En tales casos, podría ser factible redistribuir los empates hacia emplazamientos seleccionados con menor carga de demanda, con el fin de obtener mejoras adicionales en dichas funciones objetivo.  
+\Statex
+
+\State Inicializar \texttt{SolMejor} $\gets \emptyset$, \texttt{ValorMejor} $\gets -\infty$
+\For{$\texttt{its} = 1$ \textbf{hasta} \texttt{MAX\_ITS}}
+    \Statex \textbf{// Fase de construcción}
+    \State $X^{(0)}\gets$ \texttt{ConstruccionGreedyRandomizada}($\alpha$)
+    
+    \Statex \textbf{// Fase de búsqueda local}
+    \State $X^{(1)}\gets$ \texttt{BusquedaLocal}($X^{(0)}$)
+
+    \If{\texttt{Evaluar}($X^{(1)}$) $>$ \texttt{ValorMejor}}
+        \State \texttt{SolMejor} $\gets X^{(1)}$
+        \State \texttt{ValorMejor} $\gets$ \texttt{Evaluar}($X^{(1)}$)
+    \EndIf
+\EndFor
+\State \Return \texttt{SolMejor}
+
+
+\end{algorithmic}
+\end{algorithm}
+
+Este esquema hará más sencillo entender las partes en las que se ha dividido el algoritmo GRASP con \textit{multi-armed bandits} propuesto para este trabajo.
+
+Antes de empezar a definirlo, en el desarrollo de las funciones de evaluación tanto de $f_2$ como de $f_3$ hay que tener en cuenta la posibilidad de empates. Esto podría influir en la obtención de unas u otras soluciones para el frente de Pareto. 
+En tales casos, podría ser factible redistribuir los empates hacia emplazamientos seleccionados con menor carga de demanda, con el fin de obtener mejoras adicionales en dichas funciones objetivo.  
 
 No obstante, esta estrategia no se ha implementado en el algoritmo actual, ya que en el presente estudio no se han observado instancias en las que resultase necesaria. Sin embargo, en uno de los trabajos previos revisados se identificaron situaciones en las que el redondeo de distancias podía generar soluciones degradadas (véase \ref{sec:articulo2}).  
 
@@ -758,7 +790,9 @@ El algoritmo Greedy Randomizado sigue la siguiente secuencia:
 Este procedimiento semi-aleatorio garantiza que cada ejecución del GRASP explore una variedad más amplia de soluciones iniciales, equilibrando exploración y explotación: se preserva la diversidad sin sacrificar la calidad de las soluciones generadas. La influencia del parámetro $\alpha$ en la eficacia de esta fase se analizará más adelante en la Figura~\ref{fig:alpha}.
 
 \subsection{Fase de Búsqueda Local}
-Una vez construida la solución inicial, se procede a su mejora mediante un proceso de búsqueda local basado en intercambios. El procedimiento consiste en seleccionar un elemento de la solución e intercambiarlo por uno de los que no pertenecen a ella. Para cada intercambio se evalúan las tres funciones objetivo; si la nueva solución domina a la anterior, se adopta el cambio. No se busca el intercambio globalmente óptimo, sino el primero que cumpla el criterio de dominancia. El proceso se repite hasta recorrer los $k$ elementos de la solución sin obtener obtener una mejora.
+Una vez construida la solución inicial, se procede a su mejora mediante un proceso de búsqueda local basado en intercambios. El procedimiento consiste en ir seleccionando, por orden de aparición en la solución, cada elemento e ir intercambiandolo por cada uno de los que no aparecen en ella (igualmente, por orden de aparición en los datos). Para cada intercambio se evalúan las tres funciones objetivo; si la nueva solución domina a la solución actual, se adopta el cambio y la nueva solución pasa a ser la actual. No se busca el intercambio globalmente óptimo, sino el primero que cumpla el criterio de dominancia, es decir, el primer elemento que, al meterlo en la solución, la mejore, entra de reemplazo. 
+
+El proceso se repite hasta recorrer en un ciclo completo los $k$ elementos de la solución sin obtener obtener una mejora.
 
 Tras cada búsqueda local, la solución resultante se compara con el frente de Pareto actual. Si la solución está dominada, se descarta. En caso contrario, se eliminan las soluciones del frente que resulten dominadas por la nueva, y finalmente esta se incorpora al conjunto de soluciones. De este modo, únicamente se conservan las soluciones pertenecientes al frente de Pareto vigente.
 
@@ -818,7 +852,7 @@ El MAB utilizado está compuesto por los siguientes elementos:
 
 \newpage
 
-\section{GRASP-MAB}
+\section{Implementación}
 
 \begin{algorithm}[H]
 \caption{Algoritmo GRASP-MAB}
@@ -827,8 +861,8 @@ El MAB utilizado está compuesto por los siguientes elementos:
     \Statex \hspace{1em} \texttt{MAX\_ITS}: número máximo de iteraciones
     \Statex \hspace{1em} \texttt{W}: pesos del MAB
     \Statex \hspace{1em} \texttt{F}: frente de soluciones
-    \Statex \hspace{1em} \texttt{X}: solución actual
-    \Statex \hspace{1em} \texttt{X'}: nueva solución candidata
+    \Statex \hspace{1em} $X^{(0)}$: solución inicial
+    \Statex \hspace{1em} $X^{(i)}$: solución modificada en la fase $i$
     \Statex \hspace{1em} \texttt{C}: contexto extraído de la solución y el frente
     \Statex \hspace{1em} \texttt{R}: recompensa asociada a la mejora de la solución
 
@@ -837,23 +871,23 @@ El MAB utilizado está compuesto por los siguientes elementos:
     \State Inicializar \texttt{W}, \texttt{F} $\gets \emptyset$
     \For{$\texttt{its} = 1$ \textbf{hasta} \texttt{MAX\_ITS}}
         \Statex \textbf{// Construcción y búsqueda local inicial}
-        \State \texttt{X} $\gets$ \texttt{ConstruccionGreedyRandomizada}($\alpha$)
-        \State \texttt{X'} $\gets$ \texttt{BusquedaLocal}(X)
-        \State \texttt{ActualizarFrente}(X', F)
-        \State \texttt{mejora} $\gets$ \texttt{true}
+        \State $X^{(0)}\gets$ \texttt{ConstruccionGreedyRandomizada}($\alpha$) // Se construye la solución inicial
+        \State $X^{(1)}\gets$ \texttt{BusquedaLocal}($X^{(0)}$)
+        \State \texttt{ActualizarFrente}($X^{(1)}$, F)
+        \State \texttt{mejora} $\gets$ \texttt{true} // Se inicializa la variable mejora como true para que siempre haga una búsqueda local direccional.
         
         \While{\texttt{mejora}}
             \Statex \textbf{// Extracción de contexto y selección de brazo}
-            \State \texttt{C} $\gets$ \texttt{ExtraerContexto}(X, F)
+            \State \texttt{C} $\gets$ \texttt{ExtraerContexto}($X^{(1)}$, F)
             \State \texttt{brazo} $\gets$ \texttt{SeleccionarBrazoMAB}(W, C)
             
             \Statex \textbf{// Búsqueda local dirigida}
-            \State \texttt{X''} $\gets$ \texttt{BusquedaLocalDireccional}(X', brazo)
-            \State \texttt{X'''} $\gets$ \texttt{BusquedaLocal}(X'')
+            \State $X^{(2)}\gets$ \texttt{BusquedaLocalDireccional}($X^{(1)}$, brazo)
+            \State $X^{(3)}\gets$ \texttt{BusquedaLocal}($X^{(2)}$)
             
-            \If{\texttt{X'''} mejora el frente}
-                \State \texttt{X} $\gets$ \texttt{X'''}
-                \State \texttt{ActualizarFrente}(X''', F)
+            \If{$X^{(3)}$ mejora el frente}
+                \State \texttt{$X^{(1)}$} $\gets$ $X^{(3)}$
+                \State \texttt{ActualizarFrente}($X^{(3)}$, F)
                 \State \texttt{mejora} $\gets$ \texttt{true}
                 \State \texttt{R} $\gets 5$
             \Else
@@ -868,11 +902,12 @@ El MAB utilizado está compuesto por los siguientes elementos:
 \end{algorithmic}
 \end{algorithm}
 
-\newpage
+En el pseudocódigo, se inicializan las variables en la línea 1, en las líneas 2 y 3 se encuentra la fase de construcción, la línea 4
+es la búsqueda local y el bucle que inicia en la línea 7 y termina en la 20 el \textit{multi-armed bandit} itera seleccionando una búsqueda local direccional
+y mejorando la solución $X^{(2)}$ con otra búsqueda local. Esta última parte se repite mientras se sigan encontrando soluciones no dominadas para el frente de Pareto.
 
-\section{Implementación}
 
-El algoritmo se ha implementado en el lenguaje de programación Python. Está todo guardado en el repositorio de GitHub en \color{red}Cuando haga público el repo lo pongo aquí \color{black}
+Con esta representación se puede ver de una manera más sencilla el funcionamiento del algoritmo, el cual ha sido implementado en Python. Tanto los datos como el código se encuentran en el repositorio de GitHub: \color{red}Cuando haga público el repo lo pongo aquí \color{black}
 
 Para agilizar el algoritmo, aparte de reducir los tiempos de ejecución todo lo posible simplificando código, se ha optado por utilizar la librería ``multiprocessing'' para paralelizarlo.
 El aumento de rendimiento dependerá del procesador utilizado para ejecutar el código. A más núcleos mayor mejora.
@@ -896,11 +931,11 @@ Primero, voy a evaluar las 3 variables que quiero ajustar:
 Si $\alpha = 1$, siempre se elige el mejor candidato; si $\alpha = 0$, la elección es completamente aleatoria. En términos generales, el procedimiento consiste en escoger aleatoriamente un $x_i$ dentro del conjunto de los $(1-\alpha)$ mejores candidatos.
     \item \textbf{Beta ($\beta$)}: El rendimiento del MAB depende en gran medida del equilibrio entre exploración y explotación. El parámetro $\beta$ regula, durante la selección de la búsqueda local en el GRASP, qué proporción de elecciones se realiza de manera aleatoria y cuál de forma probabilística ponderada según los pesos del MAB.  
 Si $\beta = 0$, la selección es siempre probabilística y ponderada; si $\beta = 1$, la elección es completamente aleatoria.
-    \item \textbf{Learning Rate (lr)}: Tasa de aprendizaje del MAB. Define cuánto influye la recompensa y el contexto en la actualización de los pesos. 
-Un valor pequeño de \textit{lr} produce actualizaciones más suaves y estables, mientras que un valor grande genera cambios más rápidos y pronunciados.
+    \item \textbf{Learning Rate ("$lr$")}: Tasa de aprendizaje del MAB. Define cuánto influye la recompensa y el contexto en la actualización de los pesos. 
+Un valor pequeño de $lr$ produce actualizaciones más suaves y estables, mientras que un valor grande genera cambios más rápidos y pronunciados.
 \end{itemize}
 
-Primero se ajusta el parámetro lr del MAB, ya que es necesario para que el aprendizaje reforzado sea efectivo. Un lr muy bajo hace que los pesos no se modifiquen, y todas las acciones tengan probabilidades parecidas, y un lr alto hace que las acciones estén muy descompensadas con saltos muy grandes, que no tienen por qué reflejar la realidad del valor esperado de la acción.
+Primero se ajusta el parámetro $lr$ del MAB, ya que es necesario para que el aprendizaje reforzado sea efectivo. Un $lr$ muy bajo hace que los pesos no se modifiquen, y todas las acciones tengan probabilidades parecidas, y un $lr$ alto hace que las acciones estén muy descompensadas con saltos muy grandes, que no tienen por qué reflejar la realidad del valor esperado de la acción.
 
 El valor final escogido ha sido $lr=0.1$, utilizando como posibles candidatos valores entre $1$ y $0.00001$.
 
@@ -957,7 +992,9 @@ Aquí meter la comparativa con el MOABKBLC, con el que sí que se pueden compara
 
 Después como el SO-PR no tiene los resultados para instancias separadas, hacer una estimación del comportamiento y compparar
 
-\chapter{Conclusiones}
+\chapter{Conclusión}
+
+Próximos pasos también aquí
 
 
 % \chapter{Agradecimientos}
@@ -982,13 +1019,13 @@ Dada una función $f: X \to Y$, su \textbf{dominio} es el conjunto de todos los 
 
 \begin{defi}[Imagen de una función]
 Dada una función $f: X \to Y$, su \textbf{imagen} es el subconjunto formado por todos los valores que la función toma realmente. Se denota como $\text{Im}(f)$ o $f(X)$, y se define como:
-$$ f(X) = \{y \in Y \mid \exists x \in X, f(x) = y \} $$
+$$ f(X) = \{y \in Y \mid \exists x \in X, f(x) = y \} .$$
 \end{defi}
 
 \begin{defi}[Conjunto convexo]
 \label{def:convexo}
 Un conjunto $C \subseteq \mathbb{R}^n$ es \textbf{convexo} si para cualquier par de puntos $x, y \in C$, el segmento de recta que los une está completamente contenido en $C$. Formalmente, para todo $x, y \in C$ y para todo $\lambda \in [0, 1]$:
-$$ \lambda x + (1-\lambda)y \in C $$
+$$ \lambda x + (1-\lambda)y \in C .$$
 \end{defi}
 
 \begin{defi}[Función lineal]
@@ -1017,14 +1054,14 @@ No hay ninguna otra solución en todo el conjunto que ofrezca un resultado mejor
 \begin{defi}[Función continua]
 \label{def:fun_continua}
 Intuitivamente, una función $f$ es continua si cambios pequeños en la entrada provocan cambios pequeños en la salida (no hay saltos abruptos). Formalmente, una función $f: X \to Y$ es continua en un punto $c \in X$ si para todo $\epsilon > 0$, existe un $\delta > 0$ tal que si la distancia de $x$ a $c$ es menor que $\delta$, entonces la distancia de $f(x)$ a $f(c)$ es menor que $\epsilon$.
-$$ \forall \epsilon > 0, \exists \delta > 0 : |x-c| < \delta \implies |f(x)-f(c)| < \epsilon $$
+$$ \forall \epsilon > 0, \exists \delta > 0 : |x-c| < \delta \implies |f(x)-f(c)| < \epsilon .$$
 La función es continua en su dominio si es continua en todos sus puntos.
 \end{defi}
 
 \begin{defi}[Función diferenciable]
     \label{def:fun_diferenciable}
 Una función real de una variable real $f: \mathbb{R} \to \mathbb{R}$ es \textbf{diferenciable} en un punto $x_0$ de su dominio si su derivada existe en ese punto. Esto significa que la función puede ser aproximada localmente por una función lineal (su recta tangente) en el entorno de $x_0$. Formalmente, si el siguiente límite existe:
-$$ f'(x_0) = \lim_{h \to 0} \frac{f(x_0+h) - f(x_0)}{h} $$
+$$ f'(x_0) = \lim_{h \to 0} \frac{f(x_0+h) - f(x_0)}{h} .$$
 Para funciones de varias variables, $f: \mathbb{R}^n \to \mathbb{R}^m$, la diferenciabilidad implica la existencia de una transformación lineal  que aproxima el comportamiento de la función en un punto.
 \end{defi}
 
@@ -1040,7 +1077,7 @@ Un conjunto es \textbf{numerable} (o contable) si existe una correspondencia uno
 El \textbf{número combinatorio}, denotado como $\binom{m}{k}$, representa el número de maneras en que se puede escoger un subconjunto de $k$ elementos a partir de un conjunto con $m$ elementos distintos, sin tener en cuenta el orden de selección.
 
 La fórmula para calcularlo es:
-$$ \binom{m}{k} = \frac{m!}{k!(m-k)!} $$
+$$ \binom{m}{k} = \frac{m!}{k!(m-k)!},$$
 donde $m$ y $k$ son números enteros no negativos con $m \ge k$.
 \end{defi}
 
@@ -1057,34 +1094,8 @@ donde $m$ y $k$ son números enteros no negativos con $m \ge k$.
 % \end{defi}
 
 \nocite{*}
-\bibliographystyle{plainnat}
-\bibliography{bibliografia/k-balanced_1,
-              bibliografia/k-Balanced_2,
-              bibliografia/GRASP,
-              bibliografia/oscillation,
-              bibliografia/path_relinking,
-              bibliografia/Leibniz,
-              bibliografia/Dantzig,
-              bibliografia/metaheuristicos,
-              bibliografia/Dantzig1951,
-              bibliografia/Numerical_optimization_nocedal_wright,
-              bibliografia/np_hard,
-              bibliografia/Bre2017,
-              bibliografia/intro_reforzado,
-              bibliografia/MAB,
-              bibliografia/AlphaGo, 
-              bibliografia/NSGA-II,
-              bibliografia/calculo_diferencial,
-              bibliografia/k-means,
-              bibliografia/hyperparameters,
-              bibliografia/int_programing,
-              bibliografia/bnb,
-              bibliografia/bnc,
-              bibliografia/grasp_1,
-              bibliografia/grasp_2,
-              bibliografia/grasp_3,
-              bibliografia/delaunay
-              }
+\bibliographystyle{apacite}
+\bibliography{bibliografia}
 
 \end{document}
 
