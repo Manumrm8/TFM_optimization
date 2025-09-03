@@ -107,7 +107,7 @@
 
 \begin{document}
 
-\nuevaportada{Ciencia de Datos}{Resolución mediante GRASP y Aprendizaje Reforzado del Problema Multiobjetivo de Localización de k-Centros Balanceado }{Manuel Rubio Martínez}{Anna Martínez Gavara}{Septiembre, 2025}
+\nuevaportada{Ciencia de Datos}{Resolución mediante \textit{GRASP} y Aprendizaje Reforzado del Problema Multiobjetivo de Localización de k-Centros Balanceado }{Manuel Rubio Martínez}{Anna Martínez Gavara}{Septiembre, 2025}
 
 \clearpage
 
@@ -119,9 +119,9 @@
 \section*{Resumen}
 En este Trabajo de Fin de Máster se aborda el problema de localización multiobjetivo de $k$-centros balanceados. Dicho problema surge como una extensión del clásico problema de localización de $k$-centros, en el que, además de minimizar las distancias entre usuarios e instalaciones, se introduce la necesidad de balancear la carga asignada a cada centro. Este equilibrio resulta de gran interés en aplicaciones reales, como la ubicación de hospitales, almacenes o centros de distribución, donde no solo importa la accesibilidad sino también una adecuada distribución de la demanda.
 
-El problema ha sido objeto de estudio reciente en la literatura. En \cite{k-balanced_1}, los autores formulan por primera vez el problema de $k$-centros balanceado y proponen un algoritmo evolutivo denominado MOAkBCL, inspirado en el conocido NSGA-II \citep{NSGA-II}. Posteriormente, en \cite{k-Balanced_2}, se desarrolla un nuevo enfoque basado en metaheurísticas de tipo GRASP \citep{GRASP}, enriquecido con técnicas de Oscilación Estratégica \citep{oscillation} y Path Relinking \citep{path_relinking}, con el fin de explorar de forma más eficiente el espacio de búsqueda y mejorar la calidad de las soluciones.
+El problema ha sido objeto de estudio reciente en la literatura. En \cite{k-balanced_1}, los autores formulan por primera vez el problema de $k$-centros balanceado y proponen un algoritmo evolutivo denominado \textit{MOAkBCL}, inspirado en el conocido NSGA-II \citep{NSGA-II}. Posteriormente, en \cite{k-Balanced_2}, se desarrolla un nuevo enfoque basado en metaheurísticas de tipo \textit{GRASP} \citep{GRASP}, enriquecido con técnicas de Oscilación Estratégica \citep{oscillation} y Path Relinking \citep{path_relinking}, con el fin de explorar de forma más eficiente el espacio de búsqueda y mejorar la calidad de las soluciones.
 
-En este trabajo se propone una nueva aproximación al problema, combinando la metaheurística GRASP con técnicas de Aprendizaje Reforzado. El objetivo es aprovechar la capacidad adaptativa del aprendizaje automático para guiar el proceso de búsqueda y generar soluciones de mayor calidad, extendiendo así los trabajos previos con un enfoque distinto. 
+En este trabajo se propone una nueva aproximación al problema, combinando la metaheurística \textit{GRASP} con técnicas de Aprendizaje Reforzado. El objetivo es aprovechar la capacidad adaptativa del aprendizaje automático para guiar el proceso de búsqueda y generar soluciones de mayor calidad, extendiendo así los trabajos previos con un enfoque distinto. 
 
 Para validar los resultados del algoritmo, se realizarán experimentos en un número similar de iteraciones y tiempos parecidos a los realizados en ambos artículos. El lenguaje de programación en el que se ha desarrollado el trabajo es Python, considerablemente más lento que el lenguaje del primer artículo, C\#, o el del segundo, Java. Además, se han corrido en un ordenador con especificaciones mejores a los 2 artículos previos. Por tanto, las iteraciones del algoritmo propuesto podrían ser bastante
 más rápidas, pero no se ha podido cuantificar.
@@ -130,9 +130,9 @@ más rápidas, pero no se ha podido cuantificar.
 \section*{Abstract}
 In this Master's Thesis, we address the multi-objective balanced $k$-center location problem. This problem arises as an extension of the classical $k$-center location problem, where, in addition to minimizing the distances between users and facilities, it is also necessary to balance the load assigned to each center. Such balance is of great interest in real-world applications, such as the location of hospitals, warehouses, or distribution centers, where accessibility matters but an adequate distribution of demand is also crucial.
 
-The problem has been the subject of recent studies in the literature. In \cite{k-balanced_1}, the authors first formulate the balanced $k$-center problem and propose an evolutionary algorithm called MOAkBCL, inspired by the well-known NSGA-II \citep{NSGA-II}. Later, in \cite{k-Balanced_2}, a new approach is developed based on GRASP-type metaheuristics \citep{GRASP}, enriched with Strategic Oscillation \citep{oscillation} and Path Relinking \citep{path_relinking} techniques, in order to explore the search space more efficiently and improve solution quality.
+The problem has been the subject of recent studies in the literature. In \cite{k-balanced_1}, the authors first formulate the balanced $k$-center problem and propose an evolutionary algorithm called \textit{MOAkBCL}, inspired by the well-known NSGA-II \citep{NSGA-II}. Later, in \cite{k-Balanced_2}, a new approach is developed based on \textit{GRASP}-type metaheuristics \citep{GRASP}, enriched with Strategic Oscillation \citep{oscillation} and Path Relinking \citep{path_relinking} techniques, in order to explore the search space more efficiently and improve solution quality.
 
-In this work, we propose a new approach to the problem by combining the GRASP metaheuristic with Reinforcement Learning techniques. The objective is to exploit the adaptive capacity of machine learning to guide the search process and generate higher-quality solutions, thus extending previous works with a different perspective.
+In this work, we propose a new approach to the problem by combining the \textit{GRASP} metaheuristic with Reinforcement Learning techniques. The objective is to exploit the adaptive capacity of machine learning to guide the search process and generate higher-quality solutions, thus extending previous works with a different perspective.
 
 To validate the results of the algorithm, experiments will be carried out with a similar number of iterations and comparable running times to those in both articles. The programming language used for the development is Python, considerably slower than the one used in the first article, C\#, or the second, Java. Furthermore, the experiments have been run on a computer with better specifications than those used in the two previous works. Therefore, the iterations of the proposed algorithm could be considerably faster, but this could not be quantified.
 
@@ -141,16 +141,15 @@ To validate the results of the algorithm, experiments will be carried out with a
 \section*{Resum}
 En aquest Treball de Fi de Màster s'aborda el problema de localització multiobjectiu de $k$-centres balancejats. Aquest problema sorgeix com una extensió del clàssic problema de localització de $k$-centres, en el qual, a més de minimitzar les distàncies entre usuaris i instal·lacions, s'introdueix la necessitat de balancejar la càrrega assignada a cada centre. Aquest equilibri resulta de gran interés en aplicacions reals, com la ubicació d'hospitals, magatzems o centres de distribució, on no sols importa l'accessibilitat sinó també una adequada distribució de la demanda.
 
-El problema ha sigut objecte d'estudi recent en la literatura. En \cite{k-balanced_1}, els autors formulen per primera vegada el problema de $k$-centres balancejat i proposen un algorisme evolutiu denominat MOAkBCL, inspirat en el conegut NSGA-II \citep{NSGA-II}. Posteriorment, en \cite{k-Balanced_2}, es desenvolupa un nou enfocament basat en metaheurístiques de tipus GRASP \citep{GRASP}, enriquit amb tècniques d'Oscil·lació Estratègica \citep{oscillation} i Path Relinking \citep{path_relinking}, amb la finalitat d'explorar de forma més eficient l'espai de cerca i millorar la qualitat de les solucions.
+El problema ha sigut objecte d'estudi recent en la literatura. En \cite{k-balanced_1}, els autors formulen per primera vegada el problema de $k$-centres balancejat i proposen un algorisme evolutiu denominat \textit{MOAkBCL}, inspirat en el conegut NSGA-II \citep{NSGA-II}. Posteriorment, en \cite{k-Balanced_2}, es desenvolupa un nou enfocament basat en metaheurístiques de tipus \textit{GRASP} \citep{GRASP}, enriquit amb tècniques d'Oscil·lació Estratègica \citep{oscillation} i Path Relinking \citep{path_relinking}, amb la finalitat d'explorar de forma més eficient l'espai de cerca i millorar la qualitat de les solucions.
 
-En aquest treball es proposa una nova aproximació al problema, combinant la metaheurística GRASP amb tècniques d'Aprenentatge Reforçat. L'objectiu és aprofitar la capacitat adaptativa de l'aprenentatge automàtic per a guiar el procés de cerca i generar solucions de major qualitat, estenent així els treballs previs amb un enfocament distint.
+En aquest treball es proposa una nova aproximació al problema, combinant la metaheurística \textit{GRASP} amb tècniques d'Aprenentatge Reforçat. L'objectiu és aprofitar la capacitat adaptativa de l'aprenentatge automàtic per a guiar el procés de cerca i generar solucions de major qualitat, estenent així els treballs previs amb un enfocament distint.
 
 Per a validar els resultats de l'algorisme, es realitzaran experiments en un nombre similar d'iteracions i temps semblants als realitzats en tots dos articles. El llenguatge de programació en el qual s'ha desenvolupat el treball és Python, considerablement més lent que el llenguatge del primer article, C\#, o el del segon, Java. A més, s'han corregut en un ordinador amb especificacions millors als 2 articles previs. Per tant, les iteracions de l'algorisme proposat podrien ser bastant més ràpides, però no s'ha pogut quantificar.
 \newpage
  
 \chapter{Introducción}
 
-\section{Historia de la optimización}
 El origen de la optimización se remonta a la antigua Grecia, donde matemáticos como Euclides o Arquímedes la utilizaban en busca de soluciones a problemas del área de la geometría.
 
 La versión que conocemos hoy en día no empezó a desarrollarse hasta el siglo XVII, con la aparición del cálculo diferencial \citep{calculo_diferencial}, impulsado por los trabajos de Isaac Newton y Gottfried Wilhelm Leibniz \citep{Leibniz}. Con él se pudieron estudiar las funciones y sus puntos extremos,
@@ -476,13 +475,13 @@ El agente juega millones de partidas contra sí mismo, explorando el espacio de 
 
 
 \section{Resumen de los capítulos}
-El presente Trabajo de Fin de Máster se estructura en cuatro capítulos, además de un apartado de agradecimientos y un anexo con definiciones necesarias para entender el trabajo.
+El presente Trabajo de Fin de Máster se estructura en cinco capítulos, además de un anexo con definiciones necesarias para entender el trabajo y las referencias tomadas.
 
 En el capítulo 2 se presenta el Problema de Localización de k-Centros Balanceado, introduciendo el marco general de los problemas de localización, la motivación de este estudio y el modelo matemático para resolverlo.
 
-El capítulo 3 expone la justificación de la elección de la metaheurística GRASP para abordar el problema, describe su implementación y detalla la incorporación del Aprendizaje Reforzado, mediante Multi-Armed Bandits (MAB).
+El capítulo 3 expone la justificación de la elección de la metaheurística \textit{GRASP} para abordar el problema, describe su implementación y detalla la incorporación del Aprendizaje Reforzado, mediante Multi-Armed Bandits (MAB).
 
-El capítulo 4 recoge el diseño experimental y el análisis de los resultados obtenidos, comparando el rendimiento del algoritmo GRASP con y sin refuerzo frente a soluciones reportadas en estudios previos.
+El capítulo 4 recoge el diseño experimental y el análisis de los resultados obtenidos, comparando el rendimiento del algoritmo \textit{GRASP} con y sin refuerzo frente a soluciones reportadas en estudios previos.
 
 Finalmente, el capítulo 5 presenta las conclusiones derivadas del trabajo, así como posibles líneas de investigación futura.
 
@@ -672,7 +671,7 @@ Tomando en cuenta esto, se va a proponer el algoritmo metaheurístico para resol
 
 
 \chapter{Resolución del problema}
-Para resolver el \textbf{Problema Multiobjetivo de Localización de k-Centros Balanceado}, se va a utilizar un algoritmo GRASP (Greedy Randomized Adaptive Search Procedure).
+Para resolver el \textbf{Problema Multiobjetivo de Localización de k-Centros Balanceado}, se va a utilizar un algoritmo \textit{GRASP} (Greedy Randomized Adaptive Search Procedure).
 El algoritmo constará de dos partes principales, una primera de generación de solución inicial y una segunda en la que se mejorará mediante búsqueda local aplicada a esta solución.
 
 El funcionamiento de la búsqueda local problemas monoobjetivo es mucho más sencillo de definir, principalmente se mejora en base a una única función objetivo, y nunca al realizar una búsqueda local se puede dar el caso de que la solución empeore. En Multiobjetivo es más delicado,
@@ -682,21 +681,21 @@ a ser la parte crucial del algoritmo.
 Para ello, el tipo de búsqueda local a ejecutar va a ser seleccionado dinámicamente por un Multi-Armed Bandit (MAB), el cual, en función de la solución actual y del desempeño obtenido en iteraciones previas, determinará la estrategia de mejora más prometedora.
 
 \section{¿Por qué el GRASP?}
-Se ha elegido GRASP como base metodológica por varias razones que lo hacen especialmente adecuado para el Problema Multiobjetivo de Localización de k-Centros Balanceado:
+Se ha elegido \textit{GRASP} como base metodológica por varias razones que lo hacen especialmente adecuado para el Problema Multiobjetivo de Localización de k-Centros Balanceado:
 \begin{itemize}
-    \item \textbf{Flexibilidad de adaptación}: El GRASP es un método relativamente sencillo de codificar, pero con una ampla variedad de posibilidades
+    \item \textbf{Flexibilidad de adaptación}: El \textit{GRASP} es un método relativamente sencillo de codificar, pero con una ampla variedad de posibilidades
     a la hora de ajustar tanto la fase de contstrucción como de mejora, para adaptarse a casi cualquier escenario posible. 
     \item \textbf{Buen desempeño}: A diferencia de otros algoritmos como la Búsqueda Tabú o los Genéticos, que requieren de tiempos más prolongados de ejecución para encontrar buenas soluciones,
-    GRASP obtiene buenos resultados sin requerir de muchas iteraciones para llegar a ellos.
+    \textit{GRASP} obtiene buenos resultados sin requerir de muchas iteraciones para llegar a ellos.
     \item \textbf{Adecuación a problemas combinatorios}: El método resulta especialmente apropiado para resolver problemas combinatorios, ya que la definición de movimientos de mejora en la búsqueda local es intuitiva y directa.
     Esto permite explorar el espacio de soluciones de manera eficaz y con un coste computacional relativamente bajo.
-    \item \textbf{Madurez y respaldo en la literatura}: GRASP ha sido desarrollado y probado en una amplia gama de problemas, incluyendo problemas de optimización multiobjetivo. Algunos ejemplos son \cite{grasp_1}, \cite{grasp_3} y \cite{grasp_2}. 
+    \item \textbf{Madurez y respaldo en la literatura}: \textit{GRASP} ha sido desarrollado y probado en una amplia gama de problemas, incluyendo problemas de optimización multiobjetivo. Algunos ejemplos son \cite{grasp_1}, \cite{grasp_3} y \cite{grasp_2}. 
 \end{itemize}
 
 \section{Estado del arte}
 
 \subsection{Artículo 1}
-El primer trabajo relevante en la literatura es el de \cite{k-balanced_1}, en el cual se propone formalmente el problema de localización multiobjetivo de $k$-centros balanceado y se presenta una primera estrategia de resolución mediante el algoritmo MOAkBCL.
+El primer trabajo relevante en la literatura es el de \cite{k-balanced_1}, en el cual se propone formalmente el problema de localización multiobjetivo de $k$-centros balanceado y se presenta una primera estrategia de resolución mediante el algoritmo \textit{MOAkBCL}.
 Este enfoque parte de la triangulación de Delaunay \citep{delaunay} y construye soluciones mediante intercambios locales, siguiendo una lógica muy cercana al algoritmo evolutivo NSGA-II.
 
 El primer paso del algoritmo consiste en emplear esta triangulación para definir la ``vecindad'' entre instalaciones. Dos instalaciones se consideran vecinas de una tercera si, 
@@ -719,9 +718,9 @@ Aparte del nuevo método para resolver el problema, se demuestra que efectivamen
 solución del frente de Pareto es NP-Completo.
 
 \subsection{Artículo 2}
-El segundo trabajo fundamental es el de \cite{k-Balanced_2}, en el que se plantea una alternativa al enfoque evolutivo anterior. En este caso, se propone un método híbrido basado en la metaheurística GRASP, complementado con Oscilación Estratégica y Path Relinking. El objetivo principal es mejorar la capacidad exploratoria del algoritmo, permitiendo visitar tanto soluciones factibles como no factibles para, posteriormente, transformarlas en configuraciones válidas de alta calidad.
+El segundo trabajo fundamental es el de \cite{k-Balanced_2}, en el que se plantea una alternativa al enfoque evolutivo anterior. En este caso, se propone un método híbrido basado en la metaheurística \textit{GRASP}, complementado con Oscilación Estratégica y Path Relinking. El objetivo principal es mejorar la capacidad exploratoria del algoritmo, permitiendo visitar tanto soluciones factibles como no factibles para, posteriormente, transformarlas en configuraciones válidas de alta calidad.
 
-El procedimiento comienza con la generación de una población inicial de soluciones mediante un esquema greedy randomizado. Este mecanismo permite construir soluciones iniciales de buena calidad, cada una definida por la selección de $k$ centros. Posteriormente, se aplica una fase de búsqueda local propia del GRASP, basada en intercambiar elementos de la solución por otros que no forman parte de ella, siempre que el nuevo candidato no resulte dominado por el conjunto de soluciones actuales.
+El procedimiento comienza con la generación de una población inicial de soluciones mediante un esquema greedy randomizado. Este mecanismo permite construir soluciones iniciales de buena calidad, cada una definida por la selección de $k$ centros. Posteriormente, se aplica una fase de búsqueda local propia del \textit{GRASP}, basada en intercambiar elementos de la solución por otros que no forman parte de ella, siempre que el nuevo candidato no resulte dominado por el conjunto de soluciones actuales.
 
 A partir de esta población inicial, se incorpora la estrategia de Oscilación Estratégica, cuyo propósito es diversificar la búsqueda explorando regiones más amplias del espacio de soluciones. Para ello, el algoritmo altera temporalmente la factibilidad de las soluciones: primero añadiendo elementos hasta generar configuraciones sobredimensionadas, que posteriormente son ajustadas mediante eliminaciones sucesivas; luego, en una segunda fase, reduciendo el número de elementos por debajo del umbral permitido y restaurando después la factibilidad.
 Este proceso iterativo favorece la identificación de regiones prometedoras que, de otro modo, permanecerían inexploradas.
@@ -731,7 +730,7 @@ Finalmente, el enfoque introduce el uso innovador de \emph{Path Relinking} como 
 Cabe resaltar que este es el primer algoritmo en utilizar \emph{Path Relinking} para la reparación de soluciones generadas por Oscilación Estratégica, lo cual constituye una aportación metodológica relevante. Los resultados experimentales demuestran que el enfoque propuesto supera a algoritmos de referencia ampliamente utilizados, como NSGA-II, MOEA/D y SPEA2, tanto en eficiencia como en calidad de las soluciones obtenidas.
 
 \section{Algoritmo Propuesto}
-El funcionamiento general de implementación de un algoritmo GRASP es el siguiente:
+El funcionamiento general de implementación de un algoritmo \textit{GRASP} es el siguiente:
 
 \begin{algorithm}[H]
 \caption{Algoritmo GRASP}
@@ -762,7 +761,7 @@ El funcionamiento general de implementación de un algoritmo GRASP es el siguien
 \end{algorithmic}
 \end{algorithm}
 
-Este esquema hará más sencillo entender las partes en las que se ha dividido el algoritmo GRASP con \textit{multi-armed bandits} propuesto para este trabajo.
+Este esquema hará más sencillo entender las partes en las que se ha dividido el algoritmo \textit{GRASP} con \textit{multi-armed bandits} propuesto para este trabajo.
 
 Antes de empezar a definirlo, en el desarrollo de las funciones de evaluación tanto de $f_2$ como de $f_3$ hay que tener en cuenta la posibilidad de empates. Esto podría influir en la obtención de unas u otras soluciones para el frente de Pareto. 
 En tales casos, podría ser factible redistribuir los empates hacia emplazamientos seleccionados con menor carga de demanda, con el fin de obtener mejoras adicionales en dichas funciones objetivo.  
@@ -788,7 +787,7 @@ El algoritmo Greedy Randomizado sigue la siguiente secuencia:
     \end{itemize}
 \end{itemize}
 
-Este procedimiento semi-aleatorio garantiza que cada ejecución del GRASP explore una variedad más amplia de soluciones iniciales, equilibrando exploración y explotación: se preserva la diversidad sin sacrificar la calidad de las soluciones generadas. La influencia del parámetro $\alpha$ en la eficacia de esta fase se analizará más adelante en la Figura~\ref{fig:alpha}.
+Este procedimiento semi-aleatorio garantiza que cada ejecución del \textit{GRASP} explore una variedad más amplia de soluciones iniciales, equilibrando exploración y explotación: se preserva la diversidad sin sacrificar la calidad de las soluciones generadas. La influencia del parámetro $\alpha$ en la eficacia de esta fase se analizará más adelante en la Figura~\ref{fig:alpha}.
 
 \subsection{Fase de Búsqueda Local}
 Una vez construida la solución inicial, se procede a su mejora mediante un proceso de búsqueda local basado en intercambios. El procedimiento consiste en ir seleccionando, por orden de aparición en la solución, cada elemento e ir intercambiandolo por cada uno de los que no aparecen en ella (igualmente, por orden de aparición en los datos). Para cada intercambio se evalúan las tres funciones objetivo; si la nueva solución domina a la solución actual, se adopta el cambio y la nueva solución pasa a ser la actual. No se busca el intercambio globalmente óptimo, sino el primero que cumpla el criterio de dominancia, es decir, el primer elemento que, al meterlo en la solución, la mejore, entra de reemplazo. 
@@ -922,25 +921,31 @@ el algoritmo. \color{red} Aquí podría meter un gráfico de comparación cuando
 
 \chapter{Experimentación y Resultados}
 
-facilitar instancias de ejemplo (la pequeña que he utilizado para diseñarlo, y luego probarlo en una más grande.)
+Para evaluar el rendimiento del algoritmo, se han utilizado dos instancias ya trabajadas tanto en el artículo \cite{k-balanced_1} como en el \cite{k-Balanced_2}. 
+
+Ambas constan de 1000 puntos de demanda y 50 potenciales instalaciones, distribuidas en una cuadrícula de 1500 unidades de largo por 1000 de ancho.
+En la primera, \textit{WorkSpace 1000\_50\_5}, $k=5$, por lo que será más asequible encontrar soluciones al rondar las combinaciones los 2 millones, mientras que en la segunda, \textit{WorkSpace 1000\_50\_10}, el problema pasa a ser mucho más complejo, rondando las diez mil millones de combinaciones.
+
+La primera se ha utilizado tanto en los ejemplos mostrados en \ref{fig:centros_medicos} como para ajustar los parámetros del algoritmo. Finalmente, en el apartado de comparativa
+se expondrá el rendimiento del algoritmo en ambas instancias.
 
 \section{Fine tuning}
 
-Primero, voy a evaluar las 3 variables que quiero ajustar:
+Primero, se van a evaluar las tres variables a ajustar:
 \begin{itemize}
     \item \textbf{Alpha ($\alpha$)}: Durante la inicialización de las soluciones greedy, en cada paso se incorpora un elemento $x_i$ a la solución. El parámetro $1-\alpha$ determina el porcentaje de los mejores candidatos $x_i \in X, \; x_i \neq 1$ entre los cuales se selecciona.  
 Si $\alpha = 1$, siempre se elige el mejor candidato; si $\alpha = 0$, la elección es completamente aleatoria. En términos generales, el procedimiento consiste en escoger aleatoriamente un $x_i$ dentro del conjunto de los $(1-\alpha)$ mejores candidatos.
-    \item \textbf{Beta ($\beta$)}: El rendimiento del MAB depende en gran medida del equilibrio entre exploración y explotación. El parámetro $\beta$ regula, durante la selección de la búsqueda local en el GRASP, qué proporción de elecciones se realiza de manera aleatoria y cuál de forma probabilística ponderada según los pesos del MAB.  
+    \item \textbf{Beta ($\beta$)}: El rendimiento del MAB depende en gran medida del equilibrio entre exploración y explotación. El parámetro $\beta$ regula, durante la selección de la búsqueda local en el \textit{GRASP}, qué proporción de elecciones se realiza de manera aleatoria y cuál de forma probabilística ponderada según los pesos del MAB.  
 Si $\beta = 0$, la selección es siempre probabilística y ponderada; si $\beta = 1$, la elección es completamente aleatoria.
     \item \textbf{Learning Rate ("$lr$")}: Tasa de aprendizaje del MAB. Define cuánto influye la recompensa y el contexto en la actualización de los pesos. 
 Un valor pequeño de $lr$ produce actualizaciones más suaves y estables, mientras que un valor grande genera cambios más rápidos y pronunciados.
 \end{itemize}
 
-Primero se ajusta el parámetro $lr$ del MAB, ya que es necesario para que el aprendizaje reforzado sea efectivo. Un $lr$ muy bajo hace que los pesos no se modifiquen, y todas las acciones tengan probabilidades parecidas, y un $lr$ alto hace que las acciones estén muy descompensadas con saltos muy grandes, que no tienen por qué reflejar la realidad del valor esperado de la acción.
+Se ajusta el parámetro $lr$ del MAB, ya que es necesario para que el aprendizaje reforzado sea efectivo. Un $lr$ muy bajo hace que los pesos no se modifiquen, y todas las acciones tengan probabilidades parecidas, y un $lr$ alto hace que las acciones estén muy descompensadas con saltos muy grandes, que no tienen por qué reflejar la realidad del valor esperado de la acción.
 
 El valor final escogido ha sido $lr=0.1$, utilizando como posibles candidatos valores entre $1$ y $0.00001$.
 
-Una vez ajustado el learning rate, se buscará el $\beta$, tomando candidatos en el rango $[0,1]$ con los valores $0, 0.1, 0.2, \dots, 0.9, 1$.  
+Una vez ajustado el learning rate, se busca el $\beta$, tomando candidatos en el rango $[0,1]$ con los valores $0, 0.1, 0.2, \dots, 0.9, 1$.  
 Para cada valor de $\beta$, el algoritmo se ejecuta en paralelo en 20 instancias independientes, cada una de ellas corriendo con una duración total de 100 iteraciones. 
 En total, esto equivale a 220 ejecuciones simultáneas, lo que permite observar la evolución del algoritmo y disponer de un espacio muestral suficiente para comparar su desempeño bajo distintos valores de $\beta$.
 
@@ -953,9 +958,9 @@ Los resultados son los siguientes:
     \label{fig:beta}
 \end{figure}
 
-Se puede ver que utilizar aprendizaje reforzado llega a aumentar en hasta un 20 \% el rendimiento del algoritmo. Con $\beta$ $1$ los resultados rondan en torno a una mediana de $10$ soluciones mientras que valores cercanos a $0$ rondan las $12$ soluciones. Se ha decidido tomar el $\beta=0.1$
+Se puede ver que utilizar aprendizaje reforzado llega a aumentar en hasta un 20 \% el rendimiento del algoritmo. Con $\beta$ $1$ los resultados rondan en torno a una mediana de $10$ soluciones mientras que valores cercanos a $0$ rondan las $12$ soluciones. Por tanto, se ha decidido tomar el $\beta=0.1$
 
-Para terminar, se ajusta el parámetro $\alpha$ en el rango $[0,1]$, dividido en 11 valores equiespaciados: $0, 0.1, 0.2, \dots, 0.9, 1$.  
+Para terminar, se ajusta el parámetro $\alpha$ en el rango $[0,1]$, dividido en los mismos 11 valores equiespaciados: $0, 0.1, 0.2, \dots, 0.9, 1$.  
 Para cada valor de $\alpha$, el algoritmo también se ejecuta en paralelo en 20 instancias independientes, cada una de ellas corriendo con una duración total de 100 iteraciones.
 
 Los resultados son los siguientes:
@@ -967,13 +972,13 @@ Los resultados son los siguientes:
     \label{fig:alpha}
 \end{figure}
 
-Se puede ver que lo ideal es tomar valores entre $0.2$ y $0.8$, sin una diferencia clara entre los mismos.
+Se puede ver que lo ideal es tomar valores entre $0.2$ y $0.8$, sin una diferencia clara entre los mismos. Por tomar arbitrariamente alguno de los valores, se decide por $\alpha=0.3$.
 
 \section{Resultados de los articulos}
 
 \subsection{Vista a los resultados previos}
 \label{sec:articulo2}
-Tomando como referencia las soluciones reportadas en el artículo \cite{k-Balanced_2}, se realizó una comparación para verificar si el método GRASP desarrollado en este TFM alcanzaba los mismos resultados. De este análisis se observó que, en algunos casos, se obtuvieron soluciones superiores a las allí presentadas, mientras que en otros los resultados fueron menos favorables.
+Tomando como referencia las soluciones reportadas en el artículo \cite{k-Balanced_2}, se realizó una comparación para verificar si el método \textit{GRASP} desarrollado en este TFM alcanzaba los mismos resultados. De este análisis se observó que, en algunos casos, se obtuvieron soluciones superiores a las allí presentadas, mientras que en otros los resultados fueron menos favorables.
 Sin embargo, dado que en dicho artículo no se proporcionan los componentes exactos de cada solución, una evaluación directa no es posible. 
 Además, los valores de la función objetivo $f_1$ aparecen truncados a nivel decimal, lo que sugiere que las distancias fueron redondeadas.
 
@@ -989,19 +994,20 @@ En conclusión, este análisis evidencia que la manera de resolver los empates a
 
 \subsection{Comparativa}
 
-Antes de mostrar las tablas, se han ajustado el número de ejecuciones del algoritmo para los tiempos que se mostraban en el artículo \cite{k-balanced_1}, para hacer la comparativa lo más justa posible. Como se mencionó en el resumen, por un lado el algoritmo estará peor optimizado al correrse en 
-Python que en los algoritmos previos, pero a su vez el procesamiento será más rápido con la mejora de los componentes. Por ello, las comparativas serán solo a modo ilustrativo, en los mismos tiempos de ejecución.
+Antes de presentar las tablas, se ajustó el número de ejecuciones de los algoritmos para los tiempos coincidan con los contenidos en el artículo \cite{k-balanced_1}, con el fin de realizar una comparativa lo más justa posible. Como se mencionó en el resumen, por un lado, los algoritmos \textit{GRASP} estarán peor optimizados al ejecutarse en 
+Python en comparación con las implementaciones previas; sin embargo, el procesamiento será más rápido al haber utilizado una memoria RAM y un procesador con más núcleos en sus ejecuciones. Por este motivo, las comparaciones se presentan con una posible desventaja de los algoritmos \textit{GRASP} con respecto a las implementaciones previas.
 
-También solo se va a comparar con el primer artículo, dado a que solo se han realizado pruebas tanto con la instancia \textit{WorkSpace 1000\_50\_5} como en la \textit{WorkSpace 1000\_50\_10}, mientras los resultados del segundo artículos no están desglosados 
-por instancia sino mediados entre todas ellas.
+Así mismo, la comparación se va a limitar al primer artículo, dado a que solo se han realizaron pruebas con la instancia \textit{WorkSpace 1000\_50\_5} y con la \textit{WorkSpace 1000\_50\_10}, mientras que los resultados del segundo artículos no están desglosados 
+por instancia sino promediados entre todas ellas, lo que impide una comparación directa por caso.
 
-Para tomar una referencia de "frente de Pareto exacto" con el que comparar en la tabla \ref{tab:ws1000_50_5}, se ha extraído el frente exacto iterando sobre el conjunto total de combinaciones.
-Al final, que sea un problema NP-difícil no significa que para instancias pequeñas no se pueda encontrar, en aproximadamente 30 min se pueden comprobar las más de 2 millones de combinaciones. Esto
-no se puede decir de la segunda instancia en \ref{tab:ws1000_50_10}, al multiplicar por 10,000 el número de combinaciones, no se pueden calcular en un tiempo razonable. Por ello, como referencia tanto para los resultados del \textit{GRASP} como del \textit{MAB-GRASP},
-se ha corrido el algoritmo \textit{MAB-GRASP} durante 2 horas, y el frente encontrado es el que se ha tomado como referencia de frente exacto de Pareto.
+Para disponer de un ``frente de Pareto exact'' de referencia en la tabla \ref{tab:ws1000_50_5}, se ha extraído iterando sobre el conjunto completo de combinaciones posibles.
+Aunque el problema es NP-difícil, para instancias pequeñas es posible recorrer todas las combinaciones en tiempos razonables. En esste caso, aproximadamente 30 min para comprobar las más de 2 millones de combinaciones. 
+
+Esto no se puede decir de la segunda instancia en \ref{tab:ws1000_50_10}. Al multiplicar por 10,000 el número de combinaciones, lo que hace inviable este método. Por ello, como referencia tanto para los resultados del \textit{GRASP} como del \textit{MAB-GRASP},
+se ha corrido el algoritmo \textit{MAB-GRASP} durante 2 horas, y el frente de Pareto encontrado es el que se ha tomado como aproximación del frente de Pareto exacto.
 
 Para comparar se utilizará la métrica de coverage, formulada
-$$SCM(S,F) = \frac{\left| \{\, s \in S \;\mid\; \exists p \in P : p \preceq s \,\} \right|}{|S|}$$
+$$coverage(S,F) = \frac{\left| \{\, s \in S \;\mid\; \exists p \in P : p \preceq s \,\} \right|}{|S|}.$$
 Es decir, la cantidad de soluciones encontradas no dominadas en S por el frente de Pareto exacto dividido entre la cantidad total de soluciones en S.
 Las tablas comparativas serían las siguientes:
 
@@ -1011,7 +1017,7 @@ Las tablas comparativas serían las siguientes:
 \label{tab:ws1000_50_5}
 \begin{tabular}{|l|c|c|c|}
 \hline
-\textbf{Métrica} & \textbf{GRASP} & \textbf{GRASP-MAB} & \textbf{MOAKBLC} \\ \hline
+\textbf{Métrica} & \textbf{GRASP} & \textbf{GRASP-MAB} & \textbf{MOAkBCL} \\ \hline
 Total de soluciones en el frente de Pareto 
     & \multicolumn{3}{c|}{18} \\ \hline
 Total de combinaciones 
@@ -1030,7 +1036,7 @@ Coverage algoritmo actual & 0.0784 & 0.0531 & 0.118 \\ \hline
 \label{tab:ws1000_50_10}
 \begin{tabular}{|l|c|c|c|}
 \hline
-\textbf{Métrica} & \textbf{GRASP} & \textbf{GRASP-MAB} & \textbf{MOAKBLC} \\ \hline
+\textbf{Métrica} & \textbf{GRASP} & \textbf{GRASP-MAB} & \textbf{MOAkBCL} \\ \hline
 Total de soluciones en el frente de Pareto 
     & \multicolumn{3}{c|}{47} \\ \hline
 Total de combinaciones 
@@ -1043,11 +1049,11 @@ Coverage algoritmo actual & 0.3628 & 0.3255 & 0.172 \\ \hline
 \end{tabular}
 \end{table}
 
-En la tabla \ref{tab:ws1000_50_5} se observa como el algoritmo \textit{GRASP-MAB} supera tanto a la versión \textit{GRASP} sin reforzado como al \textit{MOAkBLC}, obteniendo en promedio más de una solución adicional del frente de Pareto.
+En la tabla \ref{tab:ws1000_50_5} se observa como el algoritmo \textit{GRASP-MAB} supera tanto a la versión \textit{GRASP} sin reforzado como al \textit{MOAkBCL}, obteniendo en promedio más de una solución adicional del frente de Pareto.
 Además, al presentar un coverage menor, logra obtener una mayor proporcion de soluciones no dominadas.
 
 Por otro lado, en la tabla \ref{tab:ws1000_50_10}, se observa cómo el \textit{GRASP-MAB} encuentra una cantidad similar de soluciones con respecto al \textit{GRASP}, pero siguiendo con ventaja en cuanto al coverage.
-En contraste, el \textit{MOAKBLC}, aunque parece encontrar menor cantidad de soluciones, muestra un coverage considerablemente menor a los otros dos algoritmos. 
+En contraste, el \textit{MOAkBCL}, aunque parece encontrar menor cantidad de soluciones, muestra un coverage considerablemente menor a los otros dos algoritmos. 
 
 Estudiando el primer artículo, puede que se deba a haber utilizado un algoritmo menos potente en la obtención del frente de pareto de referencia. Por ejemplo, en la página 77 de \cite{k-balanced_1}, en la tabla 2,
 se señalan como soluciones no dominadas la ``sol 1'' con $f_1=424$, $f_2=110$ y $f_3=33$. En cambio, en el frente de pareto aproximado obtenido por el \textit{GRASP-MAB}, se obtiene una solución con valores $f_1=389.8025141016923$, $f_2=110$ y $f_3=28$ que dominaría a la anterior. Esto
@@ -1056,7 +1062,7 @@ pasa en algunos casos más.
 Por tanto, a falta de saber con exactitud qué frente se utilizó como referencia, qué consideraciones se hicieron para redondear la $f_1$ etc, se puede sostener
 que el algoritmo \textit{GRASP-MAB} sigue mostrando un mejor desempeño también en esta segunda instancia.
 
-La comparación con el trabajo \cite{k-Balanced_2} resulta más complicada, aunque tomando como referencia la tabla de la página 12 donde se muestra la comparativa entre el \textit{SO+PR} (algoritmo del segundo artículo) con el \textit{MOAkBLC}, se observa que el primero lo supera con ámplio margen bajo
+La comparación con el trabajo \cite{k-Balanced_2} resulta más complicada, aunque tomando como referencia la tabla de la página 12 donde se muestra la comparativa entre el \textit{SO+PR} (algoritmo del segundo artículo) con el \textit{MOAkBCL}, se observa que el primero lo supera con ámplio margen bajo
 condiciones experimentales similares. En consecuencia, puede extrapolarse que dicho algoritmo \textit{SO+PR} tendrá un mejor desempeño que el \textit{GRASP-MAB} desarrollado en este trabajo.
 
 \chapter{Conclusión}
