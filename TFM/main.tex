@@ -917,7 +917,7 @@ el mismo frente de pareto encontrado o los mismos pesos del MAB. Por tanto, cada
 todas las ejecuciones y se obtiene el frente de pareto común.
 
 Al final, comparando los resultados tanto de ejecutar las instancias en paralelo como en serie, no difieren significativamente en el rendimiento, que no en tiempo, con lo que paralelizar tanto soluciones como pesos no empeora 
-el algoritmo. \color{red} Aquí podría meter un gráfico de comparación cuando esté el algoritmo terminado \color{black}
+el algoritmo.
 
 \chapter{Experimentación y Resultados}
 
@@ -937,7 +937,7 @@ Primero, se van a evaluar las tres variables a ajustar:
 Si $\alpha = 1$, siempre se elige el mejor candidato; si $\alpha = 0$, la elección es completamente aleatoria. En términos generales, el procedimiento consiste en escoger aleatoriamente un $x_i$ dentro del conjunto de los $(1-\alpha)$ mejores candidatos.
     \item \textbf{Beta ($\beta$)}: El rendimiento del MAB depende en gran medida del equilibrio entre exploración y explotación. El parámetro $\beta$ regula, durante la selección de la búsqueda local en el \textit{GRASP}, qué proporción de elecciones se realiza de manera aleatoria y cuál de forma probabilística ponderada según los pesos del MAB.  
 Si $\beta = 0$, la selección es siempre probabilística y ponderada; si $\beta = 1$, la elección es completamente aleatoria.
-    \item \textbf{Learning Rate ("$lr$")}: Tasa de aprendizaje del MAB. Define cuánto influye la recompensa y el contexto en la actualización de los pesos. 
+    \item \textbf{Learning Rate ($lr$)}: Tasa de aprendizaje del MAB. Define cuánto influye la recompensa y el contexto en la actualización de los pesos. 
 Un valor pequeño de $lr$ produce actualizaciones más suaves y estables, mientras que un valor grande genera cambios más rápidos y pronunciados.
 \end{itemize}
 
@@ -994,7 +994,9 @@ En conclusión, este análisis evidencia que la manera de resolver los empates a
 
 \subsection{Comparativa}
 
-Antes de presentar las tablas, se ajustó el número de ejecuciones de los algoritmos para los tiempos coincidan con los contenidos en el artículo \cite{k-balanced_1}, con el fin de realizar una comparativa lo más justa posible. Como se mencionó en el resumen, por un lado, los algoritmos \textit{GRASP} estarán peor optimizados al ejecutarse en 
+Antes de presentar las tablas, se ajustó el número de ejecuciones de los algoritmos para los tiempos coincidan con los contenidos en el artículo \cite{k-balanced_1}, con el fin de realizar una comparativa lo más justa posible. Para la primera instancia (\ref{tab:ws1000_50_5}) se correrán a 220 iteraciones, mientras que para la segunda (\ref{tab:ws1000_50_10}) a 176.
+
+Como se mencionó en el resumen, por un lado, los algoritmos \textit{GRASP} estarán peor optimizados al ejecutarse en 
 Python en comparación con las implementaciones previas; sin embargo, el procesamiento será más rápido al haber utilizado una memoria RAM y un procesador con más núcleos en sus ejecuciones. Por este motivo, las comparaciones se presentan con una posible desventaja de los algoritmos \textit{GRASP} con respecto a las implementaciones previas.
 
 Así mismo, la comparación se va a limitar al primer artículo, dado a que solo se han realizaron pruebas con la instancia \textit{WorkSpace 1000\_50\_5} y con la \textit{WorkSpace 1000\_50\_10}, mientras que los resultados del segundo artículos no están desglosados 
