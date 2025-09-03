@@ -19,6 +19,7 @@
 \usepackage[parfill]{parskip}
 \usepackage{float}
 \usepackage{subcaption}
+\usepackage{multirow} 
 
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
@@ -988,9 +989,75 @@ En conclusión, este análisis evidencia que la manera de resolver los empates a
 
 \subsection{Comparativa}
 
-Aquí meter la comparativa con el MOABKBLC, con el que sí que se pueden comparar resultados en ejecuciones/tiempos
+Antes de mostrar las tablas, se han ajustado el número de ejecuciones del algoritmo para los tiempos que se mostraban en el artículo \cite{k-balanced_1}, para hacer la comparativa lo más justa posible. Como se mencionó en el resumen, por un lado el algoritmo estará peor optimizado al correrse en 
+Python que en los algoritmos previos, pero a su vez el procesamiento será más rápido con la mejora de los componentes. Por ello, las comparativas serán solo a modo ilustrativo, en los mismos tiempos de ejecución.
 
-Después como el SO-PR no tiene los resultados para instancias separadas, hacer una estimación del comportamiento y compparar
+También solo se va a comparar con el primer artículo, dado a que solo se han realizado pruebas tanto con la instancia \textit{WorkSpace 1000\_50\_5} como en la \textit{WorkSpace 1000\_50\_10}, mientras los resultados del segundo artículos no están desglosados 
+por instancia sino mediados entre todas ellas.
+
+Para tomar una referencia de "frente de Pareto exacto" con el que comparar en la tabla \ref{tab:ws1000_50_5}, se ha extraído el frente exacto iterando sobre el conjunto total de combinaciones.
+Al final, que sea un problema NP-difícil no significa que para instancias pequeñas no se pueda encontrar, en aproximadamente 30 min se pueden comprobar las más de 2 millones de combinaciones. Esto
+no se puede decir de la segunda instancia en \ref{tab:ws1000_50_10}, al multiplicar por 10,000 el número de combinaciones, no se pueden calcular en un tiempo razonable. Por ello, como referencia tanto para los resultados del \textit{GRASP} como del \textit{MAB-GRASP},
+se ha corrido el algoritmo \textit{MAB-GRASP} durante 2 horas, y el frente encontrado es el que se ha tomado como referencia de frente exacto de Pareto.
+
+Para comparar se utilizará la métrica de coverage, formulada
+$$SCM(S,F) = \frac{\left| \{\, s \in S \;\mid\; \exists p \in P : p \preceq s \,\} \right|}{|S|}$$
+Es decir, la cantidad de soluciones encontradas no dominadas en S por el frente de Pareto exacto dividido entre la cantidad total de soluciones en S.
+Las tablas comparativas serían las siguientes:
+
+\begin{table}[H]
+\centering
+\caption{Resultados en WorkSpace 1000\_50\_5}
+\label{tab:ws1000_50_5}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Métrica} & \textbf{GRASP} & \textbf{GRASP-MAB} & \textbf{MOAKBLC} \\ \hline
+Total de soluciones en el frente de Pareto 
+    & \multicolumn{3}{c|}{18} \\ \hline
+Total de combinaciones 
+    & \multicolumn{3}{c|}{2,118,760} \\ \hline
+Tiempo medio de ejecución (seg) 
+    & \multicolumn{3}{c|}{2.1} \\ \hline
+Soluciones medias totales encontradas & 13.55 & 14.6 & 13 \\ \hline
+Coverage algoritmo actual & 0.0784 & 0.0531 & 0.118 \\ \hline
+\% de soluciones encontradas & 75.28\% & 81.11\% & 72.22\% \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Resultados en WorkSpace 1000\_50\_10}
+\label{tab:ws1000_50_10}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\textbf{Métrica} & \textbf{GRASP} & \textbf{GRASP-MAB} & \textbf{MOAKBLC} \\ \hline
+Total de soluciones en el frente de Pareto 
+    & \multicolumn{3}{c|}{47} \\ \hline
+Total de combinaciones 
+    & \multicolumn{3}{c|}{10,272,278,170} \\ \hline
+Tiempo medio de ejecución (seg) 
+    & \multicolumn{3}{c|}{2.8} \\ \hline
+Soluciones medias totales encontradas & 10.95 & 10.85 & 10 \\ \hline
+Coverage algoritmo actual & 0.3628 & 0.3255 & 0.172 \\ \hline
+\% de soluciones encontradas & 23.30\% & 23.09\% & 21.28\% \\ \hline
+\end{tabular}
+\end{table}
+
+En la tabla \ref{tab:ws1000_50_5} se observa como el algoritmo \textit{GRASP-MAB} supera tanto a la versión \textit{GRASP} sin reforzado como al \textit{MOAkBLC}, obteniendo en promedio más de una solución adicional del frente de Pareto.
+Además, al presentar un coverage menor, logra obtener una mayor proporcion de soluciones no dominadas.
+
+Por otro lado, en la tabla \ref{tab:ws1000_50_10}, se observa cómo el \textit{GRASP-MAB} encuentra una cantidad similar de soluciones con respecto al \textit{GRASP}, pero siguiendo con ventaja en cuanto al coverage.
+En contraste, el \textit{MOAKBLC}, aunque parece encontrar menor cantidad de soluciones, muestra un coverage considerablemente menor a los otros dos algoritmos. 
+
+Estudiando el primer artículo, puede que se deba a haber utilizado un algoritmo menos potente en la obtención del frente de pareto de referencia. Por ejemplo, en la página 77 de \cite{k-balanced_1}, en la tabla 2,
+se señalan como soluciones no dominadas la ``sol 1'' con $f_1=424$, $f_2=110$ y $f_3=33$. En cambio, en el frente de pareto aproximado obtenido por el \textit{GRASP-MAB}, se obtiene una solución con valores $f_1=389.8025141016923$, $f_2=110$ y $f_3=28$ que dominaría a la anterior. Esto
+pasa en algunos casos más.
+
+Por tanto, a falta de saber con exactitud qué frente se utilizó como referencia, qué consideraciones se hicieron para redondear la $f_1$ etc, se puede sostener
+que el algoritmo \textit{GRASP-MAB} sigue mostrando un mejor desempeño también en esta segunda instancia.
+
+La comparación con el trabajo \cite{k-Balanced_2} resulta más complicada, aunque tomando como referencia la tabla de la página 12 donde se muestra la comparativa entre el \textit{SO+PR} (algoritmo del segundo artículo) con el \textit{MOAkBLC}, se observa que el primero lo supera con ámplio margen bajo
+condiciones experimentales similares. En consecuencia, puede extrapolarse que dicho algoritmo \textit{SO+PR} tendrá un mejor desempeño que el \textit{GRASP-MAB} desarrollado en este trabajo.
 
 \chapter{Conclusión}
 
