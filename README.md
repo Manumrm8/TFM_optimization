@@ -1,58 +1,30 @@
 # A Hybrid Strategic Oscillation with Path Relinking Algorithm for the Multiobjective k-Balanced Center Location Problem
 
-# Data
-Variables:
-* n: Cantidad de puntos de demanda, comprendidos en un rectángulo de 1500x1000 
-* m: Cantidad de puntos de suministro
-* k: Cantidad de puntos de suministro a seleccionar
+## Data
+En la carpeta data se encuentran tanto los archivos de posición, en formato txt, cuya primera fila indica el número de localizaciones a proveer (n), la cantidad de posibles emplazamientos de instalaciones (m) y la cantidad que hay que seleccionar (k) de los m posibles.
 
+En la carpeta distances demand se encuentra la matriz de distancias entre los puntos a suministrar (cada fila) y los posibles emplazamientos (cada columna). Se hizo otra con las distancias entre las posibles instalaciones en la carpeta de distances supply pero no tiene utilidad.
 
+En la carpeta Pareto_front se encuentran los frentes de pareto encontrados.
 
-## kbcl_instances
+En la carpeta Pareto_front_paper se encuentran los resultados de un paper que se tomó como referencia
 
-### pmed
-Son las instancias normales
+En la carpeta Solutions, se encuentran los resultados al ejecutar tanto el algoritmo GRASP con MAB como sin la parte del reforzado.
 
-n=1000
-m=50
-k=5, 10, 15, 20, 25 y 30
+## TFM
+Aquí se encuentra el archivo latex del trabajo de fin de máster desarrollado.
 
-pero luego los 3 valores de abajo?
-coordenada x, coordenada y y demanda?
+## tools
+En tools se encuentran todas las funciones necesarias para ejecutar los jupyter notebooks.
 
-cada uno contiene el segundo valor de instancias, entonces tienen que ser todos de facilities? (puntos de suministro?)
+## Jupyter Notebooks:
 
-40 problemas, número de vertidces/aristas y el número a seleccionar
-Después de esa fila tendré todas las aristas. da el final de los vértices y el coste de la arista
+- empates_redondeo: El estudio que se hizo para comprobar que en el frente de pareto del paper salen resultados suboptimos al redondear
 
+- extraer_frente_pareto_exacto: Se utilizó para sacar las soluciones exahustivas del WorkSpace 1000_50_5.
 
-### three_of
-Instancias más grandes, con n=5000, m=500 y k=50 y 100, las cuales comparamos con 3 funciones objetivo
+- Fine_tuning: Se utilizó para encontrar los mejores parámetros para las variables.
 
-los largescale son iguales, y las workspace también, el primero indica datos, luego 5000 puntos de demanda y los 500 puntos de suministro
+- GRASP_MULTIPROCESSING_MAB: Cuaderno para ejecutar el algoritmo.
 
-### two_of:
-Para comparar "the two objectives two nonuniform"
-
-Las instancias A3 tienen n=7500, m=150 y k=15 ,45 , 75 y 120
-
-Las instancias S1 tienen n=5000, m=100 y k=10, 30, 50 y 80
-
-
-Son 2 columnas, ¿no existen valores de cantidad a suministrar, o de stock en los puntos de suministro?
-
-
-## Algoritmo:
-
-Uno trayectorial y otro genético (empezar por este)
-Bias random key genético BRKGA con un path relinking implícito.
-
-Después podríamos intentar hacer su adaptación a paralelo (algoritmo en paralelo en python)
-
-Adaptar la construcción de java en python
-
-- Lectura instancias (todo lo necesario que hacer con esta)
-- Lectura solución (copiarlas, actualizarlas etc)
-- Main con el algoritmo
-- Estructuras de construcción
-- Estructuras de mejora
+- visualization.ipynb: Cuaderno utilizado para visualizar los resultados

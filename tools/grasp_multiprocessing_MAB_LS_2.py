@@ -68,8 +68,8 @@ def add_solutions_optimized(supply_selected, f1_value, f2_value, f3_value, route
         )
         df_solutions.to_csv(route_solutions, index=False)
         return True
+    # ------------------------------------------------------------
 
-    # Usar un set para comprobar existencia (O(1) en promedio) ---
     existing_solutions = set(df_solutions["solution"])
     if supply_selected in existing_solutions:
         return False # La solución ya existe
@@ -87,18 +87,14 @@ def add_solutions_optimized(supply_selected, f1_value, f2_value, f3_value, route
     #    Una solución 'new' domina a una existente 's' si:
     #    (new_f1 <= s_f1, new_f2 <= s_f2, new_f3 <= s_f3) Y
     #    (new_f1 < s_f1  O  new_f2 < s_f2  O  new_f3 < s_f3)
-    #    Lo calculamos con una máscara booleana.
     
     # Condición 1: Todos los valores de la nueva solución son menores o iguales
     # a los de las soluciones existentes.
     cond1 = np.all(new_vals <= vals, axis=1)
     # Condición 2: Al menos un valor de la nueva solución es estrictamente menor.
     cond2 = np.any(new_vals < vals, axis=1)
-    
-    # La máscara final identifica las filas a eliminar (las dominadas)
+
     dominated_mask = cond1 & cond2
-    
-    # Mantener solo las filas que NO están dominadas
     df_solutions = df_solutions[~dominated_mask]
 
     # 3. Añadir la nueva solución no dominada
@@ -225,9 +221,6 @@ def update(chosen_arm, context, reward, weights, route_weights, learning_rate):
     """
     context_np = np.array(context)
     
-    # La actualización clave: simple, sin normalización.
-    # Los pesos de la columna (brazo) elegida se actualizan.
-    # Esto permite que los pesos crezcan o decrezcan sin límite, acumulando el aprendizaje.
     weights[chosen_arm] += learning_rate * reward * context_np
     np.save(route_weights, weights)
     
